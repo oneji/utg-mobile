@@ -63,4 +63,22 @@ export default StyleSheet.create({
     fontSize: 13,
     fontFamily: fontFamilyBold,
   },
+
+  // Small - fontSize: 13
+  extraSmallRegular: {
+    fontSize: 12,
+    fontFamily: fontFamilyRegular,
+  },
+  extraSmallMedium: {
+    fontSize: 12,
+    fontFamily: fontFamilyMedium,
+  },
+  extraSmallSemibold: {
+    fontSize: 12,
+    fontFamily: fontFamilySemiBold,
+  },
+  extraSmallBold: {
+    fontSize: 12,
+    fontFamily: fontFamilyBold,
+  },
 });

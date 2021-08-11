@@ -1,17 +1,22 @@
 import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import Button from '../ui-kit/Buttons/Button';
-import Divider from '../ui-kit/Divider';
+import Switch from '../ui-kit/Switch';
+import { useState } from 'react';
+import { colors } from '../theme';
 
 const AppContainer: FC = () => {
+  const [state, setState] = useState(false);
+
   return (
     <NavigationContainer>
       <View
         style={{
           padding: 20,
         }}
-      ></View>
+      >
+        <Switch value={state} onChange={() => setState(prev => !prev)} />
+      </View>
     </NavigationContainer>
   );
 };
