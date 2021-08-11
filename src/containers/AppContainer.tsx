@@ -1,22 +1,21 @@
 import React, { FC } from 'react';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import Button from '../ui-kit/Buttons/Button';
+import Divider from '../ui-kit/Divider';
 
 const AppContainer: FC = () => {
   return (
     <NavigationContainer>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Text style={styles.text}>Hello</Text>
-      </SafeAreaView>
+      <View
+        style={{
+          padding: 20,
+        }}
+      ></View>
     </NavigationContainer>
   );
 };
 
 export default AppContainer;
 
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 40,
-    textAlign: 'center',
-  },
-});
+const styles = StyleSheet.create({});
