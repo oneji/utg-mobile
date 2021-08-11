@@ -2,6 +2,7 @@ export default {
   white: '#FFF',
   black: '#000',
   background: '#1F1D2B',
+  transparent: 'transparent',
 
   green: {
     primary: '#54D144',
