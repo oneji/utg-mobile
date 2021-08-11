@@ -6,6 +6,7 @@ export default {
 
   green: {
     primary: '#54D144',
+    light: '#D6F3E9',
   },
   red: {
     primary: '#F25A3C',
@@ -13,9 +14,11 @@ export default {
   },
   blue: {
     primary: '#3964D8',
+    light: '#DCEDFC',
   },
   orange: {
     primary: '#F99D15',
+    light: '#FCF0DB',
   },
   gray: {
     primary: '#9CB1C7',

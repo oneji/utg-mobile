@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { colors, layout } from '../theme';
+import { colors, fonts, layout } from '../theme';
 
-import Icon from '../ui-kit/Icon';
+import Divider from '../ui-kit/Divider';
+import NotificationItem from '../components/Notifications/NotificationItem';
 
 const AppContainer: FC = () => {
   return (
@@ -12,10 +13,13 @@ const AppContainer: FC = () => {
         style={{
           ...layout.screenContainer,
           padding: 20,
-          backgroundColor: colors.background,
+          backgroundColor: colors.white,
         }}
       >
-        <Icon name="logo" />
+        <Text style={fonts.paragraphRegular}>Компоненты</Text>
+        <Divider />
+
+        <NotificationItem title="Начался ураган!" date="2021-05-27T18:21:00" />
       </View>
     </NavigationContainer>
   );
