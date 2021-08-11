@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { colors, fonts, layout } from '../theme';
 
 import Divider from '../ui-kit/Divider';
-import NotificationItem from '../components/Notifications/NotificationItem';
 
 const AppContainer: FC = () => {
   return (
@@ -18,8 +17,6 @@ const AppContainer: FC = () => {
       >
         <Text style={fonts.paragraphRegular}>Компоненты</Text>
         <Divider />
-
-        <NotificationItem title="Начался ураган!" date="2021-05-27T18:21:00" />
       </View>
     </NavigationContainer>
   );

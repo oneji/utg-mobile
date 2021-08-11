@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, Text, View, ViewProps, ViewStyle } from 'react-n
 import { colors, fonts, layout } from '../../theme';
 
 export interface BadgeProps extends ViewProps {
-  children: string;
+  children: string | number;
   variant?: 'primary' | 'success' | 'danger' | 'secondary';
 }
 
@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
   container: {
     ...layout.rowAlignCenter,
     borderRadius: 50,
+    minWidth: 24,
+    minHeight: 24,
   },
   text: {
     ...fonts.smallBold,
