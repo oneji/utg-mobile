@@ -1,23 +1,26 @@
 import React, { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { colors, fonts, layout } from '../theme';
+import { colors } from '../theme';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Divider from '../ui-kit/Divider';
+import { AppStack } from '../navigation/stacks';
+import { APP_STACK } from '../navigation/stacks/AppStack';
+
+const Stack = createNativeStackNavigator();
 
 const AppContainer: FC = () => {
   return (
     <NavigationContainer>
-      <View
-        style={{
-          ...layout.screenContainer,
-          padding: 20,
-          backgroundColor: colors.white,
+      <StatusBar backgroundColor={colors.background} barStyle="light-content" />
+
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
         }}
       >
-        <Text style={fonts.paragraphRegular}>Компоненты</Text>
-        <Divider />
-      </View>
+        <Stack.Screen name={APP_STACK} component={AppStack} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

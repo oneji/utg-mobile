@@ -49,12 +49,13 @@ export default Widget;
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
-    padding: 25,
-    backgroundColor: colors.background,
+    padding: 20,
+    backgroundColor: colors.blue.dark,
     borderRadius: 18,
     minHeight: 150,
+    marginBottom: 10,
 
-    shadowColor: colors.gray.secondary,
+    shadowColor: colors.black,
     shadowOffset: {
       width: 0,
       height: 1,

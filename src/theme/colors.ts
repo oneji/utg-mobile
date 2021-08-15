@@ -15,6 +15,7 @@ export default {
   blue: {
     primary: '#3964D8',
     light: '#DCEDFC',
+    dark: '#272636',
   },
   orange: {
     primary: '#F99D15',
