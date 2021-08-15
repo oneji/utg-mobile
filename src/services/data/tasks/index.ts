@@ -10,6 +10,10 @@ export type TaskSchema = {
   type?: TaskTypes;
 };
 
+export interface TaskGetByIdParams {
+  id: number;
+}
+
 export enum TaskStatusesEnum {
   Pending = 'pending',
   InProgress = 'in_progress',

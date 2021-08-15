@@ -1,23 +1,33 @@
-import React, { FC } from 'react';
-import { View, StyleSheet, Text, Dimensions, Animated } from 'react-native';
+import React, { FC, useEffect } from 'react';
+import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { colors, fonts } from '../../theme';
 
 import NoSignTasks from '../../components/Tasks/NoSignTasks';
 import ScrollViewContainer from '../../ui-kit/Containers/ScrollViewContainer';
+import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
 import { BaseScreenProps } from '../../navigation/props';
-import { noSignTasks } from '../../services/data/mocks/tasks';
+import { observer } from 'mobx-react';
+import { useTasksStore } from '../../store/hooks';
 
 const Tab = createMaterialTopTabNavigator();
 
 const CurrentTasks = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderWidth: 1 }}>
-    <Text style={fonts.paragraphBold}>ЗДЕСЬ БУДЕТ КАЛЕНДАРЬ С ТЕКУЩИМИ ЗАЯВКАМИ</Text>
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <Text style={{ ...fonts.paragraphBold, textAlign: 'center' }}>ЗДЕСЬ БУДЕТ КАЛЕНДАРЬ С ТЕКУЩИМИ ЗАЯВКАМИ</Text>
   </View>
 );
 
-const RequestsScreen: FC<BaseScreenProps> = () => {
+const TasksScreen: FC<BaseScreenProps> = () => {
+  const { loading, noSignTasks, getNoSignTasks } = useTasksStore();
+
+  useEffect(() => {
+    getNoSignTasks();
+  }, []);
+
+  if (loading) return <SpinnerLoading />;
+
   const NoSignTasksWithItems = () => <NoSignTasks items={noSignTasks} />;
 
   return (
@@ -66,4 +76,4 @@ const RequestsScreen: FC<BaseScreenProps> = () => {
 
 const styles = StyleSheet.create({});
 
-export default RequestsScreen;
+export default observer(TasksScreen);

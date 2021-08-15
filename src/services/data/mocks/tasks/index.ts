@@ -38,3 +38,13 @@ export const noSignTasks: TaskSchema[] = [
     type: 'towing',
   },
 ];
+
+export const singleTask: TaskSchema = {
+  id: 9807789,
+  title: 'ППО (предварительная)',
+  time: '2021-05-27T18:21:00',
+  location: 'АБВ5040',
+  status: 'pending',
+  signDetails: '23:00:21 для получения подписи',
+  type: 'ppo',
+};
