@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     minWidth: 24,
     minHeight: 24,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   text: {
     ...fonts.smallBold,

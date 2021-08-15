@@ -28,21 +28,21 @@ export default StyleSheet.create({
     fontFamily: fontFamilyBold,
   },
 
-  // Paragraph - fontSize: 16
+  // Paragraph - fontSize: 14
   paragraphRegular: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: fontFamilyRegular,
   },
   paragraphMedium: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: fontFamilyMedium,
   },
   paragraphSemibold: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: fontFamilySemiBold,
   },
   paragraphBold: {
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: fontFamilyBold,
   },
 

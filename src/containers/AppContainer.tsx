@@ -1,13 +1,16 @@
 import React, { FC } from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { enableScreens } from 'react-native-screens';
 import { colors } from '../theme';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { AppStack } from '../navigation/stacks';
 import { APP_STACK } from '../navigation/stacks/AppStack';
+import RequestsStack, { TASKS_STACK } from '../navigation/stacks/TasksStack';
 
-const Stack = createNativeStackNavigator();
+enableScreens();
+const Stack = createStackNavigator();
 
 const AppContainer: FC = () => {
   return (
@@ -20,6 +23,7 @@ const AppContainer: FC = () => {
         }}
       >
         <Stack.Screen name={APP_STACK} component={AppStack} />
+        <Stack.Screen name={TASKS_STACK} component={RequestsStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );
