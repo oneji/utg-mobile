@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
 import { colors, fonts, layout } from '../../../theme';
 import { format, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -11,9 +11,10 @@ export interface NotificationItemProps {
   read?: boolean;
   title: string;
   date: string;
+  onPress?: () => void;
 }
 
-const NotificationItem: FC<NotificationItemProps> = ({ read = false, title, date }) => {
+const NotificationItem: FC<NotificationItemProps> = ({ read = false, title, date, onPress = null }) => {
   const parsedDate = parseISO(date);
 
   const renderIcon = useCallback(() => {
@@ -30,21 +31,24 @@ const NotificationItem: FC<NotificationItemProps> = ({ read = false, title, date
   }, []);
 
   return (
-    <View
-      style={{
-        ...styles.container,
-        elevation: read ? 0 : 20,
-      }}
-    >
-      {renderIcon()}
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View
+        style={{
+          ...styles.container,
+          paddingHorizontal: read ? 0 : 15,
+          elevation: read ? 0 : 20,
+        }}
+      >
+        {renderIcon()}
 
-      <View style={{ flexGrow: 1 }}>
-        <Text style={fonts.paragraphSemibold}>{title}</Text>
-        <Text style={styles.date}>
-          {`${format(parsedDate, 'd MMM y', { locale: ru })} в ${format(parsedDate, 'HH:mm', { locale: ru })}`}
-        </Text>
+        <View style={{ flexGrow: 1 }}>
+          <Text style={fonts.paragraphSemibold}>{title}</Text>
+          <Text style={styles.date}>
+            {`${format(parsedDate, 'd MMM y', { locale: ru })} в ${format(parsedDate, 'HH:mm', { locale: ru })}`}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -53,7 +57,7 @@ export default NotificationItem;
 const styles = StyleSheet.create({
   container: {
     ...layout.rowAlignItemsCenter,
-    padding: 15,
+    paddingVertical: 15,
 
     backgroundColor: colors.white,
     shadowColor: colors.black,

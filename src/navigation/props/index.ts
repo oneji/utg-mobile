@@ -1,8 +1,8 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { TasksStackScreens } from '../enums';
-import { TasksStackParamList } from '../params';
+import { NotificationsStackScreens, TasksStackScreens } from '../enums';
+import { NotificationsStackParamList, TasksStackParamList } from '../params';
 
 export type BaseRouteProp = RouteProp<{}, never>;
 export type BaseNavigationProp = StackNavigationProp<{}, never>;
@@ -24,4 +24,18 @@ export type TaskDetailsScreenNavigationProp = StackNavigationProp<TasksStackPara
 export type TaskDetailsScreenProps = {
   route: TaskDetailsScreenRouteProp;
   navigation: TaskDetailsScreenNavigationProp;
+};
+
+// Notifications
+export type NotificationsScreenRouteProp = RouteProp<
+  NotificationsStackParamList,
+  NotificationsStackScreens.Notifications
+>;
+export type NotificationsScreenNavigationProp = StackNavigationProp<
+  NotificationsStackParamList,
+  NotificationsStackScreens.Notifications
+>;
+export type NotificationsScreenProps = {
+  route: NotificationsScreenRouteProp;
+  navigation: NotificationsScreenNavigationProp;
 };

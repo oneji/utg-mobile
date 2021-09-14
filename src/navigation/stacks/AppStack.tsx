@@ -8,6 +8,7 @@ import { TabbarButton } from '../../ui-kit/Buttons';
 
 import { AppStackScreens } from '../enums';
 import TasksStack from './TasksStack';
+import NotificationsStack from './NotificationsStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -124,7 +125,7 @@ const AppStack: FC = () => {
 
       <Tab.Screen
         name={AppStackScreens.NotificationsStack}
-        component={TasksStack}
+        component={NotificationsStack}
         options={{ tabBarLabel: 'Оповещения' }}
       />
 

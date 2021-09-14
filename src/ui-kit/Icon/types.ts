@@ -4,4 +4,5 @@ export default interface Icons {
   chat: string;
   camera: string;
   bell: string;
+  notificationWarning: string;
 }

@@ -10,3 +10,8 @@ export enum TasksStackScreens {
   TaskDetails = 'TaskDetailsScreen',
   TaskInProgress = 'TaskInProgressScreen',
 }
+
+export enum NotificationsStackScreens {
+  Notifications = 'NotificationsScreen',
+  NotificationDetails = 'NotificationDetails',
+}
