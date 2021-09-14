@@ -62,8 +62,15 @@ const Switch: FC<SwitchProps> = ({
         }}
       >
         <View style={styles.stateTextContainer}>
-          <Text style={styles.stateText}>ON</Text>
-          <Text style={styles.stateText}>OFF</Text>
+          <Text
+            style={{
+              ...styles.stateText,
+              left: state ? 12 : null,
+              right: !state ? 12 : null,
+            }}
+          >
+            {state ? 'ON' : 'OFF'}
+          </Text>
         </View>
         <View style={styles.indicator} />
       </Pressable>
@@ -76,29 +83,31 @@ export default Switch;
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    width: 70,
-    height: 34,
+    width: 80,
+    height: 36,
     borderRadius: 50,
     justifyContent: 'center',
-    padding: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
   },
   label: {
     ...fonts.paragraphSemibold,
   },
   indicator: {
-    width: 30,
-    height: 30,
+    width: 28,
+    height: 28,
     backgroundColor: colors.white,
     borderRadius: 100,
     elevation: 3,
   },
   stateTextContainer: {
     ...StyleSheet.absoluteFillObject,
-    ...layout.rowSpaceAround,
     borderRadius: 50,
   },
   stateText: {
-    ...fonts.extraSmallBold,
+    ...fonts.paragraphBold,
     color: colors.white,
+    position: 'absolute',
+    top: 8,
   },
 });

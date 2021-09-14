@@ -1,8 +1,8 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { RequestsStackScreens } from '../enums';
-import { RequestsStackParamList } from '../params';
+import { TasksStackScreens } from '../enums';
+import { TasksStackParamList } from '../params';
 
 export type BaseRouteProp = RouteProp<{}, never>;
 export type BaseNavigationProp = StackNavigationProp<{}, never>;
@@ -11,10 +11,17 @@ export type BaseScreenProps = {
   navigation: BaseNavigationProp;
 };
 
-// Requests
-export type RequestsScreenRouteProp = RouteProp<RequestsStackParamList, RequestsStackScreens.Requests>;
-export type RequestsScreenNavigationProp = StackNavigationProp<RequestsStackParamList, RequestsStackScreens.Requests>;
-export type RequestsScreenProps = {
-  route: RequestsScreenRouteProp;
-  navigation: RequestsScreenNavigationProp;
+// Tasks
+export type TasksScreenRouteProp = RouteProp<TasksStackParamList, TasksStackScreens.Tasks>;
+export type TasksScreenNavigationProp = StackNavigationProp<TasksStackParamList, TasksStackScreens.Tasks>;
+export type TasksScreenProps = {
+  route: TasksScreenRouteProp;
+  navigation: TasksScreenNavigationProp;
+};
+
+export type TaskDetailsScreenRouteProp = RouteProp<TasksStackParamList, TasksStackScreens.TaskDetails>;
+export type TaskDetailsScreenNavigationProp = StackNavigationProp<TasksStackParamList, TasksStackScreens.TaskDetails>;
+export type TaskDetailsScreenProps = {
+  route: TaskDetailsScreenRouteProp;
+  navigation: TaskDetailsScreenNavigationProp;
 };

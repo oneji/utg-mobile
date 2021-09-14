@@ -5,9 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
 import { colors } from '../theme';
 
-import { AppStack } from '../navigation/stacks';
-import { APP_STACK } from '../navigation/stacks/AppStack';
-import RequestsStack, { TASKS_STACK } from '../navigation/stacks/TasksStack';
+import { AppStack, TasksStack, APP_STACK, TASKS_STACK } from '../navigation/stacks';
 import FlashMessage from 'react-native-flash-message';
 
 enableScreens();
@@ -24,7 +22,7 @@ const AppContainer: FC = () => {
         }}
       >
         <Stack.Screen name={APP_STACK} component={AppStack} />
-        <Stack.Screen name={TASKS_STACK} component={RequestsStack} />
+        <Stack.Screen name={TASKS_STACK} component={TasksStack} />
       </Stack.Navigator>
 
       {/* Notification */}

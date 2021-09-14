@@ -1,9 +1,11 @@
-import { AppStackScreens, RequestsStackScreens } from '../enums';
+import { TasksStackScreens } from '../enums';
 
-export type AppStackParamList = {
-  [AppStackScreens.Home]: undefined;
-};
-
-export type RequestsStackParamList = {
-  [RequestsStackScreens.Requests]: undefined;
+export type TasksStackParamList = {
+  [TasksStackScreens.Tasks]: undefined;
+  [TasksStackScreens.TaskDetails]: {
+    id: number;
+  };
+  [TasksStackScreens.TaskInProgress]: {
+    id: number;
+  };
 };

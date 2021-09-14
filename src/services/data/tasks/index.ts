@@ -1,13 +1,35 @@
 export type TaskTypes = 'ppo' | 'towing';
+export type TaskStatuses = 'pending' | 'in_progress';
 
 export type TaskSchema = {
   id?: number;
   title?: string;
   time?: string;
   location?: string;
-  status?: string;
   signDetails?: string;
   type?: TaskTypes;
+  customer?: string;
+  airline?: string;
+  workStartDate?: string;
+  additionalInfo?: string;
+  borderNumber?: string;
+  flight?: string;
+  route?: TaskRouteSchema;
+  staEta?: string;
+  date?: string;
+  aircraftType?: string;
+  board?: string;
+  mc?: number;
+  arrival?: string;
+  parking?: string;
+  platform?: string;
+  terminal?: string;
+  exit?: string;
+  passFact?: string;
+  passAodb?: string;
+  luggageFact?: string;
+  luggageAodb?: string;
+  status?: TaskStatuses;
 };
 
 export interface TaskGetByIdParams {
@@ -23,3 +45,14 @@ export enum TaskTypesEnum {
   PPO = 'ppo',
   Towing = 'towing',
 }
+
+export type TaskStepSchema = {
+  order?: number;
+  label?: string;
+  key?: string;
+};
+
+export type TaskRouteSchema = {
+  from?: string;
+  to?: string;
+};

@@ -1,14 +1,16 @@
 import React, { FC } from 'react';
+import { colors } from '../../theme';
+import { fontFamilyRegular } from '../../theme/fonts';
 import { createStackNavigator } from '@react-navigation/stack';
-import { fonts, colors } from '../../theme';
 
-import BackButton from '../../ui-kit/Buttons/BackButton';
+import { BackButton } from '../../ui-kit/Buttons';
 
 import { TasksStackScreens } from '../enums';
-import { TasksScreen } from '../../screens/tasks';
+import { TaskDetailsScreen, TaskInProgressScreen, TasksScreen } from '../../screens/tasks';
 import { BaseScreenProps } from '../props';
+import { TasksStackParamList } from '../params';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<TasksStackParamList>();
 
 const TasksStack: FC<BaseScreenProps> = () => {
   return (
@@ -17,12 +19,18 @@ const TasksStack: FC<BaseScreenProps> = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.background,
-          elevation: 0, // Убрать тени Android
-          shadowOpacity: 0, // Убрать тени IOS
+          elevation: 0,
+          shadowOpacity: 0,
         },
         headerTintColor: colors.white,
-        headerTitleStyle: fonts.titleRegular,
+        headerTitleStyle: {
+          fontSize: 16,
+          fontFamily: fontFamilyRegular,
+        },
         headerLeft: ({ onPress }) => <BackButton onPress={onPress} />,
+        cardStyle: {
+          backgroundColor: colors.white,
+        },
       }}
     >
       <Stack.Screen
@@ -30,6 +38,36 @@ const TasksStack: FC<BaseScreenProps> = () => {
         component={TasksScreen}
         options={{
           title: 'Задачи',
+          headerLeft: null,
+        }}
+      />
+
+      <Stack.Screen
+        name={TasksStackScreens.TaskDetails}
+        component={TaskDetailsScreen}
+        options={({ route }) => ({
+          title: `Рейс ID ${route.params.id}`,
+          headerTitleAlign: 'center',
+        })}
+        initialParams={{
+          id: null,
+        }}
+      />
+
+      <Stack.Screen
+        name={TasksStackScreens.TaskInProgress}
+        component={TaskInProgressScreen}
+        options={({ route }) => ({
+          title: `Рейс ID ${route.params.id}`,
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            width: '100%',
+            fontSize: 16,
+            fontFamily: fontFamilyRegular,
+          },
+        })}
+        initialParams={{
+          id: null,
         }}
       />
     </Stack.Navigator>

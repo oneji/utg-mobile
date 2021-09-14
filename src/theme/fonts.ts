@@ -28,6 +28,24 @@ export default StyleSheet.create({
     fontFamily: fontFamilyBold,
   },
 
+  // Subtitle - fontSize: 18
+  subtitleRegular: {
+    fontSize: 18,
+    fontFamily: fontFamilyRegular,
+  },
+  subtitleMedium: {
+    fontSize: 18,
+    fontFamily: fontFamilyMedium,
+  },
+  subtitleSemibold: {
+    fontSize: 18,
+    fontFamily: fontFamilySemiBold,
+  },
+  subtitleBold: {
+    fontSize: 18,
+    fontFamily: fontFamilyBold,
+  },
+
   // Paragraph - fontSize: 14
   paragraphRegular: {
     fontSize: 14,

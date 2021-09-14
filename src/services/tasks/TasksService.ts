@@ -22,14 +22,16 @@ export class TasksService extends BaseService {
     options: RequestInit = {},
     requestOptions: RestServiceRequestOptions = {}
   ): Promise<TaskSchema> => {
-    return this.sendFake(
-      'singleTask', // Mock data
+    const data: TaskSchema[] = await this.sendFake(
+      'noSignTasks', // Mock data
       GET,
       '',
       `/tasks/getById/${request.id}`,
       options,
       requestOptions
     );
+
+    return data.find(task => task.id === request.id);
   };
 }
 

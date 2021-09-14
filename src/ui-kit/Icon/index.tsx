@@ -4,7 +4,7 @@ import { SvgProps } from 'react-native-svg';
 import * as icons from './icons';
 import Icons from './types';
 
-import MaterialDesignIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export interface CustomIconProps extends SvgProps {
   name: keyof Icons;
@@ -13,7 +13,7 @@ export interface CustomIconProps extends SvgProps {
 export default ({ name, ...otherProps }: CustomIconProps) => {
   const CustomIcon = icons[name];
 
-  if (!icons[name]) return <MaterialDesignIcon name="help" />;
+  if (!icons[name]) return <MaterialIcon name="help" />;
 
   return <CustomIcon {...otherProps} />;
 };

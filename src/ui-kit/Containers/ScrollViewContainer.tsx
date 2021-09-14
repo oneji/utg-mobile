@@ -1,9 +1,26 @@
 import React, { FC } from 'react';
 import { ScrollView, ScrollViewProps } from 'react-native';
 
-const ScrollViewContainer: FC<ScrollViewProps> = ({ children, ...otherProps }) => {
+export interface ScrollViewContainerProps extends ScrollViewProps {
+  noPadding?: boolean;
+}
+
+const ScrollViewContainer: FC<ScrollViewContainerProps> = ({
+  noPadding,
+  children,
+  contentContainerStyle,
+  ...otherProps
+}) => {
   return (
-    <ScrollView contentContainerStyle={{ padding: 8 }} showsVerticalScrollIndicator={false} {...otherProps}>
+    <ScrollView
+      contentContainerStyle={{
+        padding: !noPadding ? 20 : 0,
+        minHeight: '100%',
+        ...(contentContainerStyle as object),
+      }}
+      showsVerticalScrollIndicator={false}
+      {...otherProps}
+    >
       {children}
     </ScrollView>
   );

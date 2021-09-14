@@ -8,9 +8,10 @@ import { colors, fonts, layout } from '../../../theme';
 export interface ButtonProps extends TouchableWithoutFeedbackProps {
   children: string;
   variant?: 'primary' | 'success' | 'danger' | 'secondary';
+  compact?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ children, variant = 'primary', onPress, style, ...otherProps }) => {
+const Button: FC<ButtonProps> = ({ children, variant = 'primary', onPress, style, compact, ...otherProps }) => {
   const getButtonStyles = useCallback(() => {
     const bgColorsMap = {
       primary: colors.blue.primary,
@@ -21,6 +22,7 @@ const Button: FC<ButtonProps> = ({ children, variant = 'primary', onPress, style
     const styleObject: StyleProp<ViewStyle> = {
       ...styles.button,
       backgroundColor: bgColorsMap[variant],
+      height: compact ? 35 : 50,
       ...(style as object),
     };
 
@@ -48,8 +50,6 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     ...layout.rowAlignCenter,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
     borderRadius: 50,
   },
 });

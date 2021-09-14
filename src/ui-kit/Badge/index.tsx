@@ -13,11 +13,12 @@ const Badge: FC<BadgeProps> = ({ children, variant = 'primary', style, ...otherP
       primary: colors.blue.primary,
       success: colors.green.primary,
       danger: colors.red.primary,
-      secondary: colors.gray.light,
+      secondary: colors.violet.secondary,
     };
     const styleObject: StyleProp<ViewStyle> = {
       ...styles.container,
       ...(style as object),
+      paddingHorizontal: children?.toString().length > 1 ? 10 : 0,
       backgroundColor: bgColorsMap[variant],
     };
 
@@ -26,7 +27,14 @@ const Badge: FC<BadgeProps> = ({ children, variant = 'primary', style, ...otherP
 
   return (
     <View style={getStyle()} {...otherProps}>
-      <Text style={styles.text}>{children}</Text>
+      <Text
+        style={{
+          ...fonts.smallBold,
+          color: variant === 'secondary' ? colors.violet.primary : colors.white,
+        }}
+      >
+        {children}
+      </Text>
     </View>
   );
 };
@@ -39,11 +47,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     minWidth: 24,
     minHeight: 24,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  text: {
-    ...fonts.smallBold,
-    color: colors.white,
   },
 });

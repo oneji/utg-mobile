@@ -1,34 +1,89 @@
-import { action, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction, toJS } from 'mobx';
 import { TaskSchema } from '../services/data';
 import tasksService from '../services/tasks/TasksService';
 import RootStore from './RootStore';
+
+export enum InProgressTaskStepsEnum {
+  CurrentConditions = 'currentConditions',
+  AircraftSurface = 'aircraftSurface',
+  Result = 'result',
+  Towing = 'towing',
+}
 
 export class TasksStore {
   rootStore: RootStore = null;
 
   @observable
-  loading: boolean = false;
+  loading: boolean = true;
+
   @observable
   noSignTasks: TaskSchema[] = [];
+
   @observable
   currentTask: TaskSchema = null;
 
+  @observable
+  inProgressTaskCurrentStep: InProgressTaskStepsEnum = InProgressTaskStepsEnum.CurrentConditions;
+
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+
+    makeObservable(this);
   }
+
+  @action
+  setLoading = async (state: boolean) => {
+    this.loading = state;
+  };
+
+  @action
+  moveToTheNextStep = async () => {
+    if (this.inProgressTaskCurrentStep === InProgressTaskStepsEnum.CurrentConditions)
+      this.inProgressTaskCurrentStep = InProgressTaskStepsEnum.AircraftSurface;
+  };
+
+  @action
+  setInProgressTaskCurrentStep = async (step: InProgressTaskStepsEnum) => {
+    this.inProgressTaskCurrentStep = step;
+  };
 
   @action
   getNoSignTasks = async () => {
     try {
-      this.loading = true;
+      this.setLoading(true);
 
-      this.noSignTasks = await tasksService.getNoSignTasks();
+      const response = await tasksService.getNoSignTasks();
+
+      runInAction(() => {
+        this.noSignTasks = response;
+      });
     } catch (error) {
       // Global error handler
 
       console.log(error);
     } finally {
-      this.loading = false;
+      this.setLoading(false);
+    }
+  };
+
+  @action
+  getTaskById = async (id: number) => {
+    try {
+      this.setLoading(true);
+
+      const response = await tasksService.getById({
+        id,
+      });
+
+      console.log(response);
+
+      runInAction(() => {
+        this.currentTask = toJS(response);
+      });
+      this.setLoading(false);
+    } catch (error) {
+      // Global error handler
+      this.setLoading(false);
     }
   };
 }

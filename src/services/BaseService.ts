@@ -137,7 +137,7 @@ export default class BaseService {
     const errorHandlers = BaseService.commonErrorHandlers;
 
     try {
-      return combinedMocks[mockDataObject] ?? {};
+      return combinedMocks[mockDataObject];
     } catch (error) {
       if (!requestOptions.withoutErrorHandlers) {
         errorHandlers.forEach(handler => handler(error.message));

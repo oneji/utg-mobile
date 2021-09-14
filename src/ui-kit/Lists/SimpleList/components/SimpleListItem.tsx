@@ -30,8 +30,8 @@ export default SimpleListItem;
 const styles = StyleSheet.create({
   container: {
     ...layout.rowSpaceBetween,
-    paddingVertical: 17,
+    paddingVertical: 15,
     borderBottomColor: colors.gray.secondary,
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1,
   },
 });
