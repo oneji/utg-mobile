@@ -7,13 +7,12 @@ import { BackButton } from '../../ui-kit/Buttons';
 
 import { NotificationsStackScreens } from '../enums';
 import { NotificationDetailsScreen, NotificationsScreen } from '../../screens/notifications';
-import { BaseScreenProps } from '../props';
 import { NotificationsStackParamList } from '../params';
 import { IconButton } from 'react-native-paper';
 
 const Stack = createStackNavigator<NotificationsStackParamList>();
 
-const NotificationsStack: FC<BaseScreenProps> = () => {
+const NotificationsStack: FC = () => {
   return (
     <Stack.Navigator
       initialRouteName={NotificationsStackScreens.Notifications}

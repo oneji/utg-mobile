@@ -15,3 +15,7 @@ export enum NotificationsStackScreens {
   Notifications = 'NotificationsScreen',
   NotificationDetails = 'NotificationDetails',
 }
+
+export enum FeedbackStackScreens {
+  Feedback = 'FeedbackScreen',
+}

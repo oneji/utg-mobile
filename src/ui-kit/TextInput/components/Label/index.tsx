@@ -10,7 +10,7 @@ export interface LabelProps extends TextProps {
   labelColor?: string;
   labelDuration?: number;
   activeColor?: string;
-  error?: string;
+  error?: boolean;
   errorColor?: string;
   focused?: boolean;
   hasValue?: boolean;
@@ -26,7 +26,7 @@ const Label: FC<LabelProps> = ({
   labelDuration = 100,
   activeColor,
   error,
-  errorColor,
+  errorColor = colors.red.primary,
   focused,
   hasValue,
   paddingTop,

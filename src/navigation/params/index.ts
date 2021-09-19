@@ -1,4 +1,4 @@
-import { NotificationsStackScreens, TasksStackScreens } from '../enums';
+import { FeedbackStackScreens, NotificationsStackScreens, TasksStackScreens } from '../enums';
 
 export type TasksStackParamList = {
   [TasksStackScreens.Tasks]: undefined;
@@ -15,4 +15,8 @@ export type NotificationsStackParamList = {
   [NotificationsStackScreens.NotificationDetails]: {
     id: number;
   };
+};
+
+export type FeedbackStackParamList = {
+  [FeedbackStackScreens.Feedback]: undefined;
 };

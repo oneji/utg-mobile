@@ -23,7 +23,7 @@ export type MaterialTextInputStatusType = 'success' | 'error' | 'default';
 
 interface TextInputProps extends RNTextInputProps {
   loading?: boolean;
-  label?: string;
+  label: string;
   accessibilityLabel?: string;
   fontSize?: number;
   height?: number;
@@ -131,9 +131,9 @@ const TextInput: FC<TextInputProps> = ({
         }}
       >
         <TouchableWithoutFeedback onPress={onPress}>
-          <View style={{ marginTop: label ? fontSize : 0 }}>
+          <View style={{ marginTop: label ? fontSize : 0, flex: 1 }}>
             <View accessible={accessible} accessibilityLabel={accessibilityLabel || label}>
-              <Label hasValue={hasValueWithContent(value)} focused={focused}>
+              <Label error={status === 'error'} hasValue={hasValueWithContent(value)} focused={focused}>
                 {label}
               </Label>
 
@@ -161,12 +161,12 @@ const TextInput: FC<TextInputProps> = ({
                   }}
                   maxLength={characterLimit > 0 ? characterLimit : null}
                 />
-
-                <View style={styles.iconContainer}>{renderRightIcon()}</View>
               </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
+
+        <View style={styles.iconContainer}>{renderRightIcon()}</View>
       </View>
 
       <View style={{ ...layout.rowSpaceBetween, marginTop: 7 }}>
@@ -182,6 +182,7 @@ export default TextInput;
 
 const styles = StyleSheet.create({
   container: {
+    ...layout.rowSpaceBetween,
     borderWidth: 0.5,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -200,7 +201,6 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     alignItems: 'center',
-    alignSelf: 'flex-end',
     justifyContent: 'flex-start',
   },
 });

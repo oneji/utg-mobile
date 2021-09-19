@@ -50,7 +50,7 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     ...layout.rowAlignCenter,
-    flex: 1,
+    flexGrow: 1,
     borderRadius: 50,
   },
 });

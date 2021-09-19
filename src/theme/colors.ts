@@ -3,6 +3,7 @@ export default {
   black: '#000',
   background: '#1F1D2B',
   transparent: 'transparent',
+  blurColor: 'rgba(16, 26, 38, 0.62)',
 
   green: {
     primary: '#54D144',
