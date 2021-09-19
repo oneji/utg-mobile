@@ -31,6 +31,7 @@ export const getInProgressTasksSteps = (task: TaskSchema): TaskStepSchema[] => {
 export const getMaintenanceItemNameByType = (type: MaintanceTypesEnum) => {
   const map = {
     [MaintanceTypesEnum.CargoMail]: 'Груз / почта',
+    [MaintanceTypesEnum.Towing]: 'Буксировка',
   };
 
   return map[type] ?? 'Неверный тип услуги';

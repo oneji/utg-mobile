@@ -53,7 +53,14 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
       )}
 
       <View style={[styles.infoContainer, infoContainerStyle]}>
-        <Text style={styles.title}>{title}</Text>
+        <Text
+          style={{
+            ...styles.title,
+            textAlign: hideArrivalAction ? 'left' : 'center',
+          }}
+        >
+          {title}
+        </Text>
 
         <View style={styles.timeContainer}>
           {/* Arrival time */}
@@ -99,6 +106,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     alignItems: 'center',
     flexBasis: '50%',
+    flexGrow: 1,
   },
   actionContainer: {
     flexBasis: '25%',
@@ -116,6 +124,5 @@ const styles = StyleSheet.create({
   title: {
     ...fonts.smallRegular,
     width: '100%',
-    textAlign: 'center',
   },
 });
