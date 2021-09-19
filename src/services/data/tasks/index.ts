@@ -61,4 +61,5 @@ export enum MaintanceTypesEnum {
   CargoMail = 'cargoMail',
   Towing = 'towing',
   PowerSupply = 'powerSupply',
+  Passengers = 'passengers',
 }
