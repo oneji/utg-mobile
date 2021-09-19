@@ -1,20 +1,18 @@
 import React, { FC, Fragment } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { CargoMail, Towing } from '../../components/Maintenance';
-import PowerSupply from '../../components/Maintenance/PowerSupply';
-
 import { MaintenanceScreenProps } from '../../navigation/props';
 import { MaintanceTypesEnum } from '../../services/data';
+import { CargoMailScreen, PowerSupplyScreen, TowingScreen } from '.';
 
 const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
   const { type } = route.params;
 
   return (
     <Fragment>
-      {type === MaintanceTypesEnum.CargoMail && <CargoMail />}
-      {type === MaintanceTypesEnum.Towing && <Towing />}
-      {type === MaintanceTypesEnum.PowerSupply && <PowerSupply />}
+      {type === MaintanceTypesEnum.CargoMail && <CargoMailScreen />}
+      {type === MaintanceTypesEnum.Towing && <TowingScreen />}
+      {type === MaintanceTypesEnum.PowerSupply && <PowerSupplyScreen />}
     </Fragment>
   );
 };

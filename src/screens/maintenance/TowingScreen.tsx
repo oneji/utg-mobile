@@ -1,19 +1,19 @@
 import React, { FC } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { fonts } from '../../../theme';
+import { fonts } from '../../theme';
 
-import { ContainerWithButton } from '../../../ui-kit/Containers';
-import { FormGroup } from '../../../ui-kit/Forms';
+import { ContainerWithButton } from '../../ui-kit/Containers';
+import { FormGroup } from '../../ui-kit/Forms';
 
 import { useFormik } from 'formik';
-import TextInput from '../../../ui-kit/TextInput';
+import TextInput from '../../ui-kit/TextInput';
 
 interface TowingFormValues {
   tractorNumber: string;
   additionalInfo: string;
 }
 
-const Towing: FC = () => {
+const TowingScreen: FC = () => {
   const { values, handleChange } = useFormik<TowingFormValues>({
     initialValues: {
       tractorNumber: '',
@@ -46,7 +46,7 @@ const Towing: FC = () => {
   );
 };
 
-export default Towing;
+export default TowingScreen;
 
 const styles = StyleSheet.create({
   title: {

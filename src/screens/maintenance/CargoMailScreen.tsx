@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { fonts, layout } from '../../../theme';
+import { fonts, layout } from '../../theme';
 
-import { ContainerWithButton } from '../../../ui-kit/Containers';
-import { FormGroup } from '../../../ui-kit/Forms';
-import TextInput from '../../../ui-kit/TextInput';
+import { ContainerWithButton } from '../../ui-kit/Containers';
+import { FormGroup } from '../../ui-kit/Forms';
+import TextInput from '../../ui-kit/TextInput';
 
 import { useFormik } from 'formik';
-import Switch from '../../../ui-kit/Switch';
+import Switch from '../../ui-kit/Switch';
 
 interface CargoMailFormValues {
   cargo: {
@@ -24,7 +24,7 @@ interface CargoMailFormValues {
   };
 }
 
-const CargoMail: FC = () => {
+const CargoMailScreen: FC = () => {
   const [commandPostSwitch, setCommandPostSwitch] = useState(false);
 
   const { values, handleChange } = useFormik<CargoMailFormValues>({
@@ -113,7 +113,7 @@ const CargoMail: FC = () => {
   );
 };
 
-export default CargoMail;
+export default CargoMailScreen;
 
 const styles = StyleSheet.create({
   title: {

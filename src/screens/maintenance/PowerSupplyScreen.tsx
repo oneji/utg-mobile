@@ -2,12 +2,12 @@ import { useFormik } from 'formik';
 import React, { FC, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { colors, fonts, layout } from '../../../theme';
-import { Button } from '../../../ui-kit/Buttons';
-import { ContainerWithButton } from '../../../ui-kit/Containers';
-import { FormGroup } from '../../../ui-kit/Forms';
-import Switch from '../../../ui-kit/Switch';
-import TextInput from '../../../ui-kit/TextInput';
+import { colors, fonts, layout } from '../../theme';
+import { Button } from '../../ui-kit/Buttons';
+import { ContainerWithButton } from '../../ui-kit/Containers';
+import { FormGroup } from '../../ui-kit/Forms';
+import Switch from '../../ui-kit/Switch';
+import TextInput from '../../ui-kit/TextInput';
 
 interface PowerSupplyFormValues {
   stationary: boolean;
@@ -18,7 +18,7 @@ interface PowerSupplyFormValues {
   additionalInfo: string;
 }
 
-const PowerSupply: FC = () => {
+const PowerSupplyScreen: FC = () => {
   // TODO: Connect validation
   const { values, handleChange, handleSubmit, setFieldValue } = useFormik<PowerSupplyFormValues>({
     initialValues: {
@@ -124,7 +124,7 @@ const PowerSupply: FC = () => {
   );
 };
 
-export default PowerSupply;
+export default PowerSupplyScreen;
 
 const styles = StyleSheet.create({
   title: {
