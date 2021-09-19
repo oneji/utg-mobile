@@ -9,6 +9,8 @@ import { TasksStackScreens } from '../enums';
 import { TaskDetailsScreen, TaskInProgressScreen, TasksScreen } from '../../screens/tasks';
 import { BaseScreenProps } from '../props';
 import { TasksStackParamList } from '../params';
+import { getMaintenanceItemNameByType } from '../../utils';
+import { MaintenanceScreen } from '../../screens/maintenance';
 
 const Stack = createStackNavigator<TasksStackParamList>();
 
@@ -68,6 +70,23 @@ const TasksStack: FC<BaseScreenProps> = () => {
         })}
         initialParams={{
           id: null,
+        }}
+      />
+
+      <Stack.Screen
+        name={TasksStackScreens.Maintenance}
+        component={MaintenanceScreen}
+        options={({ route }) => ({
+          title: `${getMaintenanceItemNameByType(route.params.type)}`,
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            width: '100%',
+            fontSize: 16,
+            fontFamily: fontFamilyRegular,
+          },
+        })}
+        initialParams={{
+          type: null,
         }}
       />
     </Stack.Navigator>

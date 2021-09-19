@@ -1,3 +1,4 @@
+import { MaintanceTypesEnum } from '../../services/data';
 import {
   FeedbackStackScreens,
   NotificationsStackScreens,
@@ -12,6 +13,9 @@ export type TasksStackParamList = {
   };
   [TasksStackScreens.TaskInProgress]: {
     id: number;
+  };
+  [TasksStackScreens.Maintenance]: {
+    type: MaintanceTypesEnum;
   };
 };
 

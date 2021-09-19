@@ -26,6 +26,13 @@ export type TaskDetailsScreenProps = {
   navigation: TaskDetailsScreenNavigationProp;
 };
 
+export type MaintenanceScreenRouteProp = RouteProp<TasksStackParamList, TasksStackScreens.Maintenance>;
+export type MaintenanceScreenNavigationProp = StackNavigationProp<TasksStackParamList, TasksStackScreens.Maintenance>;
+export type MaintenanceScreenProps = {
+  route: MaintenanceScreenRouteProp;
+  navigation: MaintenanceScreenNavigationProp;
+};
+
 // Notifications
 export type NotificationsScreenRouteProp = RouteProp<
   NotificationsStackParamList,

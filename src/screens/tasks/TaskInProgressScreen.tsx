@@ -11,8 +11,10 @@ import Tab from '../../ui-kit/Tab';
 import { observer } from 'mobx-react';
 import { useTasksStore } from '../../store/hooks';
 import { TaskDetailsScreenProps } from '../../navigation/props';
+import { TasksStackScreens } from '../../navigation/enums';
+import { MaintanceTypesEnum } from '../../services/data';
 
-const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
+const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route }) => {
   const { id } = route.params;
   const { loading, getTaskById } = useTasksStore();
 
@@ -44,7 +46,10 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
           arrivalTime="23:41"
           departureTime="23:41"
           arrivalAction={
-            <Button compact onPress={() => {}}>
+            <Button
+              compact
+              onPress={() => navigation.navigate(TasksStackScreens.Maintenance, { type: MaintanceTypesEnum.CargoMail })}
+            >
               Старт
             </Button>
           }

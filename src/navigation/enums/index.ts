@@ -9,6 +9,7 @@ export enum TasksStackScreens {
   Tasks = 'TasksScreen',
   TaskDetails = 'TaskDetailsScreen',
   TaskInProgress = 'TaskInProgressScreen',
+  Maintenance = 'MaintenanceScreen',
 }
 
 export enum NotificationsStackScreens {

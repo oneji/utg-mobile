@@ -1,4 +1,4 @@
-import { TaskSchema, TaskStepSchema } from '../../../services/data';
+import { MaintanceTypesEnum, TaskSchema, TaskStepSchema } from '../../../services/data';
 
 export const getInProgressTasksSteps = (task: TaskSchema): TaskStepSchema[] => {
   if (!task) return [];
@@ -26,4 +26,12 @@ export const getInProgressTasksSteps = (task: TaskSchema): TaskStepSchema[] => {
     default:
       return [];
   }
+};
+
+export const getMaintenanceItemNameByType = (type: MaintanceTypesEnum) => {
+  const map = {
+    [MaintanceTypesEnum.CargoMail]: 'Груз / почта',
+  };
+
+  return map[type] ?? 'Неверный тип услуги';
 };
