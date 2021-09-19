@@ -53,24 +53,28 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
       )}
 
       <View style={[styles.infoContainer, infoContainerStyle]}>
-        <Text style={fonts.paragraphRegular}>{title}</Text>
+        <Text style={styles.title}>{title}</Text>
 
         <View style={styles.timeContainer}>
           {/* Arrival time */}
-          {arrivalTime && (
-            <Text style={styles.timeText}>
-              <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
-              {arrivalTime}
-            </Text>
-          )}
+          <View>
+            {arrivalTime && (
+              <Text style={styles.timeText}>
+                <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
+                {arrivalTime}
+              </Text>
+            )}
+          </View>
 
-          {/* Departure time */}
-          {departureTime && (
-            <Text style={styles.timeText}>
-              <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
-              {departureTime}
-            </Text>
-          )}
+          <View>
+            {/* Departure time */}
+            {departureTime && (
+              <Text style={styles.timeText}>
+                <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
+                {departureTime}
+              </Text>
+            )}
+          </View>
         </View>
       </View>
 
@@ -88,14 +92,13 @@ export default MaintenanceItem;
 
 const styles = StyleSheet.create({
   container: {
-    ...layout.rowSpaceBetween,
+    ...layout.rowAlignCenter,
     paddingVertical: 12,
     borderBottomColor: colors.gray.primary,
   },
   infoContainer: {
-    paddingHorizontal: 15,
     alignItems: 'center',
-    flexGrow: 1,
+    flexBasis: '50%',
   },
   actionContainer: {
     flexBasis: '25%',
@@ -103,9 +106,16 @@ const styles = StyleSheet.create({
   timeContainer: {
     ...layout.rowSpaceBetween,
     marginTop: 3,
+    width: '100%',
+    paddingHorizontal: 15,
   },
   timeText: {
     ...fonts.extraSmallMedium,
     color: colors.gray.primary,
+  },
+  title: {
+    ...fonts.smallRegular,
+    width: '100%',
+    textAlign: 'center',
   },
 });
