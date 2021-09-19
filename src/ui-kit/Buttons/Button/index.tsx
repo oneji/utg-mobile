@@ -1,17 +1,26 @@
 import React, { FC, useCallback } from 'react';
-import { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { ActivityIndicator, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet, Text, TouchableWithoutFeedbackProps } from 'react-native';
 
 import { TouchableRipple } from 'react-native-paper';
 import { colors, fonts, layout } from '../../../theme';
 
 export interface ButtonProps extends TouchableWithoutFeedbackProps {
-  children: string;
+  children?: string;
   variant?: 'primary' | 'success' | 'danger' | 'secondary';
   compact?: boolean;
+  loading?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ children, variant = 'primary', onPress, style, compact, ...otherProps }) => {
+const Button: FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  onPress,
+  style,
+  compact = false,
+  loading = false,
+  ...otherProps
+}) => {
   const getButtonStyles = useCallback(() => {
     const bgColorsMap = {
       primary: colors.blue.primary,
@@ -40,7 +49,11 @@ const Button: FC<ButtonProps> = ({ children, variant = 'primary', onPress, style
 
   return (
     <TouchableRipple borderless style={getButtonStyles()} onPress={onPress} {...otherProps}>
-      <Text style={getButtonTextStyles()}>{children}</Text>
+      {!loading ? (
+        <Text style={getButtonTextStyles()}>{children}</Text>
+      ) : (
+        <ActivityIndicator size="small" color={colors.white} />
+      )}
     </TouchableRipple>
   );
 };

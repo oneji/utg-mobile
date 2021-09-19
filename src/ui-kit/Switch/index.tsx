@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   LayoutAnimation,
   Platform,
   Pressable,
@@ -15,10 +16,10 @@ import { colors, fonts, layout } from '../../theme';
 export interface SwitchProps {
   label?: string;
   value: boolean;
-  disabled?: boolean;
   color?: string;
   inactiveColor?: string;
   labelStyle?: StyleProp<TextStyle>;
+  loading?: boolean;
   onChange: () => void;
 }
 
@@ -29,10 +30,10 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 const Switch: FC<SwitchProps> = ({
   label,
   value,
-  disabled,
   color = colors.green.primary,
   inactiveColor = colors.gray.secondary,
   labelStyle,
+  loading,
   onChange,
 }) => {
   const [state, setState] = useState(value || false);
@@ -72,7 +73,10 @@ const Switch: FC<SwitchProps> = ({
             {state ? 'ON' : 'OFF'}
           </Text>
         </View>
-        <View style={styles.indicator} />
+
+        <View style={styles.indicator}>
+          {loading && <ActivityIndicator size="small" color={state ? color : inactiveColor} />}
+        </View>
       </Pressable>
     </View>
   );
@@ -94,6 +98,7 @@ const styles = StyleSheet.create({
     ...fonts.paragraphSemibold,
   },
   indicator: {
+    ...layout.rowAlignCenter,
     width: 28,
     height: 28,
     backgroundColor: colors.white,
