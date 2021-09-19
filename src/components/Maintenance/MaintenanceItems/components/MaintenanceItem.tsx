@@ -7,17 +7,17 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 export interface MaintenanceItemProps {
   title: string;
 
-  leftAction?: ReactNode;
-  rightAction?: ReactNode;
+  arrivalAction?: ReactNode;
+  departureAction?: ReactNode;
 
-  leftTime?: string;
-  rightTime?: string;
+  arrivalTime?: string;
+  departureTime?: string;
 
-  hideLeftAction?: boolean;
-  hideRightAction?: boolean;
+  hideArrivalAction?: boolean;
+  hideDepartureAction?: boolean;
 
-  leftActionContainerStyle?: StyleProp<ViewStyle>;
-  rightActionContainerStyle?: StyleProp<ViewStyle>;
+  arrivalActionContainerStyle?: StyleProp<ViewStyle>;
+  departureActionContainerStyle?: StyleProp<ViewStyle>;
   infoContainerStyle?: StyleProp<ViewStyle>;
 
   hideBorder?: boolean;
@@ -25,17 +25,17 @@ export interface MaintenanceItemProps {
 
 const MaintenanceItem: FC<MaintenanceItemProps> = ({
   title,
-  leftAction,
-  rightAction,
+  arrivalAction,
+  departureAction,
 
-  leftTime,
-  rightTime,
+  arrivalTime,
+  departureTime,
 
-  hideLeftAction = false,
-  hideRightAction = false,
+  hideArrivalAction = false,
+  hideDepartureAction = false,
 
-  leftActionContainerStyle,
-  rightActionContainerStyle,
+  arrivalActionContainerStyle,
+  departureActionContainerStyle,
   infoContainerStyle,
 
   hideBorder = false,
@@ -47,34 +47,38 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
         borderBottomWidth: !hideBorder ? 0.5 : 0,
       }}
     >
-      {/* Left action */}
-      {!hideLeftAction && (
-        <View style={[styles.actionContainer, leftActionContainerStyle]}>{leftAction && leftAction}</View>
+      {/* Arrival action */}
+      {!hideArrivalAction && (
+        <View style={[styles.actionContainer, arrivalActionContainerStyle]}>{arrivalAction && arrivalAction}</View>
       )}
 
       <View style={[styles.infoContainer, infoContainerStyle]}>
         <Text style={fonts.paragraphRegular}>{title}</Text>
 
         <View style={styles.timeContainer}>
-          {leftTime && (
+          {/* Arrival time */}
+          {arrivalTime && (
             <Text style={styles.timeText}>
               <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
-              {leftTime}
+              {arrivalTime}
             </Text>
           )}
 
-          {rightTime && (
+          {/* Departure time */}
+          {departureTime && (
             <Text style={styles.timeText}>
               <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
-              {rightTime}
+              {departureTime}
             </Text>
           )}
         </View>
       </View>
 
-      {/* Right action */}
-      {!hideRightAction && (
-        <View style={[styles.actionContainer, rightActionContainerStyle]}>{rightAction && rightAction}</View>
+      {/* Departure action */}
+      {!hideDepartureAction && (
+        <View style={[styles.actionContainer, departureActionContainerStyle]}>
+          {departureAction && departureAction}
+        </View>
       )}
     </View>
   );

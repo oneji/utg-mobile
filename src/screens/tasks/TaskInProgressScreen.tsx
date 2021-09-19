@@ -25,14 +25,30 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
       <MaintenanceItems>
         <MaintenanceItems.Item
           title="Буксировка"
-          leftTime="23:41"
-          rightTime="23:41"
-          leftAction={
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={
             <Button compact onPress={() => {}}>
               Старт
             </Button>
           }
-          rightAction={
+          departureAction={
+            <Button compact onPress={() => {}}>
+              Старт
+            </Button>
+          }
+        />
+
+        <MaintenanceItems.Item
+          title="Груз / почта"
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={
+            <Button compact onPress={() => {}}>
+              Старт
+            </Button>
+          }
+          departureAction={
             <Button compact onPress={() => {}}>
               Старт
             </Button>
@@ -41,36 +57,36 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
 
         <MaintenanceItems.Item
           title="Установка ВС на МС"
-          leftTime="23:41"
-          leftAction={<Switch value={false} onChange={() => true} />}
+          arrivalTime="23:41"
+          arrivalAction={<Switch value={false} onChange={() => true} />}
         />
 
         <MaintenanceItems.Item
           title="Колодки"
-          leftTime="23:41"
-          rightTime="23:41"
-          leftAction={<Switch value={false} onChange={() => true} />}
-          rightAction={<Switch value={false} onChange={() => true} />}
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={<Switch value={false} onChange={() => true} />}
+          departureAction={<Switch value={false} onChange={() => true} />}
         />
 
         <MaintenanceItems.Item
           title="Внешний осмотр"
-          leftTime="23:41"
-          rightTime="23:41"
-          leftAction={<Switch value={false} onChange={() => true} />}
-          rightAction={<Switch value={false} onChange={() => true} />}
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={<Switch value={false} onChange={() => true} />}
+          departureAction={<Switch value={false} onChange={() => true} />}
         />
 
         <MaintenanceItems.Item
           title="Работа САБ"
-          leftTime="23:41"
-          rightTime="23:41"
-          leftAction={
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={
             <Button compact onPress={() => {}}>
               Старт
             </Button>
           }
-          rightAction={
+          departureAction={
             <Button compact onPress={() => {}}>
               Старт
             </Button>
@@ -79,9 +95,9 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
 
         <MaintenanceItems.Item
           title="Работа ООПК, таможни"
-          leftTime="23:41"
-          rightTime="23:41"
-          leftAction={
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={
             <Button compact onPress={() => {}}>
               Старт
             </Button>
@@ -90,10 +106,10 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
 
         <MaintenanceItems.Item
           title="Трап"
-          leftTime="23:41"
-          rightTime="23:41"
-          leftAction={<Switch value={false} onChange={() => true} />}
-          rightAction={<Switch value={false} onChange={() => true} />}
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={<Switch value={false} onChange={() => true} />}
+          departureAction={<Switch value={false} onChange={() => true} />}
         />
       </MaintenanceItems>
     </View>
@@ -103,12 +119,12 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
     <MaintenanceItems style={{ padding: 20 }}>
       <MaintenanceItems.Item
         title="Кислород"
-        leftAction={
+        arrivalAction={
           <Button compact onPress={() => {}}>
             Старт
           </Button>
         }
-        rightAction={
+        departureAction={
           <Button compact onPress={() => {}}>
             Старт
           </Button>
@@ -117,12 +133,12 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
 
       <MaintenanceItems.Item
         title="Азот"
-        leftAction={
+        arrivalAction={
           <Button compact onPress={() => {}}>
             Старт
           </Button>
         }
-        rightAction={
+        departureAction={
           <Button compact onPress={() => {}}>
             Старт
           </Button>
@@ -131,18 +147,18 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
 
       <MaintenanceItems.Item
         title="Подогрев"
-        leftAction={<Switch value={false} onChange={() => true} />}
-        rightAction={<Switch value={false} onChange={() => true} />}
+        arrivalAction={<Switch value={false} onChange={() => true} />}
+        departureAction={<Switch value={false} onChange={() => true} />}
       />
 
       <MaintenanceItems.Item
         title="Охлаждение"
-        hideLeftAction
+        hideArrivalAction
         infoContainerStyle={{
           alignItems: 'flex-start',
           paddingLeft: 0,
         }}
-        rightAction={
+        departureAction={
           <Button compact onPress={() => {}}>
             Старт
           </Button>
@@ -151,22 +167,22 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
 
       <MaintenanceItems.Item
         title="УВЗ"
-        hideLeftAction
+        hideArrivalAction
         infoContainerStyle={{
           alignItems: 'flex-start',
           paddingLeft: 0,
         }}
-        rightAction={<Switch value={false} onChange={() => true} />}
+        departureAction={<Switch value={false} onChange={() => true} />}
       />
 
       <MaintenanceItems.Item
         title="Продувка водяной системы"
-        hideLeftAction
+        hideArrivalAction
         infoContainerStyle={{
           alignItems: 'flex-start',
           paddingLeft: 0,
         }}
-        rightAction={
+        departureAction={
           <Button compact onPress={() => {}}>
             Старт
           </Button>
@@ -175,12 +191,12 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
 
       <MaintenanceItems.Item
         title="Слив топлива"
-        hideLeftAction
+        hideArrivalAction
         infoContainerStyle={{
           alignItems: 'flex-start',
           paddingLeft: 0,
         }}
-        rightAction={
+        departureAction={
           <Button compact onPress={() => {}}>
             Старт
           </Button>

@@ -56,3 +56,7 @@ export type TaskRouteSchema = {
   from?: string;
   to?: string;
 };
+
+export enum MaintanceTypesEnum {
+  CargoMail = 'cargoMail',
+}
