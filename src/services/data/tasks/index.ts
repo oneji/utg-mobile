@@ -60,4 +60,5 @@ export type TaskRouteSchema = {
 export enum MaintanceTypesEnum {
   CargoMail = 'cargoMail',
   Towing = 'towing',
+  PowerSupply = 'powerSupply',
 }

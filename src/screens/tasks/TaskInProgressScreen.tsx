@@ -38,7 +38,10 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
             </Button>
           }
           departureAction={
-            <Button compact onPress={() => {}}>
+            <Button
+              compact
+              onPress={() => navigation.navigate(TasksStackScreens.Maintenance, { type: MaintanceTypesEnum.Towing })}
+            >
               Старт
             </Button>
           }
@@ -57,7 +60,10 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
             </Button>
           }
           departureAction={
-            <Button compact onPress={() => {}}>
+            <Button
+              compact
+              onPress={() => navigation.navigate(TasksStackScreens.Maintenance, { type: MaintanceTypesEnum.CargoMail })}
+            >
               Старт
             </Button>
           }
@@ -83,6 +89,32 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           departureTime="23:41"
           arrivalAction={<Switch value={false} onChange={() => true} />}
           departureAction={<Switch value={false} onChange={() => true} />}
+        />
+
+        <MaintenanceItems.Item
+          title="Электропитание"
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={
+            <Button
+              compact
+              onPress={() =>
+                navigation.navigate(TasksStackScreens.Maintenance, { type: MaintanceTypesEnum.PowerSupply })
+              }
+            >
+              Старт
+            </Button>
+          }
+          departureAction={
+            <Button
+              compact
+              onPress={() =>
+                navigation.navigate(TasksStackScreens.Maintenance, { type: MaintanceTypesEnum.PowerSupply })
+              }
+            >
+              Старт
+            </Button>
+          }
         />
 
         <MaintenanceItems.Item

@@ -42,7 +42,7 @@ const Switch: FC<SwitchProps> = ({
     setState(value);
   }, [value]);
 
-  const handleOnPress = (): void => {
+  const handlePress = (): void => {
     setState(prevValue => !prevValue);
 
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring, () => {
@@ -52,10 +52,10 @@ const Switch: FC<SwitchProps> = ({
 
   return (
     <View style={layout.rowSpaceBetween}>
-      {label ? <Text style={[styles.label, labelStyle]}>{label}</Text> : null}
+      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
 
       <Pressable
-        onPress={handleOnPress}
+        onPress={handlePress}
         style={{
           ...styles.container,
           backgroundColor: state ? color : inactiveColor,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   label: {
-    ...fonts.paragraphSemibold,
+    ...fonts.paragraphRegular,
   },
   indicator: {
     ...layout.rowAlignCenter,
