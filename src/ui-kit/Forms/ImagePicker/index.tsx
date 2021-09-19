@@ -71,6 +71,7 @@ const ImagePicker = ({ title = 'Добавить фото', style, onSelect, ...
                 width: 100,
                 height: 100,
                 marginRight: 10,
+                marginBottom: 10,
               }}
               resizeMode="cover"
             />
@@ -122,8 +123,8 @@ export default ImagePicker;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    ...layout.rowAlignItemsCenter,
+    flexWrap: 'wrap',
   },
   title: {
     marginBottom: 16,

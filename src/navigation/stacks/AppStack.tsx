@@ -10,6 +10,7 @@ import { AppStackScreens } from '../enums';
 import TasksStack from './TasksStack';
 import NotificationsStack from './NotificationsStack';
 import FeedbackStack from './FeedbackStack';
+import PhotofixationStack from './PhotofixationStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -120,7 +121,7 @@ const AppStack: FC = () => {
 
       <Tab.Screen
         name={AppStackScreens.PhotofixationStack}
-        component={TasksStack}
+        component={PhotofixationStack}
         options={{ tabBarLabel: 'Фотофиксация' }}
       />
 

@@ -19,3 +19,7 @@ export enum NotificationsStackScreens {
 export enum FeedbackStackScreens {
   Feedback = 'FeedbackScreen',
 }
+
+export enum PhotofixationStackScreens {
+  Photofixation = 'PhotofixationScreen',
+}
