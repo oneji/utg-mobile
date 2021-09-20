@@ -46,10 +46,9 @@ const CargoMailScreen: FC = () => {
   });
 
   return (
-    <ContainerWithButton>
-      <Text style={styles.title}>Прилет</Text>
-
+    <ContainerWithButton label="Прилет">
       <Text style={styles.subtitle}>Груз</Text>
+
       <FormGroup>
         <TextInput
           label="Масса"
@@ -116,10 +115,6 @@ const CargoMailScreen: FC = () => {
 export default CargoMailScreen;
 
 const styles = StyleSheet.create({
-  title: {
-    ...fonts.subtitleBold,
-    marginBottom: 20,
-  },
   subtitle: {
     ...fonts.paragraphSemibold,
     marginBottom: 20,

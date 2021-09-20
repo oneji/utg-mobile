@@ -48,9 +48,7 @@ const PowerSupplyScreen: FC = () => {
   }, [values.numbers]);
 
   return (
-    <ContainerWithButton onButtonPress={handleSubmit}>
-      <Text style={styles.title}>Прилет</Text>
-
+    <ContainerWithButton onButtonPress={handleSubmit} label="Прилет">
       <View style={styles.listItem}>
         <Switch
           label="Стационарный"
@@ -127,10 +125,6 @@ const PowerSupplyScreen: FC = () => {
 export default PowerSupplyScreen;
 
 const styles = StyleSheet.create({
-  title: {
-    ...fonts.subtitleBold,
-    marginBottom: 20,
-  },
   listItem: {
     borderBottomWidth: 0.5,
     borderBottomColor: colors.gray.primary,

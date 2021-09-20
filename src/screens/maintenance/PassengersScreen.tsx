@@ -26,9 +26,7 @@ const PassengersScreen: FC = () => {
   });
 
   return (
-    <ContainerWithButton>
-      <Text style={styles.title}>Прилет</Text>
-
+    <ContainerWithButton label="Прилет">
       <SimpleList>
         <SimpleList.Item title="Пассажиры (количество)" value="113/13/2" />
       </SimpleList>
@@ -61,10 +59,6 @@ const PassengersScreen: FC = () => {
 export default PassengersScreen;
 
 const styles = StyleSheet.create({
-  title: {
-    ...fonts.subtitleBold,
-    marginBottom: 20,
-  },
   subtitle: {
     ...fonts.paragraphSemibold,
     marginVertical: 20,

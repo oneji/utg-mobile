@@ -23,9 +23,7 @@ const TowingScreen: FC = () => {
   });
 
   return (
-    <ContainerWithButton>
-      <Text style={styles.title}>Прилет</Text>
-
+    <ContainerWithButton label="Прилет">
       <FormGroup>
         <TextInput
           label="Тягач №"
@@ -48,9 +46,4 @@ const TowingScreen: FC = () => {
 
 export default TowingScreen;
 
-const styles = StyleSheet.create({
-  title: {
-    ...fonts.subtitleBold,
-    marginBottom: 20,
-  },
-});
+const styles = StyleSheet.create({});

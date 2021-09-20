@@ -33,9 +33,7 @@ const BathroomServiceScreen: FC = () => {
   });
 
   return (
-    <ContainerWithButton onButtonPress={handleSubmit}>
-      <Text style={styles.title}>Прилет</Text>
-
+    <ContainerWithButton onButtonPress={handleSubmit} label="Прилет">
       <View style={styles.listItem}>
         <Switch label="Заправка" value={values.refuel} onChange={() => setFieldValue('refuel', !values.refuel)} />
       </View>
@@ -62,10 +60,6 @@ const BathroomServiceScreen: FC = () => {
 export default BathroomServiceScreen;
 
 const styles = StyleSheet.create({
-  title: {
-    ...fonts.subtitleBold,
-    marginBottom: 20,
-  },
   listItem: {
     borderBottomWidth: 0.5,
     borderBottomColor: colors.gray.primary,
