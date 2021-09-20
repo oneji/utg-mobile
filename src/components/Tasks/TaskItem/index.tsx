@@ -40,14 +40,14 @@ const RequestItem: FC<RequestItemProps> = ({ item, onPress }) => {
       <View
         style={{
           ...styles.container,
-          borderLeftWidth: 5,
+
           borderLeftColor: getTypeColor(),
         }}
       >
         <View style={{ ...layout.rowSpaceBetween, marginBottom: 20 }}>
           <Text style={styles.smallGray}>№ {item.id}</Text>
 
-          <Badge>{getFormattedStatus()}</Badge>
+          <Badge variant="success">{getFormattedStatus()}</Badge>
         </View>
 
         <Text style={styles.title}>{item.title}</Text>
@@ -75,7 +75,7 @@ export default RequestItem;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 5,
-    borderLeftColor: colors.blue.primary,
+    borderLeftWidth: 5,
     padding: 15,
     elevation: 5,
     backgroundColor: colors.white,
