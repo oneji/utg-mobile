@@ -28,9 +28,9 @@ const TowingScreen: FC = () => {
 
       <FormGroup>
         <TextInput
-          label="Мест"
+          label="Тягач №"
           value={values.tractorNumber}
-          onChangeText={handleChange('commandPost.places')}
+          onChangeText={handleChange('tractorNumber')}
           keyboardType="numeric"
         />
       </FormGroup>
@@ -39,7 +39,7 @@ const TowingScreen: FC = () => {
         <TextInput
           label="Дополнительная информация"
           value={values.additionalInfo}
-          onChangeText={handleChange('commandPost.additionalInfo')}
+          onChangeText={handleChange('additionalInfo')}
         />
       </FormGroup>
     </ContainerWithButton>
