@@ -93,7 +93,7 @@ const PowerSupplyScreen: FC = () => {
         values.numbers.map((number, idx) => {
           if (idx > 0) {
             return (
-              <View style={{ marginBottom: 15 }}>
+              <View style={{ marginBottom: 15 }} key={`power-supply-${idx}`}>
                 <View style={{ ...layout.rowSpaceBetween, marginBottom: 15 }}>
                   <Text style={fonts.paragraphRegular}>Источник электропитания {idx + 1}</Text>
 

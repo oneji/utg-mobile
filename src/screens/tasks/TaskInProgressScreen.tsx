@@ -22,7 +22,7 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
     getTaskById(id);
   }, []);
 
-  const handleNavigateToMaintenanceScreen = useCallback((type: MaintanceTypesEnum) => {
+  const handleNavigate = useCallback((type: MaintanceTypesEnum) => {
     navigation.navigate(TasksStackScreens.Maintenance, { type });
   }, []);
 
@@ -34,12 +34,12 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           arrivalTime="23:41"
           departureTime="23:41"
           arrivalAction={
-            <Button compact onPress={() => handleNavigateToMaintenanceScreen(MaintanceTypesEnum.Towing)}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Towing)}>
               Старт
             </Button>
           }
           departureAction={
-            <Button compact onPress={() => handleNavigateToMaintenanceScreen(MaintanceTypesEnum.Towing)}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Towing)}>
               Старт
             </Button>
           }
@@ -50,12 +50,12 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           arrivalTime="23:41"
           departureTime="23:41"
           arrivalAction={
-            <Button compact onPress={() => handleNavigateToMaintenanceScreen(MaintanceTypesEnum.CargoMail)}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.CargoMail)}>
               Старт
             </Button>
           }
           departureAction={
-            <Button compact onPress={() => handleNavigateToMaintenanceScreen(MaintanceTypesEnum.CargoMail)}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.CargoMail)}>
               Старт
             </Button>
           }
@@ -82,12 +82,12 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           arrivalTime="23:41"
           departureTime="23:41"
           arrivalAction={
-            <Button compact onPress={() => handleNavigateToMaintenanceScreen(MaintanceTypesEnum.PowerSupply)}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.PowerSupply)}>
               Старт
             </Button>
           }
           departureAction={
-            <Button compact onPress={() => handleNavigateToMaintenanceScreen(MaintanceTypesEnum.PowerSupply)}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.PowerSupply)}>
               Старт
             </Button>
           }
@@ -98,23 +98,28 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           arrivalTime="23:41"
           departureTime="23:41"
           arrivalAction={
-            <Button compact onPress={() => handleNavigateToMaintenanceScreen(MaintanceTypesEnum.Passengers)}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Passengers)}>
               Старт
             </Button>
           }
           departureAction={
-            <Button compact onPress={() => handleNavigateToMaintenanceScreen(MaintanceTypesEnum.Passengers)}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Passengers)}>
               Старт
             </Button>
           }
         />
 
         <MaintenanceItems.Item
-          title="Работа ООПК, таможни"
+          title="Обслуживание санузлов"
           arrivalTime="23:41"
           departureTime="23:41"
           arrivalAction={
-            <Button compact onPress={() => {}}>
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.BathroomService)}>
+              Старт
+            </Button>
+          }
+          departureAction={
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.BathroomService)}>
               Старт
             </Button>
           }
