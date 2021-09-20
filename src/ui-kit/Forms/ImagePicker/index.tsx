@@ -9,14 +9,14 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Asset, ImageLibraryOptions, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 export interface ImagePickerProps extends ViewProps {
-  title?: string;
+  label?: string;
   uploadButton?: ReactNode;
   onSelect?: (files: Asset[]) => void;
 }
 
 const options: ImageLibraryOptions = { mediaType: 'photo' };
 
-const ImagePicker = ({ title = 'Добавить фото', style, onSelect, ...otherProps }: ImagePickerProps) => {
+const ImagePicker = ({ label = 'Добавить фото', style, onSelect, ...otherProps }: ImagePickerProps) => {
   const [files, setFiles] = useState([]);
   const [modal, setModal] = useState(false);
 
@@ -53,15 +53,15 @@ const ImagePicker = ({ title = 'Добавить фото', style, onSelect, ...
     <Fragment>
       <View
         style={{
-          ...styles.container,
+          flexDirection: files.length > 0 ? 'column' : 'row',
           justifyContent: files.length > 0 ? 'flex-start' : 'space-between',
         }}
         {...otherProps}
       >
-        {files.length === 0 ? (
-          <Text style={fonts.paragraphRegular}>{title}</Text>
-        ) : (
-          files.map((file: Asset) => (
+        <Text style={fonts.paragraphRegular}>{label}</Text>
+
+        <View style={styles.imagesContainer}>
+          {files.map((file: Asset) => (
             <Image
               key={file.fileName}
               source={{
@@ -75,23 +75,23 @@ const ImagePicker = ({ title = 'Добавить фото', style, onSelect, ...
               }}
               resizeMode="cover"
             />
-          ))
-        )}
+          ))}
 
-        <View style={layout.alignCenter}>
-          <IconButton
-            icon="plus"
-            size={35}
-            onPress={() => setModal(true)}
-            style={{
-              backgroundColor: colors.gray.secondary,
-              padding: 0,
-              margin: 0,
-              width: 35,
-              height: 35,
-            }}
-            color={colors.white}
-          />
+          <View style={layout.alignCenter}>
+            <IconButton
+              icon="plus"
+              size={35}
+              onPress={() => setModal(true)}
+              style={{
+                backgroundColor: colors.gray.secondary,
+                padding: 0,
+                margin: 0,
+                width: 35,
+                height: 35,
+              }}
+              color={colors.white}
+            />
+          </View>
         </View>
       </View>
 
@@ -122,12 +122,9 @@ const ImagePicker = ({ title = 'Добавить фото', style, onSelect, ...
 export default ImagePicker;
 
 const styles = StyleSheet.create({
-  container: {
+  imagesContainer: {
     ...layout.rowAlignItemsCenter,
     flexWrap: 'wrap',
-  },
-  title: {
-    marginBottom: 16,
   },
   listItem: {
     ...layout.rowAlignItemsCenter,

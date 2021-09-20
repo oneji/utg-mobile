@@ -126,6 +126,22 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
         />
 
         <MaintenanceItems.Item
+          title="Багаж"
+          arrivalTime="23:41"
+          departureTime="23:41"
+          arrivalAction={
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Luggage)}>
+              Старт
+            </Button>
+          }
+          departureAction={
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Luggage)}>
+              Старт
+            </Button>
+          }
+        />
+
+        <MaintenanceItems.Item
           title="Трап"
           arrivalTime="23:41"
           departureTime="23:41"

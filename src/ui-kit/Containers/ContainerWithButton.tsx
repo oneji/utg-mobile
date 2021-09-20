@@ -1,19 +1,21 @@
 import React, { FC } from 'react';
-import { StyleSheet, View, ViewProps, ScrollViewProps } from 'react-native';
+import { StyleSheet, View, ViewProps, ScrollViewProps, Text } from 'react-native';
+import { colors, fonts } from '../../theme';
 
 import ScrollViewContainer from './ScrollViewContainer';
 import { Button } from '../Buttons';
-import { colors } from '../../theme';
 import { ButtonProps } from '../Buttons/Button';
 
 export interface ContainerWithButtonProps extends ViewProps {
+  label?: string;
   scrollViewProps?: ScrollViewProps;
-  onButtonPress?: () => void;
   buttonLabel?: string;
   buttonProps?: ButtonProps;
+  onButtonPress?: () => void;
 }
 
 const ContainerWithButton: FC<ContainerWithButtonProps> = ({
+  label,
   children,
   style,
   scrollViewProps,
@@ -24,7 +26,11 @@ const ContainerWithButton: FC<ContainerWithButtonProps> = ({
 }) => {
   return (
     <View style={[styles.container, style]} {...otherProps}>
-      <ScrollViewContainer {...scrollViewProps}>{children}</ScrollViewContainer>
+      <ScrollViewContainer {...scrollViewProps}>
+        {label && <Text style={styles.title}>{label}</Text>}
+
+        {children}
+      </ScrollViewContainer>
 
       <View style={styles.buttonContainer}>
         <Button onPress={onButtonPress} {...buttonProps}>
@@ -44,5 +50,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingVertical: 8,
     paddingHorizontal: 20,
+  },
+  title: {
+    ...fonts.subtitleBold,
+    marginBottom: 20,
   },
 });

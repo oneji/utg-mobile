@@ -35,6 +35,7 @@ export const getMaintenanceItemNameByType = (type: MaintanceTypesEnum) => {
     [MaintanceTypesEnum.PowerSupply]: 'Электропитание',
     [MaintanceTypesEnum.Passengers]: 'Пассажиры',
     [MaintanceTypesEnum.BathroomService]: 'Обслуживание санузлов',
+    [MaintanceTypesEnum.Luggage]: 'Багаж',
   };
 
   return map[type] ?? 'Неверный тип услуги';
