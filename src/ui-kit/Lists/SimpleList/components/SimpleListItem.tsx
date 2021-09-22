@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { StyleProp, TextStyle } from 'react-native';
+import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../../../../theme';
 
@@ -8,15 +8,24 @@ export interface SimpleListItemProps {
   value: string;
   titleStyle?: StyleProp<TextStyle>;
   valueStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
   hideBorder?: boolean;
 }
 
-const SimpleListItem: FC<SimpleListItemProps> = ({ title, value, titleStyle, valueStyle, hideBorder }) => {
+const SimpleListItem: FC<SimpleListItemProps> = ({
+  title,
+  value,
+  titleStyle,
+  valueStyle,
+  containerStyle,
+  hideBorder,
+}) => {
   return (
     <View
       style={{
         ...styles.container,
         borderBottomWidth: !hideBorder ? 1 : 0,
+        ...(containerStyle as object),
       }}
     >
       <Text style={[fonts.paragraphRegular, titleStyle]}>{title}</Text>

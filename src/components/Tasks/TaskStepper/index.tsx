@@ -8,7 +8,7 @@ import Badge from '../../../ui-kit/Badge';
 
 export interface TaskStepperProps extends ViewProps {
   steps: TaskStepSchema[];
-  currentKey: InProgressTaskStepsEnum;
+  currentKey: string;
 }
 
 const TaskStepper: FC<TaskStepperProps> = ({ steps = [], currentKey, children, style, ...otherProps }) => {
@@ -69,7 +69,7 @@ const TaskStepper: FC<TaskStepperProps> = ({ steps = [], currentKey, children, s
         ) : null}
       </View>
 
-      <ProgressBar progress={progress} color={colors.red.primary} style={{ height: 3 }} />
+      <ProgressBar progress={progress} color={colors.blue.primary} style={{ height: 3 }} />
     </View>
   );
 };

@@ -7,3 +7,4 @@ export { default as BathroomServiceScreen } from './BathroomServiceScreen';
 export { default as LuggageScreen } from './LuggageScreen';
 export { default as LadderScreen } from './LadderScreen';
 export { default as RefuelingScreen } from './RefuelingScreen';
+export { default as VisualInspectionScreen } from './VisualInpectionScreen';

@@ -12,6 +12,7 @@ import {
   LuggageScreen,
   LadderScreen,
   RefuelingScreen,
+  VisualInspectionScreen,
 } from '.';
 
 const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
@@ -27,6 +28,7 @@ const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
       {type === MaintanceTypesEnum.Luggage && <LuggageScreen />}
       {type === MaintanceTypesEnum.Ladder && <LadderScreen />}
       {type === MaintanceTypesEnum.Refueling && <RefuelingScreen />}
+      {type === MaintanceTypesEnum.VisualInspection && <VisualInspectionScreen />}
     </Fragment>
   );
 };

@@ -75,6 +75,7 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           departureTime="23:41"
           arrivalAction={<Switch value={false} onChange={() => true} />}
           departureAction={<Switch value={false} onChange={() => true} />}
+          onInfoPress={() => handleNavigate(MaintanceTypesEnum.VisualInspection)}
         />
 
         <MaintenanceItems.Item
