@@ -11,6 +11,7 @@ import {
   BathroomServiceScreen,
   LuggageScreen,
   LadderScreen,
+  RefuelingScreen,
 } from '.';
 
 const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
@@ -25,6 +26,7 @@ const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
       {type === MaintanceTypesEnum.BathroomService && <BathroomServiceScreen />}
       {type === MaintanceTypesEnum.Luggage && <LuggageScreen />}
       {type === MaintanceTypesEnum.Ladder && <LadderScreen />}
+      {type === MaintanceTypesEnum.Refueling && <RefuelingScreen />}
     </Fragment>
   );
 };

@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     paddingHorizontal: 20,
     borderRadius: 5,
+    flexShrink: 1,
   },
   input: {
     ...fonts.paragraphMedium,

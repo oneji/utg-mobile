@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { StyleProp, TextStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
-import { colors, fonts, layout } from '../../../../theme';
+import { colors, fonts } from '../../../../theme';
 
 export interface SimpleListItemProps {
   title: string;
@@ -20,7 +20,7 @@ const SimpleListItem: FC<SimpleListItemProps> = ({ title, value, titleStyle, val
       }}
     >
       <Text style={[fonts.paragraphRegular, titleStyle]}>{title}</Text>
-      <Text style={[fonts.paragraphSemibold, valueStyle]}>{value}</Text>
+      <Text style={[styles.value, valueStyle]}>{value}</Text>
     </View>
   );
 };
@@ -29,9 +29,14 @@ export default SimpleListItem;
 
 const styles = StyleSheet.create({
   container: {
-    ...layout.rowSpaceBetween,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingVertical: 15,
     borderBottomColor: colors.gray.secondary,
     borderBottomWidth: 1,
+  },
+  value: {
+    ...fonts.paragraphSemibold,
+    flexShrink: 1,
   },
 });

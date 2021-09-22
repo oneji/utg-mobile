@@ -16,7 +16,7 @@ export interface ImagePickerProps extends ViewProps {
 
 const options: ImageLibraryOptions = { mediaType: 'photo' };
 
-const ImagePicker = ({ label = 'Добавить фото', style, onSelect, ...otherProps }: ImagePickerProps) => {
+const ImagePicker = ({ label = 'Добавить фото', style, onSelect = () => {}, ...otherProps }: ImagePickerProps) => {
   const [files, setFiles] = useState([]);
   const [modal, setModal] = useState(false);
 
@@ -44,6 +44,7 @@ const ImagePicker = ({ label = 'Добавить фото', style, onSelect, ...
     (assets: Asset[]) => {
       if (assets) {
         setFiles(prevFiles => [...prevFiles, ...assets]);
+        onSelect(assets);
       }
     },
     [files]
@@ -53,6 +54,7 @@ const ImagePicker = ({ label = 'Добавить фото', style, onSelect, ...
     <Fragment>
       <View
         style={{
+          alignItems: files.length > 0 ? 'flex-start' : 'center',
           flexDirection: files.length > 0 ? 'column' : 'row',
           justifyContent: files.length > 0 ? 'flex-start' : 'space-between',
         }}

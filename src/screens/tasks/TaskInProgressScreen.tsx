@@ -149,6 +149,16 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           departureAction={<Switch value={false} onChange={() => true} />}
           onInfoPress={() => handleNavigate(MaintanceTypesEnum.Ladder)}
         />
+
+        <MaintenanceItems.Item
+          title="Заправка топливом"
+          departureTime="23:41 - 23:51"
+          departureAction={
+            <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Refueling)}>
+              Старт
+            </Button>
+          }
+        />
       </MaintenanceItems>
     </View>
   );

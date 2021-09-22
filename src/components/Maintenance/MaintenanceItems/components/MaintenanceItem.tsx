@@ -68,14 +68,17 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
             {title}
           </Text>
 
-          <View style={styles.timeContainer}>
+          <View
+            style={[
+              styles.timeContainer,
+              !arrivalTime || !departureTime ? layout.rowAlignCenter : layout.rowSpaceBetween,
+            ]}
+          >
             {/* Arrival time */}
-            <View>{arrivalTime && <TimeLabel time={arrivalTime} />}</View>
+            {arrivalTime && <TimeLabel time={arrivalTime} />}
 
-            <View>
-              {/* Departure time */}
-              {departureTime && <TimeLabel time={arrivalTime} />}
-            </View>
+            {/* Departure time */}
+            {departureTime && <TimeLabel time={departureTime} />}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -107,7 +110,6 @@ const styles = StyleSheet.create({
     flexBasis: '25%',
   },
   timeContainer: {
-    ...layout.rowSpaceBetween,
     marginTop: 3,
     width: '100%',
     paddingHorizontal: 15,
