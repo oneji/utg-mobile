@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, Text, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import { colors, fonts, layout } from '../../../../theme';
 
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,6 +21,8 @@ export interface MaintenanceItemProps {
   infoContainerStyle?: StyleProp<ViewStyle>;
 
   hideBorder?: boolean;
+
+  onInfoPress?: () => void;
 }
 
 const MaintenanceItem: FC<MaintenanceItemProps> = ({
@@ -39,6 +41,8 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
   infoContainerStyle,
 
   hideBorder = false,
+
+  onInfoPress = () => {},
 }) => {
   return (
     <View
@@ -52,38 +56,40 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
         <View style={[styles.actionContainer, arrivalActionContainerStyle]}>{arrivalAction && arrivalAction}</View>
       )}
 
-      <View style={[styles.infoContainer, infoContainerStyle]}>
-        <Text
-          style={{
-            ...styles.title,
-            textAlign: hideArrivalAction ? 'left' : 'center',
-          }}
-        >
-          {title}
-        </Text>
+      <TouchableWithoutFeedback onPress={onInfoPress}>
+        <View style={[styles.infoContainer, infoContainerStyle]}>
+          <Text
+            style={{
+              ...styles.title,
+              textAlign: hideArrivalAction ? 'left' : 'center',
+            }}
+          >
+            {title}
+          </Text>
 
-        <View style={styles.timeContainer}>
-          {/* Arrival time */}
-          <View>
-            {arrivalTime && (
-              <Text style={styles.timeText}>
-                <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
-                {arrivalTime}
-              </Text>
-            )}
-          </View>
+          <View style={styles.timeContainer}>
+            {/* Arrival time */}
+            <View>
+              {arrivalTime && (
+                <Text style={styles.timeText}>
+                  <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
+                  {arrivalTime}
+                </Text>
+              )}
+            </View>
 
-          <View>
-            {/* Departure time */}
-            {departureTime && (
-              <Text style={styles.timeText}>
-                <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
-                {departureTime}
-              </Text>
-            )}
+            <View>
+              {/* Departure time */}
+              {departureTime && (
+                <Text style={styles.timeText}>
+                  <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
+                  {departureTime}
+                </Text>
+              )}
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
 
       {/* Departure action */}
       {!hideDepartureAction && (
@@ -107,6 +113,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexBasis: '50%',
     flexGrow: 1,
+    borderWidth: 1,
   },
   actionContainer: {
     flexBasis: '25%',

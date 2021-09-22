@@ -64,4 +64,5 @@ export enum MaintanceTypesEnum {
   Passengers = 'passengers',
   BathroomService = 'bathroomService',
   Luggage = 'luggage',
+  Ladder = 'ladder',
 }

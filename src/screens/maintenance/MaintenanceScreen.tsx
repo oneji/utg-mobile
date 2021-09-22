@@ -3,8 +3,15 @@ import { StyleSheet } from 'react-native';
 
 import { MaintenanceScreenProps } from '../../navigation/props';
 import { MaintanceTypesEnum } from '../../services/data';
-import { CargoMailScreen, PowerSupplyScreen, TowingScreen, PassengersScreen, BathroomServiceScreen } from '.';
-import LuggageScreen from './LuggageScreen';
+import {
+  CargoMailScreen,
+  PowerSupplyScreen,
+  TowingScreen,
+  PassengersScreen,
+  BathroomServiceScreen,
+  LuggageScreen,
+  LadderScreen,
+} from '.';
 
 const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
   const { type } = route.params;
@@ -17,6 +24,7 @@ const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
       {type === MaintanceTypesEnum.Passengers && <PassengersScreen />}
       {type === MaintanceTypesEnum.BathroomService && <BathroomServiceScreen />}
       {type === MaintanceTypesEnum.Luggage && <LuggageScreen />}
+      {type === MaintanceTypesEnum.Ladder && <LadderScreen />}
     </Fragment>
   );
 };
