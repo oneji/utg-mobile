@@ -3,6 +3,7 @@ import { StyleProp, StyleSheet, Text, TouchableWithoutFeedback, View, ViewStyle 
 import { colors, fonts, layout } from '../../../../theme';
 
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TimeLabel } from '../../../../ui-kit/Labels';
 
 export interface MaintenanceItemProps {
   title: string;
@@ -69,23 +70,11 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
 
           <View style={styles.timeContainer}>
             {/* Arrival time */}
-            <View>
-              {arrivalTime && (
-                <Text style={styles.timeText}>
-                  <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
-                  {arrivalTime}
-                </Text>
-              )}
-            </View>
+            <View>{arrivalTime && <TimeLabel time={arrivalTime} />}</View>
 
             <View>
               {/* Departure time */}
-              {departureTime && (
-                <Text style={styles.timeText}>
-                  <MaterialIcon name="clock-time-five" color={colors.gray.primary} style={{ marginRight: 5 }} />
-                  {departureTime}
-                </Text>
-              )}
+              {departureTime && <TimeLabel time={arrivalTime} />}
             </View>
           </View>
         </View>
@@ -113,7 +102,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexBasis: '50%',
     flexGrow: 1,
-    borderWidth: 1,
   },
   actionContainer: {
     flexBasis: '25%',
@@ -123,10 +111,6 @@ const styles = StyleSheet.create({
     marginTop: 3,
     width: '100%',
     paddingHorizontal: 15,
-  },
-  timeText: {
-    ...fonts.extraSmallMedium,
-    color: colors.gray.primary,
   },
   title: {
     ...fonts.smallRegular,

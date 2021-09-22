@@ -13,7 +13,7 @@ export interface TimeLabelProps {
 const TimeLabel: FC<TimeLabelProps> = ({ time, containerStyle, labelStyle }) => {
   return (
     <View style={[layout.rowAlignItemsCenter, containerStyle]}>
-      <MaterialIcon name="clock" color={colors.gray.primary} size={12} />
+      <MaterialIcon name="clock-time-five" color={colors.gray.primary} size={12} />
       <Text style={[styles.time, labelStyle]}>{time}</Text>
     </View>
   );
