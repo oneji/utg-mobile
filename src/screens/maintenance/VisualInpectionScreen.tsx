@@ -6,12 +6,11 @@ import { ContainerWithButton } from '../../ui-kit/Containers';
 import { ImagePicker } from '../../ui-kit/Forms';
 import Divider from '../../ui-kit/Divider';
 
-import { TaskStepSchema } from '../../services/data';
+import { ImageAsset, TaskStepSchema } from '../../services/data';
 import { useNavigation } from '@react-navigation/native';
 import Paper from '../../ui-kit/Paper';
 import { SimpleList } from '../../ui-kit/Lists';
 import { useFormik } from 'formik';
-import { Asset } from 'react-native-image-picker';
 import { MaintenanceScreenNavigationProp } from '../../navigation/props';
 import { colors } from '../../theme';
 import ImagesPreview from '../../components/ImagesPreview';
@@ -32,13 +31,13 @@ const imagePickers = [
 ];
 
 interface VisualInspectionFormValues {
-  bgoLukes: Asset[];
-  doors: Asset[];
-  fuselage: Asset[];
-  wing: Asset[];
-  su: Asset[];
-  chassis: Asset[];
-  other: Asset[];
+  bgoLukes: ImageAsset[];
+  doors: ImageAsset[];
+  fuselage: ImageAsset[];
+  wing: ImageAsset[];
+  su: ImageAsset[];
+  chassis: ImageAsset[];
+  other: ImageAsset[];
 }
 
 const VisualInpectionScreen: FC = () => {
@@ -109,7 +108,7 @@ const VisualInpectionScreen: FC = () => {
         {currentStep === 'visualInspection' ? (
           imagePickers.map(({ label, key }, idx) => (
             <Fragment key={key}>
-              <ImagePicker label={label} onSelect={(images: Asset[]) => setFieldValue(key, images)} />
+              <ImagePicker label={label} onSelect={(images: ImageAsset[]) => setFieldValue(key, images)} />
 
               {idx !== imagePickers.length - 1 && <Divider />}
             </Fragment>

@@ -31,7 +31,7 @@ const Button: FC<ButtonProps> = ({
     const styleObject: StyleProp<ViewStyle> = {
       ...styles.button,
       backgroundColor: bgColorsMap[variant],
-      height: compact ? 35 : 50,
+      height: compact ? 35 : 45,
       ...(style as object),
     };
 

@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { Asset } from 'react-native-image-picker';
 import { fonts } from '../../theme';
+
+import { ImageAsset } from '../../services/data';
 
 export interface ImagesPreviewProps {
   title?: string;
-  items: Asset[];
+  items: ImageAsset[];
 }
 
 const ImagesPreview: FC<ImagesPreviewProps> = ({ title, items }) => {
@@ -13,9 +14,9 @@ const ImagesPreview: FC<ImagesPreviewProps> = ({ title, items }) => {
     <View>
       {title && <Text style={styles.title}>{title}</Text>}
 
-      {items.map((file: Asset) => (
+      {items.map((file: ImageAsset) => (
         <Image
-          key={file.fileName}
+          key={file.id}
           source={{
             uri: file.uri,
           }}

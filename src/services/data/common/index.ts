@@ -1,3 +1,5 @@
+import { Asset } from 'react-native-image-picker';
+
 export type DocumentSchema = {
   id?: number;
   mimetype?: string;
@@ -6,6 +8,11 @@ export type DocumentSchema = {
   thumbnail?: string;
   size?: number;
 };
+
+export interface ImageAsset extends Asset {
+  id: number;
+  comment: string;
+}
 
 export enum WeightUnitsEnum {
   KG = 'kg',

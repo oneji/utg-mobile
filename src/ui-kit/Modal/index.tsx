@@ -68,7 +68,7 @@ const Modal: FC<ModalProps> = ({
 
                 <View style={bodyContainerStyle}>{children}</View>
 
-                {showCancel && showConfirm ? (
+                {showCancel || showConfirm ? (
                   <View style={styles.buttonsBlock}>
                     {showCancel && (
                       <Button onPress={onCancelButtonPress} compact>

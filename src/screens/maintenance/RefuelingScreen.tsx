@@ -13,13 +13,12 @@ import Paper from '../../ui-kit/Paper';
 import ImagesPreview from '../../components/ImagesPreview';
 
 import { useFormik } from 'formik';
-import { WeightUnit, WeightUnitsEnum } from '../../services/data';
+import { ImageAsset, WeightUnit, WeightUnitsEnum } from '../../services/data';
 import { useNavigation } from '@react-navigation/native';
 import { MaintenanceScreenNavigationProp } from '../../navigation/props';
-import { Asset } from 'react-native-image-picker';
 
 interface RefuelingFormValues {
-  photos: Asset[];
+  photos: ImageAsset[];
   unit: WeightUnit;
   remainingFuel: {
     left: number;
