@@ -17,6 +17,9 @@ export type TasksStackParamList = {
   [TasksStackScreens.Maintenance]: {
     type: MaintanceTypesEnum;
   };
+  [TasksStackScreens.TaskReport]: {
+    id: number;
+  };
 };
 
 export type NotificationsStackParamList = {
