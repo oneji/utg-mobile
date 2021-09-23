@@ -67,4 +67,10 @@ export enum MaintanceTypesEnum {
   Ladder = 'ladder',
   Refueling = 'refueling',
   VisualInspection = 'visualInspection',
+  Cooling = 'cooling',
+  Heating = 'heating',
+  UVZ = 'uvz',
+  Oxygen = 'oxygen',
+  Nitrogen = 'nitrogen',
+  FuelDraining = 'fuelDraining',
 }

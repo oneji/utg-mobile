@@ -13,6 +13,12 @@ import {
   LadderScreen,
   RefuelingScreen,
   VisualInspectionScreen,
+  CoolingScreen,
+  HeatingScreen,
+  UVZScreen,
+  OxygenScreen,
+  NitrogenScreen,
+  FuelDrainingScreen,
 } from '.';
 
 const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
@@ -29,6 +35,12 @@ const MaintenanceScreen: FC<MaintenanceScreenProps> = ({ route }) => {
       {type === MaintanceTypesEnum.Ladder && <LadderScreen />}
       {type === MaintanceTypesEnum.Refueling && <RefuelingScreen />}
       {type === MaintanceTypesEnum.VisualInspection && <VisualInspectionScreen />}
+      {type === MaintanceTypesEnum.Cooling && <CoolingScreen />}
+      {type === MaintanceTypesEnum.Heating && <HeatingScreen />}
+      {type === MaintanceTypesEnum.UVZ && <UVZScreen />}
+      {type === MaintanceTypesEnum.Oxygen && <OxygenScreen />}
+      {type === MaintanceTypesEnum.Nitrogen && <NitrogenScreen />}
+      {type === MaintanceTypesEnum.FuelDraining && <FuelDrainingScreen />}
     </Fragment>
   );
 };

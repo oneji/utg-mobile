@@ -169,12 +169,12 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
       <MaintenanceItems.Item
         title="Кислород"
         arrivalAction={
-          <Button compact onPress={() => {}}>
+          <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Oxygen)}>
             Старт
           </Button>
         }
         departureAction={
-          <Button compact onPress={() => {}}>
+          <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Oxygen)}>
             Старт
           </Button>
         }
@@ -183,12 +183,12 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
       <MaintenanceItems.Item
         title="Азот"
         arrivalAction={
-          <Button compact onPress={() => {}}>
+          <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Nitrogen)}>
             Старт
           </Button>
         }
         departureAction={
-          <Button compact onPress={() => {}}>
+          <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Nitrogen)}>
             Старт
           </Button>
         }
@@ -198,6 +198,7 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
         title="Подогрев"
         arrivalAction={<Switch value={false} onChange={() => true} />}
         departureAction={<Switch value={false} onChange={() => true} />}
+        onInfoPress={() => handleNavigate(MaintanceTypesEnum.Heating)}
       />
 
       <MaintenanceItems.Item
@@ -208,7 +209,7 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           paddingLeft: 0,
         }}
         departureAction={
-          <Button compact onPress={() => {}}>
+          <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.Cooling)}>
             Старт
           </Button>
         }
@@ -222,6 +223,7 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           paddingLeft: 0,
         }}
         departureAction={<Switch value={false} onChange={() => true} />}
+        onInfoPress={() => handleNavigate(MaintanceTypesEnum.UVZ)}
       />
 
       <MaintenanceItems.Item
@@ -246,7 +248,7 @@ const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route })
           paddingLeft: 0,
         }}
         departureAction={
-          <Button compact onPress={() => {}}>
+          <Button compact onPress={() => handleNavigate(MaintanceTypesEnum.FuelDraining)}>
             Старт
           </Button>
         }
