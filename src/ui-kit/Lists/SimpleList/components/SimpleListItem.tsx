@@ -5,7 +5,7 @@ import { colors, fonts } from '../../../../theme';
 
 export interface SimpleListItemProps {
   title: string;
-  value: string;
+  value?: string;
   titleStyle?: StyleProp<TextStyle>;
   valueStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
@@ -28,8 +28,8 @@ const SimpleListItem: FC<SimpleListItemProps> = ({
         ...(containerStyle as object),
       }}
     >
-      <Text style={[fonts.paragraphRegular, titleStyle]}>{title}</Text>
-      <Text style={[styles.value, valueStyle]}>{value}</Text>
+      <Text style={[fonts.paragraphRegular, titleStyle, { flexShrink: 1, flex: 1 }]}>{title}</Text>
+      {value && <Text style={[styles.value, valueStyle]}>{value}</Text>}
     </View>
   );
 };

@@ -20,6 +20,9 @@ export type TasksStackParamList = {
   [TasksStackScreens.TaskReport]: {
     id: number;
   };
+  [TasksStackScreens.TaskReportSign]: {
+    id: number;
+  };
 };
 
 export type NotificationsStackParamList = {

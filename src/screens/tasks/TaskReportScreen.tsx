@@ -1,14 +1,17 @@
 import React, { FC } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { TaskReportScreenProps } from '../../navigation/props';
+import { colors } from '../../theme';
 
 import Tab from '../../ui-kit/Tab';
+import { ReportRuTab } from './components';
 
-const TaskReportScreen: FC = () => {
+const TaskReportScreen: FC<TaskReportScreenProps> = () => {
   return (
-    <Tab>
+    <Tab sceneContainerStyle={{ backgroundColor: colors.transparent }}>
       <Tab.Item
         name="Ru"
-        component={View}
+        component={ReportRuTab}
         options={{
           tabBarLabel: 'Ru',
         }}
@@ -16,7 +19,7 @@ const TaskReportScreen: FC = () => {
 
       <Tab.Item
         name="En"
-        component={View}
+        component={ReportRuTab}
         options={{
           tabBarLabel: 'En',
         }}

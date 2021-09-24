@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    ...fonts.titleSemibold,
+    ...fonts.subtitleSemibold,
     marginBottom: 25,
   },
 });

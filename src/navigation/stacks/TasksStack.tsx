@@ -6,7 +6,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { BackButton } from '../../ui-kit/Buttons';
 
 import { TasksStackScreens } from '../enums';
-import { TaskDetailsScreen, TaskInProgressScreen, TasksScreen, TaskReportScreen } from '../../screens/tasks';
+import {
+  TaskDetailsScreen,
+  TaskInProgressScreen,
+  TasksScreen,
+  TaskReportScreen,
+  TaskReportSignScreen,
+} from '../../screens/tasks';
 import { BaseScreenProps } from '../props';
 import { TasksStackParamList } from '../params';
 import { getMaintenanceItemNameByType } from '../../utils';
@@ -93,6 +99,23 @@ const TasksStack: FC<BaseScreenProps> = () => {
       <Stack.Screen
         name={TasksStackScreens.TaskReport}
         component={TaskReportScreen}
+        options={({ route }) => ({
+          title: `Отчет по рейсу ID ${route.params.id}`,
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            width: '100%',
+            fontSize: 16,
+            fontFamily: fontFamilyRegular,
+          },
+        })}
+        initialParams={{
+          id: null,
+        }}
+      />
+
+      <Stack.Screen
+        name={TasksStackScreens.TaskReportSign}
+        component={TaskReportSignScreen}
         options={({ route }) => ({
           title: `Отчет по рейсу ID ${route.params.id}`,
           headerTitleAlign: 'center',

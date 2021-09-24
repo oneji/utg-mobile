@@ -3,7 +3,7 @@ import { StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 import { AppStack, TasksStack, APP_STACK, TASKS_STACK } from '../navigation/stacks';
 import FlashMessage from 'react-native-flash-message';
@@ -26,7 +26,7 @@ const AppContainer: FC = () => {
       </Stack.Navigator>
 
       {/* Notification */}
-      <FlashMessage position="top" floating />
+      <FlashMessage position="top" floating textStyle={fonts.paragraphRegular} titleStyle={fonts.paragraphRegular} />
     </NavigationContainer>
   );
 };

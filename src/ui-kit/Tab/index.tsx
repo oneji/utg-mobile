@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { colors, fonts } from '../../theme';
 import { createMaterialTopTabNavigator, MaterialTopTabBarOptions } from '@react-navigation/material-top-tabs';
 
@@ -10,11 +10,12 @@ const MaterialTopTab = createMaterialTopTabNavigator();
 export interface TabProps {
   children: ReactNode;
   options?: MaterialTopTabBarOptions;
+  sceneContainerStyle?: StyleProp<ViewStyle>;
 }
 
 const Tab: FC<TabProps> & {
   Item: typeof MaterialTopTab.Screen;
-} = ({ children, options }) => {
+} = ({ children, options, sceneContainerStyle }) => {
   return (
     <MaterialTopTab.Navigator
       initialLayout={{
@@ -23,6 +24,7 @@ const Tab: FC<TabProps> & {
       sceneContainerStyle={{
         flexGrow: 1,
         backgroundColor: colors.white,
+        ...(sceneContainerStyle as object),
       }}
       tabBarOptions={{
         indicatorStyle: {
