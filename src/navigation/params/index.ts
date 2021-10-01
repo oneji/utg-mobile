@@ -3,6 +3,7 @@ import {
   FeedbackStackScreens,
   NotificationsStackScreens,
   PhotofixationStackScreens,
+  PooStackScreens,
   TasksStackScreens,
 } from '../enums';
 
@@ -38,4 +39,10 @@ export type FeedbackStackParamList = {
 
 export type PhotofixationStackParamList = {
   [PhotofixationStackScreens.Photofixation]: undefined;
+};
+
+export type PooStackParamList = {
+  [PooStackScreens.PooAgent]: {
+    id: number;
+  };
 };

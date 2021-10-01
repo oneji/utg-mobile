@@ -9,12 +9,16 @@ import { MaintanceTypesEnum } from '../../../../services/data';
 import { FormGroup } from '../../../../ui-kit/Forms';
 import TextInput from '../../../../ui-kit/TextInput';
 import { ScrollViewContainer } from '../../../../ui-kit/Containers';
+import { useNavigation } from '@react-navigation/core';
+import { TaskDetailsScreenNavigationProp } from '../../../../navigation/props';
+import { POO_STACK } from '../../../../navigation/stacks/PooStack';
 
 interface TkoTabProps {
   onNavigate: (type: MaintanceTypesEnum) => void;
 }
 
 const TkoTab: FC<TkoTabProps> = ({ onNavigate }) => {
+  const navigation = useNavigation<TaskDetailsScreenNavigationProp>();
   const [additionalInfo, setAdditionalInfo] = useState('');
 
   return (
@@ -280,11 +284,8 @@ const TkoTab: FC<TkoTabProps> = ({ onNavigate }) => {
         <MaintenanceItems.Item
           title="ПОО"
           departureTime="23:41"
-          departureAction={
-            <Button compact onPress={() => {}}>
-              Старт
-            </Button>
-          }
+          departureAction={<Switch value={false} onChange={() => true} />}
+          onInfoPress={() => navigation.navigate(POO_STACK as any)}
         />
       </MaintenanceItems>
 

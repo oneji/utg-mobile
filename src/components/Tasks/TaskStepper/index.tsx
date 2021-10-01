@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react';
 import { StyleSheet, Text, View, ViewProps } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { TaskStepSchema } from '../../../services/data';
-import { InProgressTaskStepsEnum } from '../../../store/TasksStore';
 import { colors, fonts, layout } from '../../../theme';
 import Badge from '../../../ui-kit/Badge';
 

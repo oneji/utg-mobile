@@ -46,6 +46,24 @@ export default StyleSheet.create({
     fontFamily: fontFamilyBold,
   },
 
+  // Body - fontSize: 16
+  bodyRegular: {
+    fontSize: 16,
+    fontFamily: fontFamilyRegular,
+  },
+  bodyMedium: {
+    fontSize: 16,
+    fontFamily: fontFamilyMedium,
+  },
+  bodySemibold: {
+    fontSize: 16,
+    fontFamily: fontFamilySemiBold,
+  },
+  bodyBold: {
+    fontSize: 16,
+    fontFamily: fontFamilyBold,
+  },
+
   // Paragraph - fontSize: 14
   paragraphRegular: {
     fontSize: 14,

@@ -26,3 +26,7 @@ export enum FeedbackStackScreens {
 export enum PhotofixationStackScreens {
   Photofixation = 'PhotofixationScreen',
 }
+
+export enum PooStackScreens {
+  PooAgent = 'PooAgent',
+}
