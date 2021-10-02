@@ -25,6 +25,9 @@ export class TasksStore {
   @observable
   inProgressTaskCurrentStep: InProgressTaskStepsEnum = InProgressTaskStepsEnum.CurrentConditions;
 
+  @observable
+  isSearchEnabled: boolean = false;
+
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
 
@@ -34,6 +37,11 @@ export class TasksStore {
   @action
   setLoading = async (state: boolean) => {
     this.loading = state;
+  };
+
+  @action
+  setIsSearchEnabled = async (state: boolean) => {
+    this.isSearchEnabled = state;
   };
 
   @action

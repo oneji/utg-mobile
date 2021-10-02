@@ -17,10 +17,17 @@ import { BaseScreenProps } from '../props';
 import { TasksStackParamList } from '../params';
 import { getMaintenanceItemNameByType } from '../../utils';
 import { MaintenanceScreen } from '../../screens/maintenance';
+import { IconButton, Searchbar } from 'react-native-paper';
+import { useTasksStore } from '../../store/hooks';
+import { observer } from 'mobx-react-lite';
+import { Text, View } from 'react-native';
+import { SearchBar } from '../../ui-kit/Forms';
 
 const Stack = createStackNavigator<TasksStackParamList>();
 
 const TasksStack: FC<BaseScreenProps> = () => {
+  const { isSearchEnabled, setIsSearchEnabled } = useTasksStore();
+
   return (
     <Stack.Navigator
       initialRouteName={TasksStackScreens.Tasks}
@@ -45,8 +52,50 @@ const TasksStack: FC<BaseScreenProps> = () => {
         name={TasksStackScreens.Tasks}
         component={TasksScreen}
         options={{
-          title: 'Задачи',
-          headerLeft: null,
+          headerTitle: ({ style, tintColor }) => {
+            return isSearchEnabled ? (
+              <SearchBar />
+            ) : (
+              <Text
+                style={{
+                  ...(style as object),
+                  color: tintColor,
+                }}
+              >
+                Задачи
+              </Text>
+            );
+          },
+          headerLeft: () => {
+            return (
+              isSearchEnabled && (
+                <IconButton
+                  icon="arrow-left"
+                  onPress={() => setIsSearchEnabled(false)}
+                  size={24}
+                  style={{
+                    borderRadius: 100,
+                  }}
+                  color={colors.violet.primary}
+                />
+              )
+            );
+          },
+          headerRight: () => {
+            return (
+              !isSearchEnabled && (
+                <IconButton
+                  icon="magnify"
+                  onPress={() => setIsSearchEnabled(true)}
+                  size={24}
+                  style={{
+                    borderRadius: 100,
+                  }}
+                  color={colors.violet.primary}
+                />
+              )
+            );
+          },
         }}
       />
 
@@ -135,4 +184,4 @@ const TasksStack: FC<BaseScreenProps> = () => {
 
 export const TASKS_STACK = 'TasksStack';
 
-export default TasksStack;
+export default observer(TasksStack);
