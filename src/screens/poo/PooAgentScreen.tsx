@@ -1,13 +1,15 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { fonts } from '../../theme';
+
+import { ContainerWithButton } from '../../ui-kit/Containers';
 import { WeatherLabel } from '../../components/Labels';
 import { TaskStepper } from '../../components/Tasks';
-import { TaskStepSchema } from '../../services/data';
-import { fonts } from '../../theme';
-import { ContainerWithButton } from '../../ui-kit/Containers';
 import Icon from '../../ui-kit/Icon';
 import IconRadioButton from '../../ui-kit/IconRadionButton';
-import Paper from '../../ui-kit/Paper';
+
+import { TaskStepSchema } from '../../services/data';
+import Icons from '../../ui-kit/Icon/types';
 
 const stepperSteps: TaskStepSchema[] = [
   { order: 1, label: 'Текущие условия', key: 'currentConditions' },
@@ -21,7 +23,7 @@ enum WeatherEnum {
   Snowy = 'snowy',
 }
 
-enum PooTypesEnum {
+enum PooEnum {
   WingTop = 'wingTop',
   StabilizerTop = 'stabilizerTop',
   Keel = 'keel',
@@ -30,10 +32,39 @@ enum PooTypesEnum {
   StabilizerBottom = 'stabilizerBottom',
 }
 
+enum PooStageTypeEnum {
+  OneStage = 'oneStage',
+  TwoStage = 'twoStage',
+}
+
+const weatherButtons = [
+  { label: 'Туман / иней', value: WeatherEnum.Foggy, icon: 'foggyWeather' },
+  { label: 'Дождь / морось', value: WeatherEnum.Rainy, icon: 'rainyWeather' },
+  { label: 'Снег / снежные гранулы / крупа', value: WeatherEnum.Snowy, icon: 'snowyWeather' },
+];
+
+const pooButtons = [
+  { label: 'Верх крыла', value: PooEnum.WingTop, icon: 'airplaneWingTopHighlighted' },
+  { label: 'Верх стабилизатора', value: PooEnum.StabilizerTop, icon: 'airplaneStabilizerTopHighlighted' },
+  { label: 'Киль', value: PooEnum.Keel, icon: 'airplaneKeelHighlighted' },
+  { label: 'Фюзеляж', value: PooEnum.Fuselage, icon: 'airplaneFuselageHighlighted' },
+  { label: 'Низ крыла', value: PooEnum.WingBottom, icon: 'airplaneWingBottomHighlighted' },
+  { label: 'Низ стабилизатора', value: PooEnum.StabilizerBottom, icon: 'airplaneStabilizerBottomHighlighted' },
+];
+
 const PooAgentScreen: FC = () => {
   const [currentStep, setCurrentStep] = useState(stepperSteps[0].key);
-  const [weather, setWeather] = useState<WeatherEnum>(WeatherEnum.Foggy);
-  const [poo, setPoo] = useState<PooTypesEnum>(null);
+  const [weather, setWeather] = useState<WeatherEnum>(null);
+  const [poo, setPoo] = useState<PooEnum>(null);
+  const [pooStageType, setPooStageType] = useState<PooStageTypeEnum>(null);
+
+  const handleMoveNext = useCallback(() => {
+    const currentIdx = stepperSteps.findIndex(step => step.key === currentStep);
+
+    if (currentIdx + 1 < stepperSteps.length) {
+      setCurrentStep(stepperSteps[currentIdx + 1].key);
+    }
+  }, [currentStep]);
 
   return (
     <>
@@ -46,51 +77,58 @@ const PooAgentScreen: FC = () => {
             padding: 0,
           },
         }}
+        onButtonPress={handleMoveNext}
       >
-        <WeatherLabel degree={-27} />
+        {currentStep === stepperSteps[0].key && (
+          <View>
+            <View style={{ paddingHorizontal: 20 }}>
+              <WeatherLabel degree={-27} />
+            </View>
 
-        <IconRadioButton.Group value={weather} onChange={(value: WeatherEnum) => setWeather(value)}>
-          <IconRadioButton label="Туман / иней" value={WeatherEnum.Foggy} icon={<Icon name="foggyWeather" />} />
-          <IconRadioButton label="Дождь / морось" value={WeatherEnum.Rainy} icon={<Icon name="rainyWeather" />} />
-          <IconRadioButton
-            label="Снег / снежные гранулы / крупа"
-            value={WeatherEnum.Snowy}
-            icon={<Icon name="snowyWeather" />}
-          />
-        </IconRadioButton.Group>
+            <IconRadioButton.Group value={weather} onChange={(value: WeatherEnum) => setWeather(value)}>
+              {weatherButtons.map(item => (
+                <IconRadioButton
+                  key={item.value}
+                  label={item.label}
+                  value={item.value}
+                  icon={<Icon name={item.icon as keyof Icons} />}
+                />
+              ))}
+            </IconRadioButton.Group>
 
-        <View style={{ marginVertical: 15 }}>
-          <Text style={fonts.subtitleSemibold}>Выбор ПОО</Text>
+            <View style={{ padding: 20 }}>
+              <Text style={fonts.subtitleSemibold}>Выбор ПОО</Text>
+            </View>
 
-          <IconRadioButton.Group inARowCount={2} value={poo} onChange={(value: PooTypesEnum) => setPoo(value)}>
-            <IconRadioButton
-              label="Верх крыла"
-              value={PooTypesEnum.WingTop}
-              icon={<Icon name="airplaneWingTopHighlighted" />}
-            />
-            <IconRadioButton
-              label="Верх стабилизатора"
-              value={PooTypesEnum.StabilizerTop}
-              icon={<Icon name="airplaneStabilizerTopHighlighted" />}
-            />
-            <IconRadioButton label="Киль" value={PooTypesEnum.Keel} icon={<Icon name="airplaneKeelHighlighted" />} />
-            <IconRadioButton
-              label="Фюзеляж"
-              value={PooTypesEnum.Fuselage}
-              icon={<Icon name="airplaneFuselageHighlighted" />}
-            />
-            <IconRadioButton
-              label="Низ крыла"
-              value={PooTypesEnum.WingBottom}
-              icon={<Icon name="airplaneWingBottomHighlighted" />}
-            />
-            <IconRadioButton
-              label="Низ стабилизатора"
-              value={PooTypesEnum.StabilizerBottom}
-              icon={<Icon name="airplaneStabilizerBottomHighlighted" />}
-            />
-          </IconRadioButton.Group>
-        </View>
+            <IconRadioButton.Group inARowCount={2} value={poo} onChange={(value: PooEnum) => setPoo(value)}>
+              {pooButtons.map(item => (
+                <IconRadioButton
+                  key={item.value}
+                  label={item.label}
+                  value={item.value}
+                  icon={<Icon name={item.icon as keyof Icons} />}
+                />
+              ))}
+            </IconRadioButton.Group>
+          </View>
+        )}
+
+        {currentStep === stepperSteps[1].key && (
+          <View>
+            <View style={{ padding: 20 }}>
+              <Text style={fonts.subtitleSemibold}>Выбор ПОО</Text>
+            </View>
+
+            <IconRadioButton.Group
+              inARowCount={2}
+              value={pooStageType}
+              onChange={(value: PooStageTypeEnum) => setPooStageType(value)}
+            >
+              <IconRadioButton label="1-ступенчатая" value={PooStageTypeEnum.OneStage} />
+              <IconRadioButton label="2-ступенчатая" value={PooStageTypeEnum.TwoStage} />
+            </IconRadioButton.Group>
+          </View>
+        )}
       </ContainerWithButton>
     </>
   );

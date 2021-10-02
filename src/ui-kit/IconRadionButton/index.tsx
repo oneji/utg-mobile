@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
-import { colors, fonts } from '../../theme';
+import { colors, fonts, layout } from '../../theme';
 
 import IconRadioButtonGroup from './components/IconRadioButtonGroup';
 
@@ -24,14 +24,16 @@ const IconRadioButton: FC<IconRadioButtonProps> & {
           ...styles.container,
           backgroundColor: active ? colors.blue.primary : colors.white,
           paddingTop: icon ? 30 : 10,
+          paddingBottom: icon ? 0 : 10,
         }}
       >
         {icon && <View style={styles.iconContainer}>{icon}</View>}
 
         <View
           style={{
-            ...styles.labelContainer,
+            ...layout.rowAlignCenter,
             marginTop: icon ? 30 : 0,
+            height: 40,
           }}
         >
           <Text
@@ -63,9 +65,6 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     height: 50,
-  },
-  labelContainer: {
-    height: 40,
   },
   label: {
     ...fonts.smallRegular,
