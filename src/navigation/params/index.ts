@@ -45,4 +45,5 @@ export type PooStackParamList = {
   [PooStackScreens.PooAgent]: {
     id: number;
   };
+  [PooStackScreens.PooSign]: undefined;
 };

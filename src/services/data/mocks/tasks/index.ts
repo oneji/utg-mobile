@@ -3,7 +3,7 @@ import { TaskSchema } from '../..';
 export const noSignTasks: TaskSchema[] = [
   {
     id: 232,
-    title: 'ППО (предварительная)',
+    title: 'ТКО',
     time: '2021-05-27T18:21:00',
     location: 'АБВ5040',
     status: 'pending',
@@ -36,7 +36,7 @@ export const noSignTasks: TaskSchema[] = [
   },
   {
     id: 233,
-    title: 'ППО (предварительная)',
+    title: 'ТКО',
     time: '2021-05-27T18:21:00',
     location: 'АБВ5040',
     status: 'in_progress',

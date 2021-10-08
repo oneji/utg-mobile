@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { BackButton } from '../../ui-kit/Buttons';
 
 import { PooStackScreens } from '../enums';
-import { PooAgentScreen } from '../../screens/poo';
+import { PooAgentScreen, PooSignScreen } from '../../screens/poo';
 import { PooStackParamList } from '../params';
 
 const Stack = createStackNavigator<PooStackParamList>();
@@ -42,6 +42,15 @@ const PooStack: FC = () => {
         initialParams={{
           id: 232,
         }}
+      />
+
+      <Stack.Screen
+        name={PooStackScreens.PooSign}
+        component={PooSignScreen}
+        options={() => ({
+          title: 'Подпись заказчика',
+          headerTitleAlign: 'center',
+        })}
       />
     </Stack.Navigator>
   );

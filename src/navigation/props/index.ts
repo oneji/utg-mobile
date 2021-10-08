@@ -1,8 +1,8 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { NotificationsStackScreens, TasksStackScreens } from '../enums';
-import { NotificationsStackParamList, TasksStackParamList } from '../params';
+import { NotificationsStackScreens, PooStackScreens, TasksStackScreens } from '../enums';
+import { NotificationsStackParamList, PooStackParamList, TasksStackParamList } from '../params';
 
 export type BaseRouteProp = RouteProp<{}, never>;
 export type BaseNavigationProp = StackNavigationProp<{}, never>;
@@ -52,4 +52,12 @@ export type NotificationsScreenNavigationProp = StackNavigationProp<
 export type NotificationsScreenProps = {
   route: NotificationsScreenRouteProp;
   navigation: NotificationsScreenNavigationProp;
+};
+
+// POO
+export type PooAgentScreenRouteProp = RouteProp<PooStackParamList, PooStackScreens.PooAgent>;
+export type PooAgentScreenNavigationProp = StackNavigationProp<PooStackParamList, PooStackScreens.PooAgent>;
+export type PooAgentScreenProps = {
+  route: PooAgentScreenRouteProp;
+  navigation: PooAgentScreenNavigationProp;
 };

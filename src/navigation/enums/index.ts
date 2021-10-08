@@ -29,4 +29,5 @@ export enum PhotofixationStackScreens {
 
 export enum PooStackScreens {
   PooAgent = 'PooAgent',
+  PooSign = 'PooSignScreen',
 }
