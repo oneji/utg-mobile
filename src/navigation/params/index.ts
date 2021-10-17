@@ -46,4 +46,8 @@ export type PooStackParamList = {
     id: number;
   };
   [PooStackScreens.PooSign]: undefined;
+  [PooStackScreens.PooEnterTransportNumber]: undefined;
+  [PooStackScreens.PooTransportEmployee]: {
+    id: number;
+  };
 };

@@ -63,12 +63,13 @@ export default InlineAlert;
 const styles = StyleSheet.create({
   container: {
     ...layout.rowAlignItemsCenter,
-    padding: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     borderRadius: 5,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   text: {
-    ...fonts.smallSemibold,
+    ...fonts.extraSmallMedium,
     marginLeft: 14,
     flexShrink: 1,
   },

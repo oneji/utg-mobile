@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...fonts.paragraphRegular,
+    flexShrink: 1,
   },
   indicator: {
     ...layout.rowAlignCenter,

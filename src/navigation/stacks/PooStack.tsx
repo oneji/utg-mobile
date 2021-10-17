@@ -6,7 +6,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { BackButton } from '../../ui-kit/Buttons';
 
 import { PooStackScreens } from '../enums';
-import { PooAgentScreen, PooSignScreen } from '../../screens/poo';
+import {
+  PooAgentScreen,
+  PooEnterTransportNumberScreen,
+  PooSignScreen,
+  PooTransportEmployeeScreen,
+} from '../../screens/poo';
 import { PooStackParamList } from '../params';
 
 const Stack = createStackNavigator<PooStackParamList>();
@@ -14,7 +19,7 @@ const Stack = createStackNavigator<PooStackParamList>();
 const PooStack: FC = () => {
   return (
     <Stack.Navigator
-      initialRouteName={PooStackScreens.PooAgent}
+      initialRouteName={PooStackScreens.PooEnterTransportNumber}
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.background,
@@ -47,10 +52,31 @@ const PooStack: FC = () => {
       <Stack.Screen
         name={PooStackScreens.PooSign}
         component={PooSignScreen}
-        options={() => ({
+        options={{
           title: 'Подпись заказчика',
           headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name={PooStackScreens.PooEnterTransportNumber}
+        component={PooEnterTransportNumberScreen}
+        options={{
+          title: 'ПОО номер машины',
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name={PooStackScreens.PooTransportEmployee}
+        component={PooTransportEmployeeScreen}
+        options={({ route }) => ({
+          title: `ПОО ВС рейс ID ${route.params.id}`,
+          headerTitleAlign: 'center',
         })}
+        initialParams={{
+          id: 232,
+        }}
       />
     </Stack.Navigator>
   );

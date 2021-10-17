@@ -7,6 +7,8 @@ export interface WeatherLabelProps {
   weatherLabelStyle?: StyleProp<TextStyle>;
   temperatureLabelStyle?: StyleProp<TextStyle>;
   degreeLabelStyle?: StyleProp<TextStyle>;
+  extended?: boolean;
+  condition?: string;
 }
 
 const WeatherLabel: FC<WeatherLabelProps> = ({
@@ -14,16 +16,29 @@ const WeatherLabel: FC<WeatherLabelProps> = ({
   weatherLabelStyle,
   temperatureLabelStyle,
   degreeLabelStyle,
+  extended,
+  condition,
 }) => {
   return (
-    <View style={styles.container}>
-      <Text style={[fonts.subtitleSemibold, weatherLabelStyle]}>Погода</Text>
+    <>
+      <View style={styles.container}>
+        <Text style={[fonts.subtitleSemibold, weatherLabelStyle]}>Погода</Text>
 
-      <View style={layout.rowAlignItemsCenter}>
-        <Text style={[styles.temperatureLabel, temperatureLabelStyle]}>Температура</Text>
-        <Text style={[fonts.bodySemibold, degreeLabelStyle]}>{degree} °C</Text>
+        {!extended && (
+          <View style={layout.rowAlignItemsCenter}>
+            <Text style={[styles.temperatureLabel, temperatureLabelStyle]}>Температура</Text>
+            <Text style={[fonts.bodySemibold, degreeLabelStyle]}>{degree} °C</Text>
+          </View>
+        )}
       </View>
-    </View>
+
+      {extended && (
+        <View style={layout.rowSpaceBetween}>
+          <Text style={[fonts.bodySemibold, degreeLabelStyle]}>t {degree} °C</Text>
+          {condition && <Text style={[styles.conditionLabel]}>{condition}</Text>}
+        </View>
+      )}
+    </>
   );
 };
 
@@ -37,5 +52,9 @@ const styles = StyleSheet.create({
   temperatureLabel: {
     ...fonts.paragraphRegular,
     marginRight: 20,
+  },
+  conditionLabel: {
+    ...fonts.paragraphSemibold,
+    textAlign: 'right',
   },
 });
