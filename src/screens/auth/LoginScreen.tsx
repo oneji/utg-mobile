@@ -11,6 +11,8 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { observer } from 'mobx-react';
 import { TextLink } from '../../ui-kit/Links';
+import { LoginScreenProps } from '../../navigation/props';
+import { AuthStackScreens } from '../../navigation/enums';
 
 interface LoginFormValues {
   login: string;
@@ -22,14 +24,14 @@ const LoginFormValidationSchema: Yup.SchemaOf<LoginFormValues> = Yup.object().sh
   password: Yup.string().required(),
 });
 
-const LoginScreen: FC = () => {
+const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   const { values, errors, handleSubmit, handleChange } = useFormik<LoginFormValues>({
     initialValues: {
       login: '',
       password: '',
     },
     validationSchema: LoginFormValidationSchema,
-    onSubmit: () => {},
+    onSubmit: () => navigation.navigate(AuthStackScreens.Phone),
   });
 
   return (
@@ -80,6 +82,7 @@ const styles = StyleSheet.create({
   container: {
     ...layout.alignCenter,
     flex: 1,
+    paddingHorizontal: 70,
   },
   logoContainer: {
     ...layout.alignCenter,

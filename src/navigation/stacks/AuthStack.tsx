@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { BackButton } from '../../ui-kit/Buttons';
 
 import { AuthStackScreens } from '../enums';
-import { LoginScreen } from '../../screens/auth';
+import { LoginScreen, PhoneScreen } from '../../screens/auth';
 import { AuthStackParamList } from '../params';
 
 const Stack = createStackNavigator<AuthStackParamList>();
@@ -35,6 +35,14 @@ const AuthStack: FC = () => {
       <Stack.Screen
         name={AuthStackScreens.Login}
         component={LoginScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name={AuthStackScreens.Phone}
+        component={PhoneScreen}
         options={{
           headerShown: false,
         }}

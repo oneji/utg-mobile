@@ -13,11 +13,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Counter, Helper, Label } from './components';
-import { FormikErrors } from 'formik';
 import { colors, fonts, layout } from '../../theme';
+
+import { Counter, Helper, Label } from './components';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import TextInputMask from 'react-native-text-input-mask';
+
+import { FormikErrors } from 'formik';
 
 export type MaterialTextInputStatusType = 'success' | 'error' | 'default';
 
@@ -35,6 +37,7 @@ interface TextInputProps extends RNTextInputProps {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   password?: boolean;
+  mask?: string;
 
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   onChangeText?: (value: string) => void;
@@ -61,6 +64,7 @@ const TextInput: FC<TextInputProps> = ({
   leftIcon,
   rightIcon,
   password = false,
+  mask = null,
 
   onBlur = () => {},
   onChangeText = () => {},
@@ -142,29 +146,57 @@ const TextInput: FC<TextInputProps> = ({
               </Label>
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <RNTextInput
-                  {...otherProps}
-                  ref={inputRef}
-                  value={value ? value : inputValue}
-                  secureTextEntry={password && !showPassword}
-                  underlineColorAndroid={colors.transparent}
-                  onBlur={handleBlur}
-                  onChangeText={setValue}
-                  onContentSizeChange={handleContentSizeChange}
-                  onFocus={handleFocus}
-                  style={{
-                    ...styles.input,
-                    ...(style as object),
-                    ...Platform.select({
-                      ios: { height },
-                      android: {
-                        height,
-                        textAlignVertical: 'bottom',
-                      },
-                    }),
-                  }}
-                  maxLength={characterLimit > 0 ? characterLimit : null}
-                />
+                {!mask ? (
+                  <RNTextInput
+                    {...otherProps}
+                    ref={inputRef}
+                    value={value ? value : inputValue}
+                    secureTextEntry={password && !showPassword}
+                    underlineColorAndroid={colors.transparent}
+                    onBlur={handleBlur}
+                    onChangeText={setValue}
+                    onContentSizeChange={handleContentSizeChange}
+                    onFocus={handleFocus}
+                    style={{
+                      ...styles.input,
+                      ...(style as object),
+                      ...Platform.select({
+                        ios: { height },
+                        android: {
+                          height,
+                          textAlignVertical: 'bottom',
+                        },
+                      }),
+                    }}
+                    maxLength={characterLimit > 0 ? characterLimit : null}
+                  />
+                ) : (
+                  <TextInputMask
+                    onChangeText={(formatted, extracted) => {
+                      // formatted: +1 (123) 456-78-90
+                      // extracted: 1234567890
+                      setValue(extracted);
+                    }}
+                    value={value ? value : inputValue}
+                    secureTextEntry={password && !showPassword}
+                    underlineColorAndroid={colors.transparent}
+                    onBlur={handleBlur}
+                    ref={inputRef}
+                    mask={mask}
+                    style={{
+                      ...styles.input,
+                      ...(style as object),
+                      ...Platform.select({
+                        ios: { height },
+                        android: {
+                          height,
+                          textAlignVertical: 'bottom',
+                        },
+                      }),
+                    }}
+                    maxLength={characterLimit > 0 ? characterLimit : null}
+                  />
+                )}
               </View>
             </View>
           </View>

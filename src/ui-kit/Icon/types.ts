@@ -17,4 +17,5 @@ export default interface Icons {
   user: string;
   lock: string;
   eye: string;
+  phone: string;
 }

@@ -1,8 +1,8 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { NotificationsStackScreens, PooStackScreens, TasksStackScreens } from '../enums';
-import { NotificationsStackParamList, PooStackParamList, TasksStackParamList } from '../params';
+import { AuthStackScreens, NotificationsStackScreens, PooStackScreens, TasksStackScreens } from '../enums';
+import { AuthStackParamList, NotificationsStackParamList, PooStackParamList, TasksStackParamList } from '../params';
 
 export type BaseRouteProp = RouteProp<{}, never>;
 export type BaseNavigationProp = StackNavigationProp<{}, never>;
@@ -73,4 +73,12 @@ export type PooEnterTransportNumberScreenNavigationProp = StackNavigationProp<
 export type PooEnterTransportNumberScreenProps = {
   route: PooEnterTransportNumberScreenRouteProp;
   navigation: PooEnterTransportNumberScreenNavigationProp;
+};
+
+// Auth
+export type LoginScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.Login>;
+export type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.Login>;
+export type LoginScreenProps = {
+  route: LoginScreenRouteProp;
+  navigation: LoginScreenNavigationProp;
 };
