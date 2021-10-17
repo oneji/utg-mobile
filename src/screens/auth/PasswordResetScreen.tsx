@@ -10,40 +10,53 @@ import TextInput from '../../ui-kit/TextInput';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { observer } from 'mobx-react';
-import { PhoneScreenProps } from '../../navigation/props';
+import { TextLink } from '../../ui-kit/Links';
+import { PasswordResetScreenProps } from '../../navigation/props';
 import { AuthStackScreens } from '../../navigation/enums';
-import { APP_STACK } from '../../navigation/stacks';
 
-interface PhoneFormValues {
+interface PasswordResetFormValues {
+  login: string;
   phone: string;
 }
 
-const PhoneFormValidationSchema: Yup.SchemaOf<PhoneFormValues> = Yup.object().shape({
+const PasswordResetFormValidationSchema: Yup.SchemaOf<PasswordResetFormValues> = Yup.object().shape({
+  login: Yup.string().required(),
   phone: Yup.string().required(),
 });
 
-const PhoneScreen: FC<PhoneScreenProps> = ({ navigation }) => {
-  const { values, errors, touched, handleSubmit, handleChange } = useFormik<PhoneFormValues>({
+const PasswordResetScreen: FC<PasswordResetScreenProps> = ({ navigation }) => {
+  const { values, errors, touched, handleSubmit, handleChange } = useFormik<PasswordResetFormValues>({
     initialValues: {
-      phone: '1111111111',
+      login: '',
+      phone: '',
     },
-    validationSchema: PhoneFormValidationSchema,
+    validationSchema: PasswordResetFormValidationSchema,
     onSubmit: () =>
       navigation.navigate(AuthStackScreens.PinCode, {
-        navigateTo: APP_STACK,
+        navigateTo: AuthStackScreens.NewPassword,
       }),
   });
 
   return (
     <View style={styles.container}>
       <View>
-        <View style={styles.logoContainer}>
+        <View style={layout.alignCenter}>
           <Icon name="logo" color="#343D4F" width={300} height={66} />
         </View>
 
         <View style={styles.formContainer}>
           <FormGroup style={styles.confirmTextContainer}>
-            <Text style={fonts.paragraphRegular}>Подтверждение учетной записи</Text>
+            <Text style={fonts.paragraphRegular}>Сброс пароля учетной записи</Text>
+          </FormGroup>
+
+          <FormGroup>
+            <TextInput
+              label="Логин"
+              value={values.login}
+              onChangeText={handleChange('login')}
+              status={errors.login && touched.login ? 'error' : 'default'}
+              leftIcon={<Icon name="user" />}
+            />
           </FormGroup>
 
           <FormGroup>
@@ -66,14 +79,19 @@ const PhoneScreen: FC<PhoneScreenProps> = ({ navigation }) => {
         </View>
 
         <View>
-          <Button onPress={handleSubmit}>Получить код</Button>
+          <Button onPress={handleSubmit} style={{ marginBottom: 20 }}>
+            Получить код
+          </Button>
+          <Button onPress={navigation.goBack} variant="link">
+            Вернуться
+          </Button>
         </View>
       </View>
     </View>
   );
 };
 
-export default observer(PhoneScreen);
+export default observer(PasswordResetScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -82,15 +100,12 @@ const styles = StyleSheet.create({
     paddingTop: 108,
     paddingBottom: 200,
   },
+  formContainer: {
+    marginBottom: 60,
+  },
   confirmTextContainer: {
     ...layout.alignCenter,
     marginTop: 5,
     marginBottom: 30,
-  },
-  logoContainer: {
-    ...layout.alignCenter,
-  },
-  formContainer: {
-    marginBottom: 60,
   },
 });

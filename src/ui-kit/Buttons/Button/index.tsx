@@ -7,7 +7,7 @@ import { colors, fonts, layout } from '../../../theme';
 
 export interface ButtonProps extends TouchableWithoutFeedbackProps {
   children?: string;
-  variant?: 'primary' | 'success' | 'danger' | 'secondary';
+  variant?: 'primary' | 'success' | 'danger' | 'secondary' | 'link';
   compact?: boolean;
   loading?: boolean;
 }
@@ -28,6 +28,7 @@ const Button: FC<ButtonProps> = ({
       success: colors.green.primary,
       danger: colors.red.primary,
       secondary: colors.gray.light,
+      link: colors.transparent,
     };
     const styleObject: StyleProp<ViewStyle> = {
       ...styles.button,
@@ -42,7 +43,7 @@ const Button: FC<ButtonProps> = ({
   const getButtonTextStyles = useCallback(() => {
     const textStyle: StyleProp<TextStyle> = {
       ...fonts.paragraphBold,
-      color: variant === 'secondary' ? colors.black : colors.white,
+      color: variant === 'secondary' || variant === 'link' ? colors.black : colors.white,
     };
 
     return textStyle;

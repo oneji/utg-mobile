@@ -83,16 +83,30 @@ export type LoginScreenProps = {
   navigation: LoginScreenNavigationProp;
 };
 
-export type PhoneScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.Login>;
-export type PhoneScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.Login>;
+export type PhoneScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.Phone>;
+export type PhoneScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.Phone>;
 export type PhoneScreenProps = {
   route: PhoneScreenRouteProp;
   navigation: PhoneScreenNavigationProp;
 };
 
-export type PinCodeScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.Login>;
-export type PinCodeScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.Login>;
+export type PinCodeScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.PinCode>;
+export type PinCodeScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.PinCode>;
 export type PinCodeScreenProps = {
   route: PinCodeScreenRouteProp;
   navigation: PinCodeScreenNavigationProp;
+};
+
+export type PasswordResetScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.PasswordReset>;
+export type PasswordResetScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.PasswordReset>;
+export type PasswordResetScreenProps = {
+  route: PasswordResetScreenRouteProp;
+  navigation: PasswordResetScreenNavigationProp;
+};
+
+export type NewPasswordScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.NewPassword>;
+export type NewPasswordScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.NewPassword>;
+export type NewPasswordScreenProps = {
+  route: NewPasswordScreenRouteProp;
+  navigation: NewPasswordScreenNavigationProp;
 };

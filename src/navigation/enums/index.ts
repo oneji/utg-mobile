@@ -38,4 +38,6 @@ export enum AuthStackScreens {
   Login = 'LoginScreen',
   Phone = 'PhoneScreen',
   PinCode = 'PinCodeScreen',
+  PasswordReset = 'PasswordResetScreen',
+  NewPassword = 'NewPasswordScreen',
 }

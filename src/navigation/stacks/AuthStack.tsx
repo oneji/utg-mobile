@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { BackButton } from '../../ui-kit/Buttons';
 
 import { AuthStackScreens } from '../enums';
-import { LoginScreen, PhoneScreen, PinCodeScreen } from '../../screens/auth';
+import { LoginScreen, NewPasswordScreen, PasswordResetScreen, PhoneScreen, PinCodeScreen } from '../../screens/auth';
 import { AuthStackParamList } from '../params';
 
 const Stack = createStackNavigator<AuthStackParamList>();
@@ -51,6 +51,22 @@ const AuthStack: FC = () => {
       <Stack.Screen
         name={AuthStackScreens.PinCode}
         component={PinCodeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name={AuthStackScreens.PasswordReset}
+        component={PasswordResetScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name={AuthStackScreens.NewPassword}
+        component={NewPasswordScreen}
         options={{
           headerShown: false,
         }}

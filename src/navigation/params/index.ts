@@ -56,5 +56,9 @@ export type PooStackParamList = {
 export type AuthStackParamList = {
   [AuthStackScreens.Login]: undefined;
   [AuthStackScreens.Phone]: undefined;
-  [AuthStackScreens.PinCode]: undefined;
+  [AuthStackScreens.PinCode]: {
+    navigateTo: string;
+  };
+  [AuthStackScreens.PasswordReset]: undefined;
+  [AuthStackScreens.NewPassword]: undefined;
 };

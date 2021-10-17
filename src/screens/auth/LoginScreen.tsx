@@ -25,10 +25,10 @@ const LoginFormValidationSchema: Yup.SchemaOf<LoginFormValues> = Yup.object().sh
 });
 
 const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
-  const { values, errors, handleSubmit, handleChange } = useFormik<LoginFormValues>({
+  const { values, errors, touched, handleSubmit, handleChange } = useFormik<LoginFormValues>({
     initialValues: {
-      login: 'admin',
-      password: 'admin',
+      login: '',
+      password: '',
     },
     validationSchema: LoginFormValidationSchema,
     onSubmit: () => navigation.navigate(AuthStackScreens.Phone),
@@ -47,7 +47,7 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
               label="Логин"
               value={values.login}
               onChangeText={handleChange('login')}
-              status={errors.login ? 'error' : 'default'}
+              status={errors.login && touched.login ? 'error' : 'default'}
               leftIcon={<Icon name="user" />}
             />
           </FormGroup>
@@ -57,14 +57,14 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
               label="Пароль"
               value={values.password}
               onChangeText={handleChange('password')}
-              status={errors.password ? 'error' : 'default'}
+              status={errors.password && touched.password ? 'error' : 'default'}
               password
               leftIcon={<Icon name="lock" />}
             />
           </FormGroup>
 
           <FormGroup>
-            <TextLink onPress={() => {}}>Забыли пароль?</TextLink>
+            <TextLink onPress={() => navigation.navigate(AuthStackScreens.PasswordReset)}>Забыли пароль?</TextLink>
           </FormGroup>
         </View>
 
