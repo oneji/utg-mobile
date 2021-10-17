@@ -37,4 +37,5 @@ export enum PooStackScreens {
 export enum AuthStackScreens {
   Login = 'LoginScreen',
   Phone = 'PhoneScreen',
+  PinCode = 'PinCodeScreen',
 }

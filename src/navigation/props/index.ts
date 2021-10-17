@@ -82,3 +82,17 @@ export type LoginScreenProps = {
   route: LoginScreenRouteProp;
   navigation: LoginScreenNavigationProp;
 };
+
+export type PhoneScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.Login>;
+export type PhoneScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.Login>;
+export type PhoneScreenProps = {
+  route: PhoneScreenRouteProp;
+  navigation: PhoneScreenNavigationProp;
+};
+
+export type PinCodeScreenRouteProp = RouteProp<AuthStackParamList, AuthStackScreens.Login>;
+export type PinCodeScreenNavigationProp = StackNavigationProp<AuthStackParamList, AuthStackScreens.Login>;
+export type PinCodeScreenProps = {
+  route: PinCodeScreenRouteProp;
+  navigation: PinCodeScreenNavigationProp;
+};

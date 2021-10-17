@@ -27,8 +27,8 @@ const LoginFormValidationSchema: Yup.SchemaOf<LoginFormValues> = Yup.object().sh
 const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   const { values, errors, handleSubmit, handleChange } = useFormik<LoginFormValues>({
     initialValues: {
-      login: '',
-      password: '',
+      login: 'admin',
+      password: 'admin',
     },
     validationSchema: LoginFormValidationSchema,
     onSubmit: () => navigation.navigate(AuthStackScreens.Phone),
@@ -80,9 +80,10 @@ export default observer(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {
-    ...layout.alignCenter,
     flex: 1,
-    paddingHorizontal: 70,
+    paddingHorizontal: 50,
+    paddingTop: 108,
+    paddingBottom: 200,
   },
   logoContainer: {
     ...layout.alignCenter,

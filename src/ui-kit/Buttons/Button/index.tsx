@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import { ActivityIndicator, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { ActivityIndicator, StyleProp, TextStyle, View, ViewStyle } from 'react-native';
 import { StyleSheet, Text, TouchableWithoutFeedbackProps } from 'react-native';
 
 import { TouchableRipple } from 'react-native-paper';
@@ -19,6 +19,7 @@ const Button: FC<ButtonProps> = ({
   style,
   compact = false,
   loading = false,
+  disabled = false,
   ...otherProps
 }) => {
   const getButtonStyles = useCallback(() => {
@@ -48,13 +49,17 @@ const Button: FC<ButtonProps> = ({
   }, [variant]);
 
   return (
-    <TouchableRipple borderless style={getButtonStyles()} onPress={onPress} {...otherProps}>
-      {!loading ? (
-        <Text style={getButtonTextStyles()}>{children}</Text>
-      ) : (
-        <ActivityIndicator size="small" color={colors.white} />
-      )}
-    </TouchableRipple>
+    <View>
+      <TouchableRipple borderless style={getButtonStyles()} onPress={onPress} disabled={disabled} {...otherProps}>
+        {!loading ? (
+          <Text style={getButtonTextStyles()}>{children}</Text>
+        ) : (
+          <ActivityIndicator size="small" color={colors.white} />
+        )}
+      </TouchableRipple>
+
+      {disabled && <View style={styles.disabledWrapper} />}
+    </View>
   );
 };
 
@@ -66,5 +71,12 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     width: '100%',
     borderRadius: 50,
+  },
+  disabledWrapper: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: colors.white,
+    borderRadius: 50,
+    zIndex: 99,
+    opacity: 0.5,
   },
 });

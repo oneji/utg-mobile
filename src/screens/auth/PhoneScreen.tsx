@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, layout } from '../../theme';
 
 import { Button } from '../../ui-kit/Buttons';
@@ -10,7 +10,8 @@ import TextInput from '../../ui-kit/TextInput';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { observer } from 'mobx-react';
-import { TextLink } from '../../ui-kit/Links';
+import { PhoneScreenProps } from '../../navigation/props';
+import { AuthStackScreens } from '../../navigation/enums';
 
 interface PhoneFormValues {
   phone: string;
@@ -20,13 +21,13 @@ const PhoneFormValidationSchema: Yup.SchemaOf<PhoneFormValues> = Yup.object().sh
   phone: Yup.string().required(),
 });
 
-const PhoneScreen: FC = () => {
+const PhoneScreen: FC<PhoneScreenProps> = ({ navigation }) => {
   const { values, errors, handleSubmit, handleChange } = useFormik<PhoneFormValues>({
     initialValues: {
-      phone: '',
+      phone: '1111111111',
     },
     validationSchema: PhoneFormValidationSchema,
-    onSubmit: () => {},
+    onSubmit: () => navigation.navigate(AuthStackScreens.PinCode),
   });
 
   return (
@@ -72,9 +73,10 @@ export default observer(PhoneScreen);
 
 const styles = StyleSheet.create({
   container: {
-    ...layout.alignCenter,
     flex: 1,
-    paddingHorizontal: 70,
+    paddingHorizontal: 50,
+    paddingTop: 108,
+    paddingBottom: 200,
   },
   confirmTextContainer: {
     ...layout.alignCenter,
