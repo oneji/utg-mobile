@@ -14,4 +14,7 @@ export default interface Icons {
   airplaneFuselageHighlighted: string;
   airplaneWingBottomHighlighted: string;
   airplaneStabilizerBottomHighlighted: string;
+  user: string;
+  lock: string;
+  eye: string;
 }

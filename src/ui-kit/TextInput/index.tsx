@@ -32,6 +32,7 @@ interface TextInputProps extends RNTextInputProps {
   status?: MaterialTextInputStatusType;
   statusText?: string | FormikErrors<any> | string[] | FormikErrors<any>[];
   characterLimit?: number;
+  leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   password?: boolean;
 
@@ -57,6 +58,7 @@ const TextInput: FC<TextInputProps> = ({
   status,
   statusText,
   characterLimit = 0,
+  leftIcon,
   rightIcon,
   password = false,
 
@@ -130,8 +132,10 @@ const TextInput: FC<TextInputProps> = ({
           borderColor: status === 'error' ? colors.red.primary : colors.gray.primary,
         }}
       >
+        {leftIcon && <View style={styles.iconContainer}>{leftIcon}</View>}
+
         <TouchableWithoutFeedback onPress={onPress}>
-          <View style={{ marginTop: label ? fontSize : 0, flex: 1 }}>
+          <View style={{ marginTop: label ? fontSize : 0, flex: 1, marginLeft: leftIcon ? 20 : 0 }}>
             <View accessible={accessible} accessibilityLabel={accessibilityLabel || label}>
               <Label error={status === 'error'} hasValue={hasValueWithContent(value)} focused={focused}>
                 {label}

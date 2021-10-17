@@ -1,5 +1,6 @@
 import { MaintanceTypesEnum } from '../../services/data';
 import {
+  AuthStackScreens,
   FeedbackStackScreens,
   NotificationsStackScreens,
   PhotofixationStackScreens,
@@ -50,4 +51,8 @@ export type PooStackParamList = {
   [PooStackScreens.PooTransportEmployee]: {
     id: number;
   };
+};
+
+export type AuthStackParamList = {
+  [AuthStackScreens.Login]: undefined;
 };

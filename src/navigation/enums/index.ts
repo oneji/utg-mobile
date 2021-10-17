@@ -33,3 +33,7 @@ export enum PooStackScreens {
   PooEnterTransportNumber = 'PooEnterTransportNumberScreen',
   PooTransportEmployee = 'PooTransportEmployeeScreen',
 }
+
+export enum AuthStackScreens {
+  Login = 'LoginScreen',
+}
