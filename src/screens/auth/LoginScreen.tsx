@@ -59,7 +59,7 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   };
 
   useEffect(() => {
-    fetchToken();
+    // fetchToken();
   }, []);
 
   console.log({

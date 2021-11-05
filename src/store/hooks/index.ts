@@ -5,6 +5,7 @@ import LoginStore from '../LoginStore';
 import ServicesStore from '../ServicesStore';
 import TasksStore from '../TasksStore';
 import TreatmentsStore from '../TreatmentsStore';
+import UserStore from '../UserStore';
 
 export function useTasksStore(): TasksStore {
   return useStore().tasksStore;
@@ -28,4 +29,8 @@ export function useServicesStore(): ServicesStore {
 
 export function useTreatmentsStore(): TreatmentsStore {
   return useStore().treatmentsStore;
+}
+
+export function useUserStore(): UserStore {
+  return useStore().userStore;
 }

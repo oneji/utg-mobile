@@ -4,6 +4,7 @@ import LoginStore from './LoginStore';
 import FlightsStore from './FlightsStore';
 import ServicesStore from './ServicesStore';
 import TreatmentsStore from './TreatmentsStore';
+import UserStore from './UserStore';
 
 class RootStore {
   tasksStore = null;
@@ -12,6 +13,7 @@ class RootStore {
   flightsStore = null;
   servicesStore = null;
   treatmentsStore = null;
+  userStore = null;
 
   constructor() {
     this.tasksStore = new TasksStore(this);
@@ -20,6 +22,7 @@ class RootStore {
     this.flightsStore = new FlightsStore(this);
     this.servicesStore = new ServicesStore(this);
     this.treatmentsStore = new TreatmentsStore(this);
+    this.userStore = new UserStore(this);
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -18,11 +18,16 @@ import {
 import FlashMessage from 'react-native-flash-message';
 import { AuthStackScreens } from '../navigation/enums';
 import { isReadyRef, navigationRef } from '../navigation/RootNavigation';
+import { useUserStore } from '../store/hooks';
+import SpinnerLoading from '../ui-kit/SpinnerLoading';
+import { observer } from 'mobx-react';
 
 enableScreens();
 const Stack = createStackNavigator();
 
 const AppContainer: FC = () => {
+  const { loading, getUserInfoById } = useUserStore();
+
   const linking: LinkingOptions = {
     prefixes: ['clients://'],
     config: {
@@ -37,6 +42,13 @@ const AppContainer: FC = () => {
       },
     },
   };
+
+  useEffect(() => {
+    // UTG-TODO: Update getting user info by token
+    getUserInfoById(1);
+  }, []);
+
+  if (loading) return <SpinnerLoading />;
 
   return (
     <NavigationContainer
@@ -65,6 +77,6 @@ const AppContainer: FC = () => {
   );
 };
 
-export default AppContainer;
+export default observer(AppContainer);
 
 const styles = StyleSheet.create({});

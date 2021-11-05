@@ -12,25 +12,15 @@ const App: FC = () => {
     SplashScreen.hide();
   }, []);
 
-  const handleOnEvent = (event: any, error: any) => {
-    console.log('onKeycloakEvent', {
-      error,
-      event,
-    });
-  };
+  const handleOnEvent = (event: any, error: any) => {};
 
   return (
     <ReactNativeKeycloakProvider
       authClient={keycloak}
       initOptions={{
         redirectUri: 'clients://home', // 'https://clients.dev.utg.group',
-        inAppBrowserOptions: {
-          // For iOS check: https://github.com/proyecto26/react-native-inappbrowser#ios-options
-          // For Android check: https://github.com/proyecto26/react-native-inappbrowser#android-options
-        },
       }}
       onEvent={handleOnEvent}
-      onTokens={tokens => console.log({ tokens })}
     >
       <StoreProvider>
         <PaperProvider>
