@@ -51,7 +51,13 @@ const Button: FC<ButtonProps> = ({
 
   return (
     <View>
-      <TouchableRipple borderless style={getButtonStyles()} onPress={onPress} disabled={disabled} {...otherProps}>
+      <TouchableRipple
+        borderless
+        style={getButtonStyles()}
+        onPress={onPress}
+        disabled={disabled || loading}
+        {...otherProps}
+      >
         {!loading ? (
           <Text style={getButtonTextStyles()}>{children}</Text>
         ) : (

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">uSmart</string>
+    <string name="keycloak_redirect_uri">clients.dev.utg.group</string>
 </resources>

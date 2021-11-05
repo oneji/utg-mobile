@@ -13,10 +13,16 @@ import Paper from '../../ui-kit/Paper';
 import Tab from '../../ui-kit/Tab';
 import IconRadioButton from '../../ui-kit/IconRadionButton';
 import Icon from '../../ui-kit/Icon';
+import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
 import { PooStackScreens } from '../../navigation/enums';
-import { TaskStepSchema } from '../../services/data';
+import { TaskStepSchema, TreatmentStagesEnum, TreatmentTypesEnum, WeatherEnum } from '../../services/data';
+import { useTreatmentsStore } from '../../store/hooks';
+import { useFormik } from 'formik';
+import { formatTreatmentTypeForLabel } from '../../utils/treatments';
 import Icons from '../../ui-kit/Icon/types';
+import { observer } from 'mobx-react-lite';
+import { TREATMENT_NAMES, WEATHER_NAMES } from '../../utils';
 
 const stepperSteps: TaskStepSchema[] = [
   { order: 1, label: 'Текущие условия', key: 'currentConditions' },
@@ -24,54 +30,92 @@ const stepperSteps: TaskStepSchema[] = [
   { order: 3, label: 'Отчет', key: 'report' },
 ];
 
-enum WeatherEnum {
-  Foggy = 'foggy',
-  Rainy = 'rainy',
-  Snowy = 'snowy',
-}
-
-enum PooEnum {
-  WingTop = 'wingTop',
-  StabilizerTop = 'stabilizerTop',
-  Keel = 'keel',
-  Fuselage = 'fuselage',
-  WingBottom = 'wingBottom',
-  StabilizerBottom = 'stabilizerBottom',
-}
-
-enum PooStageTypeEnum {
-  OneStage = 'oneStage',
-  TwoStage = 'twoStage',
-}
-
 const weatherButtons = [
-  { label: 'Туман / иней', value: WeatherEnum.Foggy, icon: 'foggyWeather' },
-  { label: 'Дождь / морось', value: WeatherEnum.Rainy, icon: 'rainyWeather' },
-  { label: 'Снег / снежные гранулы / крупа', value: WeatherEnum.Snowy, icon: 'snowyWeather' },
+  { label: WEATHER_NAMES.Foggy, value: WeatherEnum.Foggy, icon: 'foggyWeather' },
+  { label: WEATHER_NAMES.Rainy, value: WeatherEnum.Rainy, icon: 'rainyWeather' },
+  { label: WEATHER_NAMES.Snowy, value: WeatherEnum.Snowy, icon: 'snowyWeather' },
 ];
 
 const pooButtons = [
-  { label: 'Верх крыла', value: PooEnum.WingTop, icon: 'airplaneWingTopHighlighted' },
-  { label: 'Верх стабилизатора', value: PooEnum.StabilizerTop, icon: 'airplaneStabilizerTopHighlighted' },
-  { label: 'Киль', value: PooEnum.Keel, icon: 'airplaneKeelHighlighted' },
-  { label: 'Фюзеляж', value: PooEnum.Fuselage, icon: 'airplaneFuselageHighlighted' },
-  { label: 'Низ крыла', value: PooEnum.WingBottom, icon: 'airplaneWingBottomHighlighted' },
-  { label: 'Низ стабилизатора', value: PooEnum.StabilizerBottom, icon: 'airplaneStabilizerBottomHighlighted' },
+  {
+    label: TREATMENT_NAMES.WingTop,
+    value: TreatmentTypesEnum.WingTop,
+    icon: 'airplaneWingTopHighlighted',
+  },
+  {
+    label: TREATMENT_NAMES.StabilizerTop,
+    value: TreatmentTypesEnum.StabilizerTop,
+    icon: 'airplaneStabilizerTopHighlighted',
+  },
+  { label: TREATMENT_NAMES.Keel, value: TreatmentTypesEnum.Keel, icon: 'airplaneKeelHighlighted' },
+  {
+    label: TREATMENT_NAMES.Fuselage,
+    value: TreatmentTypesEnum.Fuselage,
+    icon: 'airplaneFuselageHighlighted',
+  },
+  {
+    label: TREATMENT_NAMES.WingBottom,
+    value: TreatmentTypesEnum.WingBottom,
+    icon: 'airplaneWingBottomHighlighted',
+  },
+  {
+    label: TREATMENT_NAMES.StabilizerBottom,
+    value: TreatmentTypesEnum.StabilizerBottom,
+    icon: 'airplaneStabilizerBottomHighlighted',
+  },
 ];
 
+export interface DeicingTreatmentFormValues {
+  weather: WeatherEnum;
+  treatmentType: TreatmentTypesEnum;
+  threatmentStage: TreatmentStagesEnum;
+  stageConcentration: string;
+  firstTitle: string;
+  liquidType: string;
+  percent: number;
+  secondTitle: string;
+}
+
+/**
+ * If threatmentStage === 0 => pooStageType : OneStage
+ */
 const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
+  const { loading, deicingTreatment, getDeicingTreamentById, syncDeicingTreatmentFormValues } = useTreatmentsStore();
+
   const [currentStep, setCurrentStep] = useState(stepperSteps[0].key);
-  const [weather, setWeather] = useState<WeatherEnum>(null);
-  const [poo, setPoo] = useState<PooEnum>(null);
-  const [pooStageType, setPooStageType] = useState<PooStageTypeEnum>(null);
+
+  const { values, setFieldValue } = useFormik<DeicingTreatmentFormValues>({
+    initialValues: {
+      weather: null,
+      treatmentType: null,
+      threatmentStage: null,
+      stageConcentration: '30:70',
+      firstTitle: 'PRIMER',
+      liquidType: 'IV',
+      percent: 100,
+      secondTitle: 'PRIMER2',
+    },
+    onSubmit: () => {},
+  });
+
+  useEffect(() => {
+    getDeicingTreamentById({
+      treatmentId: 10,
+      cityId: 473021,
+    });
+  }, []);
+
+  useEffect(() => {
+    syncDeicingTreatmentFormValues(values);
+  }, [values]);
 
   useEffect(() => {
     navigation.setOptions({
       cardStyle: {
-        backgroundColor: pooStageType === PooStageTypeEnum.TwoStage ? colors.transparent : colors.white,
+        backgroundColor: values.threatmentStage === TreatmentStagesEnum.TwoStages ? colors.transparent : colors.white,
       },
     });
-  }, [pooStageType]);
+  }, [values.threatmentStage]);
 
   const handleMoveNext = useCallback(() => {
     const currentIdx = stepperSteps.findIndex(step => step.key === currentStep);
@@ -82,6 +126,8 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
       navigation.navigate(PooStackScreens.PooSign);
     }
   }, [currentStep]);
+
+  if (loading) return <SpinnerLoading />;
 
   return (
     <>
@@ -99,10 +145,13 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
         {currentStep === stepperSteps[0].key && (
           <View>
             <View style={{ paddingHorizontal: 20 }}>
-              <WeatherLabel degree={-27} />
+              <WeatherLabel degree={deicingTreatment?.temperature} />
             </View>
 
-            <IconRadioButton.Group value={weather} onChange={(value: WeatherEnum) => setWeather(value)}>
+            <IconRadioButton.Group
+              value={values.weather}
+              onChange={(value: WeatherEnum) => setFieldValue('weather', value)}
+            >
               {weatherButtons.map(item => (
                 <IconRadioButton
                   key={item.value}
@@ -117,7 +166,11 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
               <Text style={fonts.subtitleSemibold}>Выбор ПОО</Text>
             </View>
 
-            <IconRadioButton.Group inARowCount={2} value={poo} onChange={(value: PooEnum) => setPoo(value)}>
+            <IconRadioButton.Group
+              inARowCount={2}
+              value={values.treatmentType}
+              onChange={(value: TreatmentTypesEnum) => setFieldValue('treatmentType', value)}
+            >
               {pooButtons.map(item => (
                 <IconRadioButton
                   key={item.value}
@@ -133,48 +186,48 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
         {currentStep === stepperSteps[1].key && (
           <View>
             <View style={{ padding: 20, backgroundColor: colors.white }}>
-              <Text style={fonts.subtitleSemibold}>ПОО верха крыла</Text>
+              <Text style={fonts.subtitleSemibold}>ПОО {formatTreatmentTypeForLabel(values.treatmentType)}</Text>
             </View>
 
             <IconRadioButton.Group
               inARowCount={2}
-              value={pooStageType}
-              onChange={(value: PooStageTypeEnum) => setPooStageType(value)}
+              value={values.threatmentStage}
+              onChange={(value: TreatmentStagesEnum) => setFieldValue('threatmentStage', value)}
             >
-              <IconRadioButton label="1-ступенчатая" value={PooStageTypeEnum.OneStage} />
-              <IconRadioButton label="2-ступенчатая" value={PooStageTypeEnum.TwoStage} />
+              <IconRadioButton label="1-ступенчатая" value={TreatmentStagesEnum.OneStage} />
+              <IconRadioButton label="2-ступенчатая" value={TreatmentStagesEnum.TwoStages} />
             </IconRadioButton.Group>
 
-            {pooStageType && (
+            {values.threatmentStage && (
               <Paper
-                title={pooStageType === PooStageTypeEnum.TwoStage ? '1 этап' : null}
+                title={values.threatmentStage === TreatmentStagesEnum.TwoStages ? '1 этап' : null}
                 titleStyle={fonts.paragraphSemibold}
               >
                 <View style={styles.labelContainer}>
                   <Text style={styles.label}>Концентрация раствора (Type I : Вода)</Text>
 
-                  <TouchableLabel>30:70</TouchableLabel>
+                  <TouchableLabel>{values.stageConcentration}</TouchableLabel>
                 </View>
 
                 <View style={styles.labelContainer}>
                   <Text style={styles.label}>Наименование</Text>
 
-                  <TouchableLabel>PRIMER</TouchableLabel>
+                  <TouchableLabel>{values.firstTitle}</TouchableLabel>
                 </View>
               </Paper>
             )}
 
-            {pooStageType === PooStageTypeEnum.TwoStage && (
+            {values.threatmentStage === TreatmentStagesEnum.TwoStages && (
               <Paper title="2 этап" titleStyle={fonts.paragraphSemibold}>
                 <SimpleList style={{ marginBottom: 20 }}>
-                  <SimpleList.Item title="Тип жидкости" value="IV" />
-                  <SimpleList.Item title="Процент" value="100" />
+                  <SimpleList.Item title="Тип жидкости" value={values.liquidType} />
+                  <SimpleList.Item title="Процент" value={values.percent?.toString()} />
                 </SimpleList>
 
                 <View style={styles.labelContainer}>
                   <Text style={styles.label}>Наименование</Text>
 
-                  <TouchableLabel>PRIMER2</TouchableLabel>
+                  <TouchableLabel>{values.secondTitle}</TouchableLabel>
                 </View>
               </Paper>
             )}
@@ -194,7 +247,7 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
   );
 };
 
-export default PooAgentScreen;
+export default observer(PooAgentScreen);
 
 const styles = StyleSheet.create({
   labelContainer: {

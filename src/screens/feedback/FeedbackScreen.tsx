@@ -9,7 +9,6 @@ import TextInput from '../../ui-kit/TextInput';
 
 import * as Yup from 'yup';
 import { useFormik, getIn } from 'formik';
-import { Button } from '../../ui-kit/Buttons';
 import { IconButton } from 'react-native-paper';
 
 interface FeedbackFormValues {

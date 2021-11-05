@@ -8,32 +8,51 @@ import TextInput from '../../ui-kit/TextInput';
 
 import { useFormik } from 'formik';
 import { showMessage } from 'react-native-flash-message';
+import { useTreatmentsStore } from '../../store/hooks';
+import { observer } from 'mobx-react-lite';
+import * as Yup from 'yup';
 
-interface ReportSignFormValues {
-  occupation: string;
-  name: string;
+interface PooSignFormValues {
+  signedPosition: string;
+  signedFIO: string;
 }
 
-const TaskReportSignScreen: FC = () => {
-  const handleFinish = useCallback(() => {
-    showMessage({
-      type: 'success',
-      icon: 'auto',
-      message: 'Успешно завершено, подпись есть',
-      position: 'center',
+const PooSignFormValidationSchema: Yup.SchemaOf<PooSignFormValues> = Yup.object().shape({
+  signedPosition: Yup.string().required(),
+  signedFIO: Yup.string().required(),
+});
+
+const PooSignScreen: FC = () => {
+  const { loading, updateDeicingTreament, deicingTreatmentFormValues } = useTreatmentsStore();
+
+  // UTG-TODO: Get proper treatment ID
+  const handleFinish = useCallback(({ signedFIO, signedPosition }: PooSignFormValues) => {
+    updateDeicingTreament({
+      ...deicingTreatmentFormValues,
+      id: 10,
+      isSigned: true,
+      signedPosition,
+      signedFIO,
     });
   }, []);
 
-  const { values, handleChange, handleSubmit } = useFormik<ReportSignFormValues>({
+  const { values, errors, touched, handleChange, handleSubmit } = useFormik<PooSignFormValues>({
     initialValues: {
-      occupation: 'КВС',
-      name: 'Комаров Д.С.',
+      signedPosition: '',
+      signedFIO: '',
     },
+    validationSchema: PooSignFormValidationSchema,
     onSubmit: handleFinish,
   });
 
   return (
-    <ContainerWithButton buttonLabel="Сохранить" onButtonPress={handleSubmit}>
+    <ContainerWithButton
+      buttonLabel="Сохранить"
+      onButtonPress={handleSubmit}
+      buttonProps={{
+        loading: loading,
+      }}
+    >
       <Text style={styles.hintText}>
         Оставляя свою подпись вы соглашаетесь с отчетом по рейсу как заказчик и подтверждаете, что Технологическая карта
         обслуживания ВС заполнена верно, и услуги были оказаны в полном объеме, и что вы не имеете претензий к
@@ -41,11 +60,21 @@ const TaskReportSignScreen: FC = () => {
       </Text>
 
       <FormGroup>
-        <TextInput label="Должность" value={values.occupation} onChangeText={handleChange('occupation')} />
+        <TextInput
+          label="Должность"
+          value={values.signedPosition}
+          onChangeText={handleChange('signedPosition')}
+          status={errors.signedPosition && touched.signedPosition ? 'error' : 'default'}
+        />
       </FormGroup>
 
       <FormGroup>
-        <TextInput label="ФИО" value={values.name} onChangeText={handleChange('name')} />
+        <TextInput
+          label="ФИО"
+          value={values.signedFIO}
+          onChangeText={handleChange('signedFIO')}
+          status={errors.signedFIO && touched.signedFIO ? 'error' : 'default'}
+        />
       </FormGroup>
 
       <FormGroup style={{ marginTop: 30, alignItems: 'center' }}>
@@ -62,7 +91,7 @@ const TaskReportSignScreen: FC = () => {
   );
 };
 
-export default TaskReportSignScreen;
+export default observer(PooSignScreen);
 
 const styles = StyleSheet.create({
   hintText: {

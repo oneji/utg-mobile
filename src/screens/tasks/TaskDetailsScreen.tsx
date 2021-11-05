@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, ReactElement, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ScrollViewContainer } from '../../ui-kit/Containers';
@@ -7,41 +7,63 @@ import { SimpleList } from '../../ui-kit/Lists';
 import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 import Tab from '../../ui-kit/Tab';
 
-import { useTasksStore } from '../../store/hooks';
+import { useFlightsStore } from '../../store/hooks';
 import { observer } from 'mobx-react';
 import { TaskDetailsScreenProps } from '../../navigation/props';
+import { DirectionsEnum, TaskStatusesEnum } from '../../services/data';
+import { format } from 'date-fns';
 
 const TaskDetailsScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
   const { id } = route.params;
-  const { loading, currentTask, getTaskById } = useTasksStore();
+  const { loading, currentFlight, getFlightById, acceptFlight } = useFlightsStore();
 
-  const ArrivalList = () => {
+  useEffect(() => {
+    getFlightById(id);
+  }, []);
+
+  const DataList = () => {
     return (
       <View style={{ padding: 20 }}>
         <SimpleList style={{ marginBottom: 12 }}>
-          <SimpleList.Item title="Рейс" value={currentTask?.flight} />
-          <SimpleList.Item title="Маршрут" value={`${currentTask?.route.from}-${currentTask?.route.to}`} />
-          <SimpleList.Item title="STA / ETA" value={currentTask?.staEta} />
-          <SimpleList.Item title="Тип ВС" value={currentTask?.aircraftType} />
-          <SimpleList.Item title="Борт" value={currentTask?.board} />
-          <SimpleList.Item title="MC" value={currentTask?.mc.toString()} />
-          <SimpleList.Item title="Прилет" value={currentTask?.arrival} />
-          <SimpleList.Item title="Стоянка" value={currentTask?.parking} />
-          <SimpleList.Item title="Перрон" value={currentTask?.platform} />
-          <SimpleList.Item title="Терминал" value={currentTask?.terminal} />
-          <SimpleList.Item title="Выход" value={currentTask?.exit} />
-          <SimpleList.Item title="Пасс факт" value={currentTask?.passFact} />
-          <SimpleList.Item title="Пасс AODB" value={currentTask?.passAodb} />
-          <SimpleList.Item title="Груз/багаж факт" value={currentTask?.luggageFact} />
-          <SimpleList.Item title="Груз/багаж AODB" value={currentTask?.luggageAodb} hideBorder />
+          <SimpleList.Item title="Рейс" value={currentFlight?.numberOfFlight} />
+          <SimpleList.Item title="Маршрут" value={currentFlight?.route} />
+          <SimpleList.Item title="STA / ETA" value={currentFlight?.sta} />
+          {currentFlight?.flightDate && (
+            <SimpleList.Item title="Дата" value={format(new Date(currentFlight?.flightDate), 'd.MM.y')} />
+          )}
+          <SimpleList.Item title="Тип ВС" value={currentFlight?.airplaneType} />
+          <SimpleList.Item title="Борт" value={currentFlight?.airplane} />
+          <SimpleList.Item title="MC" value={currentFlight?.ms} />
+          <SimpleList.Item title="Перрон" value={currentFlight?.platform} />
+          <SimpleList.Item title="Терминал" value={currentFlight?.terminal} />
+          <SimpleList.Item title="Выход" value={currentFlight?.exit ? currentFlight?.exit : '-'} />
+          <SimpleList.Item title="Пасс факт" value={currentFlight?.passiveFact} />
+          <SimpleList.Item title="Пасс AODB" value={currentFlight?.passiveAODB} />
+          <SimpleList.Item title="Груз/багаж факт" value={currentFlight?.cargoFact} />
+          <SimpleList.Item title="Груз/багаж AODB" value={currentFlight?.cargoAO} hideBorder />
         </SimpleList>
       </View>
     );
   };
 
-  useEffect(() => {
-    getTaskById(id);
-  }, []);
+  const ArrivalDataList = (): ReactElement => {
+    if (currentFlight?.direction === DirectionsEnum.Departure) return <View />;
+
+    return <DataList />;
+  };
+
+  const DepartureDataList = (): ReactElement => {
+    if (currentFlight?.direction === DirectionsEnum.Arrival) return <View />;
+
+    return <DataList />;
+  };
+
+  const handleAddRequest = () => {
+    acceptFlight({
+      flightId: id,
+      userId: 1,
+    });
+  };
 
   if (loading) return <SpinnerLoading />;
 
@@ -50,7 +72,7 @@ const TaskDetailsScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
       <Tab>
         <Tab.Item
           name="ArrivalList"
-          component={ArrivalList}
+          component={ArrivalDataList}
           options={{
             tabBarLabel: 'Прилёт',
           }}
@@ -58,7 +80,7 @@ const TaskDetailsScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
 
         <Tab.Item
           name="DepartureList"
-          component={ArrivalList}
+          component={DepartureDataList}
           options={{
             tabBarLabel: 'Вылет',
           }}
@@ -66,7 +88,9 @@ const TaskDetailsScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
       </Tab>
 
       <View style={{ padding: 20 }}>
-        <Button onPress={() => {}}>Приступить к выполнению</Button>
+        {currentFlight?.status === TaskStatusesEnum.Pending && (
+          <Button onPress={handleAddRequest}>Приступить к выполнению</Button>
+        )}
       </View>
     </ScrollViewContainer>
   );

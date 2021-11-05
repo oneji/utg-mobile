@@ -25,10 +25,6 @@ const PinCodeScreen: FC<PinCodeScreenProps> = ({ route, navigation }) => {
   const [timer, setTimer] = useState(30);
   const intervalRef = useRef(null);
 
-  console.log({
-    navigateTo,
-  });
-
   useEffect(() => {
     if (timer <= 0) {
       clearInterval(intervalRef.current);

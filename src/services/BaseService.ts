@@ -34,9 +34,6 @@ export default class BaseService {
   static commonOptionsMiddlewares: Array<(options: RequestInit) => RequestInit> = [
     options => ({
       ...options,
-      // For auth
-      credentials: 'include',
-      mode: 'cors',
       headers: {
         ...options.headers,
         // Working with JSON
@@ -69,11 +66,16 @@ export default class BaseService {
     options: RequestInit = {},
     requestOptions: RestServiceRequestOptions = {}
   ): Promise<any> => {
+    const optionsMiddlewares = BaseService.commonOptionsMiddlewares;
     const errorHandlers = BaseService.commonErrorHandlers;
 
     let computedOptions: RequestInit = {
       method,
     };
+
+    if (!requestOptions.withoutOptionsMiddlewares) {
+      optionsMiddlewares.forEach(middleware => (computedOptions = middleware(computedOptions)));
+    }
 
     computedOptions = {
       ...computedOptions,
@@ -82,10 +84,18 @@ export default class BaseService {
 
     const url = `${this.customApiPath || BaseService.apiPath}${this.basePath}${subPath}${params ? `?${params}` : ''}`;
 
+    console.log({
+      url,
+    });
+
     let response: Response;
     try {
       response = await fetch(url, computedOptions);
     } catch (error) {
+      console.log({
+        error,
+      });
+
       if (!requestOptions.withoutErrorHandlers) {
         errorHandlers.forEach(handler => handler(error.message));
       }
@@ -94,8 +104,7 @@ export default class BaseService {
     }
 
     if (response.ok) {
-      const data = await response.json();
-      return data;
+      return await response.json();
     } else {
       // Возможно сервер прислал читаемую ошибку
       let message = '';
@@ -109,6 +118,10 @@ export default class BaseService {
           message = errorData.error;
         }
       } catch (e) {
+        console.log({
+          e,
+        });
+
         // Все таки не прислал
       }
 

@@ -5,42 +5,48 @@ import { MaintenanceItems } from '../../../../components/Maintenance';
 import { Button } from '../../../../ui-kit/Buttons';
 import Switch from '../../../../ui-kit/Switch';
 
-import { MaintanceTypesEnum } from '../../../../services/data';
+import { DirectionsEnum, MaintanceTypesEnum, ServiceModel, TaskStatusesEnum } from '../../../../services/data';
 import { FormGroup } from '../../../../ui-kit/Forms';
 import TextInput from '../../../../ui-kit/TextInput';
 import { ScrollViewContainer } from '../../../../ui-kit/Containers';
 import { useNavigation } from '@react-navigation/core';
 import { TaskDetailsScreenNavigationProp } from '../../../../navigation/props';
 import { POO_STACK } from '../../../../navigation/stacks/PooStack';
+import { PooStackScreens } from '../../../../navigation/enums';
 
 interface TkoTabProps {
+  items: ServiceModel[];
+  flightDirection: DirectionsEnum;
   onNavigate: (type: MaintanceTypesEnum) => void;
 }
 
-const TkoTab: FC<TkoTabProps> = ({ onNavigate }) => {
+const TkoTab: FC<TkoTabProps> = ({ items, onNavigate }) => {
   const navigation = useNavigation<TaskDetailsScreenNavigationProp>();
   const [additionalInfo, setAdditionalInfo] = useState('');
 
   return (
     <ScrollViewContainer>
       <MaintenanceItems>
-        <MaintenanceItems.Item
-          title="Буксировка"
-          arrivalTime="23:41"
-          departureTime="23:41"
-          arrivalAction={
-            <Button compact onPress={() => onNavigate(MaintanceTypesEnum.Towing)}>
-              Старт
-            </Button>
-          }
-          departureAction={
-            <Button compact onPress={() => onNavigate(MaintanceTypesEnum.Towing)}>
-              Старт
-            </Button>
-          }
-        />
+        {items.map((item, idx) => (
+          <MaintenanceItems.Item
+            key={item.id}
+            hideBorder={idx === items.length - 1}
+            title={item.title}
+            arrivalTime={item.startTime}
+            departureTime={item.endTime}
+            departureAction={
+              <Button compact onPress={() => navigation.navigate(POO_STACK as any)}>
+                {item.status === TaskStatusesEnum.Pending ? 'Старт' : 'Стоп'}
+              </Button>
+            }
+            // status: Pending -> PooAgentScreen (request to getDeicingTreatmentById)
 
-        <MaintenanceItems.Item
+            //
+            onInfoPress={() => navigation.navigate(POO_STACK as any, { screen: PooStackScreens.PooAgent })}
+          />
+        ))}
+
+        {/* <MaintenanceItems.Item
           title="Установка ВС на МС"
           arrivalTime="23:41"
           arrivalAction={<Switch value={false} onChange={() => true} />}
@@ -286,10 +292,10 @@ const TkoTab: FC<TkoTabProps> = ({ onNavigate }) => {
           departureTime="23:41"
           departureAction={<Switch value={false} onChange={() => true} />}
           onInfoPress={() => navigation.navigate(POO_STACK as any)}
-        />
+        /> */}
       </MaintenanceItems>
 
-      <FormGroup>
+      <FormGroup style={{ marginTop: 10 }}>
         <TextInput label="Дополнительная информация" value={additionalInfo} onChangeText={setAdditionalInfo} />
       </FormGroup>
 

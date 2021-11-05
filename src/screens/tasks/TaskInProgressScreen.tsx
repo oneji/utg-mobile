@@ -7,24 +7,25 @@ import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 import Tab from '../../ui-kit/Tab';
 
 import { observer } from 'mobx-react';
-import { useTasksStore } from '../../store/hooks';
+import { useFlightsStore, useServicesStore } from '../../store/hooks';
 import { TaskDetailsScreenProps } from '../../navigation/props';
 import { TasksStackScreens } from '../../navigation/enums';
 import { MaintanceTypesEnum } from '../../services/data';
 
 const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route }) => {
   const { id } = route.params;
-  const { loading, getTaskById } = useTasksStore();
+  const { currentFlight, getFlightById } = useFlightsStore();
+  const { services, loading, getServicesByFlightId } = useServicesStore();
 
   useEffect(() => {
-    getTaskById(id);
+    getServicesByFlightId(id);
   }, []);
 
   const handleNavigate = useCallback((type: MaintanceTypesEnum) => {
     navigation.navigate(TasksStackScreens.Maintenance, { type });
   }, []);
 
-  const TKO = () => <TkoTab onNavigate={handleNavigate} />;
+  const TKO = () => <TkoTab items={services} flightDirection={currentFlight?.direction} onNavigate={handleNavigate} />;
   const Services = () => <ServicesTab onNavigate={handleNavigate} />;
 
   if (loading) return <SpinnerLoading />;

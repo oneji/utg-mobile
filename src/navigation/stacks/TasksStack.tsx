@@ -103,11 +103,12 @@ const TasksStack: FC<BaseScreenProps> = () => {
         name={TasksStackScreens.TaskDetails}
         component={TaskDetailsScreen}
         options={({ route }) => ({
-          title: `Рейс ID ${route.params.id}`,
+          title: `Рейс ID ${route.params.numberOfFlight}`,
           headerTitleAlign: 'center',
         })}
         initialParams={{
           id: null,
+          numberOfFlight: '',
         }}
       />
 
@@ -115,7 +116,7 @@ const TasksStack: FC<BaseScreenProps> = () => {
         name={TasksStackScreens.TaskInProgress}
         component={TaskInProgressScreen}
         options={({ route }) => ({
-          title: `Рейс ID ${route.params.id}`,
+          title: `Рейс ID ${route.params.numberOfFlight}`,
           headerTitleAlign: 'center',
           headerTitleStyle: {
             width: '100%',
@@ -125,6 +126,7 @@ const TasksStack: FC<BaseScreenProps> = () => {
         })}
         initialParams={{
           id: null,
+          numberOfFlight: '',
         }}
       />
 

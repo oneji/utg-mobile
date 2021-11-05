@@ -4,6 +4,7 @@ import { colors, fonts, layout } from '../../../../theme';
 
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TimeLabel } from '../../../../ui-kit/Labels';
+import { format } from 'date-fns';
 
 export interface MaintenanceItemProps {
   title: string;
@@ -45,6 +46,9 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
 
   onInfoPress = () => {},
 }) => {
+  const parsedArrivalTime = new Date(arrivalTime);
+  const parsedDepartureTime = new Date(departureTime);
+
   return (
     <View
       style={{
@@ -75,10 +79,10 @@ const MaintenanceItem: FC<MaintenanceItemProps> = ({
             ]}
           >
             {/* Arrival time */}
-            {arrivalTime && <TimeLabel time={arrivalTime} />}
+            {arrivalTime && <TimeLabel time={format(parsedArrivalTime, 'HH:mm')} />}
 
             {/* Departure time */}
-            {departureTime && <TimeLabel time={departureTime} />}
+            {departureTime && <TimeLabel time={format(parsedDepartureTime, 'HH:mm')} />}
           </View>
         </View>
       </TouchableWithoutFeedback>

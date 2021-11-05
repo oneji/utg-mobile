@@ -4,66 +4,68 @@ import { colors, fontFamilyBold } from '../../../theme';
 
 import { TaskItem } from '..';
 
-import { TaskSchema } from '../../../services/data';
-import { getDayTimes } from '../../../utils';
+import { FlightModel, TaskStatusesEnum } from '../../../services/data';
+import { getDayTimes, isInTheSameTime } from '../../../utils';
 import { useNavigation } from '@react-navigation/native';
 import { TasksStackScreens } from '../../../navigation/enums';
+import { format } from 'date-fns';
+import { TaskDetailsScreenNavigationProp } from '../../../navigation/props';
 
 export interface TasksCalendarProps {
-  tasks: TaskSchema[];
+  items: FlightModel[];
 }
 
-const TasksCalendar: FC<TasksCalendarProps> = ({ tasks }) => {
-  const navigation = useNavigation();
+const TasksCalendar: FC<TasksCalendarProps> = ({ items }) => {
+  const navigation = useNavigation<TaskDetailsScreenNavigationProp>();
   const times = getDayTimes();
   const [formattedTasks, setFormattedTasks] = useState([]);
 
   useEffect(() => {
-    setFormattedTasks(tasks);
-  }, [tasks]);
+    const formattedFlights = [];
+
+    times.forEach(time => {
+      formattedFlights.push({
+        time,
+        items: items.filter(item => isInTheSameTime(time, format(new Date(item.flightDate), 'HH:mm'))),
+      });
+    });
+
+    setFormattedTasks(formattedFlights);
+  }, [items]);
 
   const handleOnTaskItemPress = useCallback(
-    (id: number) => {
-      const taskItem = tasks.find(item => item.id === id);
-      const screenToNavigate =
-        taskItem.status === 'pending' ? TasksStackScreens.TaskDetails : TasksStackScreens.TaskInProgress;
+    (id: number, numberOfFlight: string) => {
+      const taskItem = items.find(item => item.id === id);
 
+      const screenToNavigate =
+        taskItem.status === TaskStatusesEnum.Pending ? TasksStackScreens.TaskDetails : TasksStackScreens.TaskInProgress;
       if (taskItem) {
         navigation.navigate(screenToNavigate, {
           id,
+          numberOfFlight,
         });
       }
     },
-    [tasks]
+    [items]
   );
 
   return (
     <View style={styles.container}>
-      {times.map(time => (
-        <View style={styles.timeContainer} key={time}>
-          <View style={{ flexBasis: '15%' }}>
-            <Text style={styles.timeText}>{time}</Text>
-          </View>
+      {formattedTasks.map(item =>
+        item.items.length ? (
+          <View style={styles.timeContainer} key={item.time}>
+            <View style={{ flexBasis: '15%' }}>
+              <Text style={styles.timeText}>{item.time}</Text>
+            </View>
 
-          {Math.random() > 0.5 ? (
             <View style={styles.tasksContainer}>
-              {formattedTasks.map(item => (
+              {item.items.map(item => (
                 <TaskItem key={item.id} item={item} onPress={handleOnTaskItemPress} />
               ))}
             </View>
-          ) : (
-            <View
-              style={{
-                height: 1,
-                backgroundColor: colors.gray.light,
-                flexGrow: 1,
-                marginLeft: 20,
-                alignSelf: 'center',
-              }}
-            />
-          )}
-        </View>
-      ))}
+          </View>
+        ) : null
+      )}
     </View>
   );
 };

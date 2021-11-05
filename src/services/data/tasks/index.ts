@@ -37,13 +37,11 @@ export interface TaskGetByIdParams {
 }
 
 export enum TaskStatusesEnum {
-  Pending = 'pending',
-  InProgress = 'in_progress',
-}
-
-export enum TaskTypesEnum {
-  PPO = 'ppo',
-  Towing = 'towing',
+  None = 'None',
+  Await = 'Await',
+  Pending = 'Pending',
+  InProgress = 'InProgress',
+  Done = 'Done',
 }
 
 export type TaskStepSchema = {

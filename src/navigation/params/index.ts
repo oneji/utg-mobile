@@ -12,9 +12,11 @@ export type TasksStackParamList = {
   [TasksStackScreens.Tasks]: undefined;
   [TasksStackScreens.TaskDetails]: {
     id: number;
+    numberOfFlight: string;
   };
   [TasksStackScreens.TaskInProgress]: {
     id: number;
+    numberOfFlight: string;
   };
   [TasksStackScreens.Maintenance]: {
     type: MaintanceTypesEnum;

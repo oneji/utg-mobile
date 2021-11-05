@@ -1,4 +1,4 @@
-import { MaintanceTypesEnum, TaskSchema, TaskStepSchema } from '../../../services/data';
+import { MaintanceTypesEnum, TaskSchema, TaskStatusesEnum, TaskStepSchema } from '../../../services/data';
 
 export const getInProgressTasksSteps = (task: TaskSchema): TaskStepSchema[] => {
   if (!task) return [];
@@ -48,4 +48,16 @@ export const getMaintenanceItemNameByType = (type: MaintanceTypesEnum) => {
   };
 
   return map[type] ?? 'Неверный тип услуги';
+};
+
+export const getFlightStatus = (status: TaskStatusesEnum) => {
+  const statusesMap = {
+    [TaskStatusesEnum.None]: 'Плохо',
+    [TaskStatusesEnum.Pending]: 'В ожидании',
+    [TaskStatusesEnum.Done]: 'Завершен',
+    [TaskStatusesEnum.InProgress]: 'В работе',
+    [TaskStatusesEnum.Await]: 'В ожидании распределения',
+  };
+
+  return statusesMap[status];
 };

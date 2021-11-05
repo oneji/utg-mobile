@@ -1,42 +1,51 @@
+import { observer } from 'mobx-react-lite';
 import React, { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { TreatmentStagesEnum } from '../../../services/data';
+import { useTreatmentsStore } from '../../../store/hooks';
 import { fonts } from '../../../theme';
 import { SimpleList } from '../../../ui-kit/Lists';
 import Paper from '../../../ui-kit/Paper';
+import { WEATHER_NAMES, TREATMENT_NAMES } from '../../../utils';
 
 const PooAgentReportRu: FC = () => {
+  const { deicingTreatment, deicingTreatmentFormValues } = useTreatmentsStore();
+
   return (
-    <View style={styles.container}>
+    <View>
       <Paper title="Погода" titleStyle={fonts.bodySemibold}>
         <SimpleList>
-          <SimpleList.Item title="Температура" value="-27" />
-          <SimpleList.Item title="Осадки" value="Туман / иней" hideBorder />
+          <SimpleList.Item title="Температура" value={`${deicingTreatment?.temperature} °C`} />
+          <SimpleList.Item title="Осадки" value={WEATHER_NAMES[deicingTreatmentFormValues?.weather]} hideBorder />
         </SimpleList>
       </Paper>
 
-      <Paper title="Верхняя поверхность крыла" titleStyle={fonts.bodySemibold}>
+      <Paper title={TREATMENT_NAMES[deicingTreatmentFormValues?.treatmentType]} titleStyle={fonts.bodySemibold}>
         <SimpleList>
           <SimpleList.Item title="Метод ПОО" value="1-ступенчатая" />
-          <SimpleList.Item title="Тип жидкости" value="I" />
-          <SimpleList.Item title="Концентрация раствора (Type I : Вода)" value="30:70" />
-          <SimpleList.Item title="Наименование" value="PRIMER" hideBorder />
+          <SimpleList.Item title="Тип жидкости" value={deicingTreatmentFormValues?.liquidType} />
+          <SimpleList.Item
+            title="Концентрация раствора (Type I : Вода)"
+            value={deicingTreatmentFormValues?.stageConcentration}
+          />
+          <SimpleList.Item title="Наименование" value={deicingTreatmentFormValues?.firstTitle} hideBorder />
         </SimpleList>
       </Paper>
 
-      <Paper title="Верхняя поверхность стабилизатора" titleStyle={fonts.bodySemibold}>
-        <SimpleList>
-          <SimpleList.Item title="Метод ПОО" value="2-ступенчатая" />
-          <SimpleList.Item title="Тип жидкости" value="IV" />
-          <SimpleList.Item title="Концентрация" value="100" />
-          <SimpleList.Item title="Наименование" value="PRIMER2" hideBorder />
-        </SimpleList>
-      </Paper>
+      {deicingTreatmentFormValues?.threatmentStage === TreatmentStagesEnum.TwoStages ? (
+        <Paper title={TREATMENT_NAMES[deicingTreatmentFormValues?.treatmentType]} titleStyle={fonts.bodySemibold}>
+          <SimpleList>
+            <SimpleList.Item title="Метод ПОО" value="2-ступенчатая" />
+            <SimpleList.Item title="Тип жидкости" value={deicingTreatmentFormValues?.liquidType} />
+            <SimpleList.Item title="Концентрация" value={deicingTreatmentFormValues?.stageConcentration} />
+            <SimpleList.Item title="Наименование" value={deicingTreatmentFormValues?.secondTitle} hideBorder />
+          </SimpleList>
+        </Paper>
+      ) : null}
     </View>
   );
 };
 
-export default PooAgentReportRu;
+export default observer(PooAgentReportRu);
 
-const styles = StyleSheet.create({
-  container: {},
-});
+const styles = StyleSheet.create({});
