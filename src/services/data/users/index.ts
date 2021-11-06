@@ -1,9 +1,9 @@
 export enum UserRolesEnum {
-  None = 0,
-  Dispatcher = 1,
-  WorkerTKO = 2,
-  Client = 3,
-  WorkerInCar = 4,
+  None = 'None',
+  Dispatcher = 'Dispatcher',
+  WorkerTKO = 'WorkerTKO',
+  Client = 'Client',
+  WorkerInCar = 'WorkerInCar',
 }
 
 export interface UserModel {

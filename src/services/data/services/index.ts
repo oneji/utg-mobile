@@ -1,4 +1,4 @@
-import { DirectionsEnum, TaskStatusesEnum } from '..';
+import { DirectionsEnum, TaskStatusesEnum, TaskTypesEnum } from '..';
 
 export interface ServiceModel {
   id?: number;
@@ -12,4 +12,5 @@ export interface ServiceModel {
   responsible?: string;
   isCompleted?: boolean;
   direction?: DirectionsEnum;
+  taskType: TaskTypesEnum;
 }

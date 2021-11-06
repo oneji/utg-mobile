@@ -48,10 +48,13 @@ export type PooStackParamList = {
   [PooStackScreens.PooAgent]: {
     id: number;
   };
-  [PooStackScreens.PooSign]: undefined;
+  [PooStackScreens.PooSign]: {
+    id: number;
+  };
   [PooStackScreens.PooEnterTransportNumber]: undefined;
   [PooStackScreens.PooTransportEmployee]: {
-    id: number;
+    numberOfFlight: string;
+    deicingTreatmentId: number;
   };
 };
 

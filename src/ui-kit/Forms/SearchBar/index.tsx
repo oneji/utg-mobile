@@ -28,20 +28,17 @@ const SearchBar: FC<SearchBarProps> = ({ style, ...otherProps }) => {
           onChangeText={(value: string) => setValue(value)}
           placeholder="Бортовой номер/Номер рейса"
           placeholderTextColor={colors.violet.primary}
-          style={{
-            ...(style as object),
-            ...fonts.paragraphRegular,
-            paddingVertical: 0,
-            color: colors.violet.primary,
-          }}
+          style={[styles.input, style]}
           numberOfLines={1}
           {...otherProps}
         />
       </View>
 
-      <TouchableRipple onPress={handleClear} borderless style={{ borderRadius: 100, padding: 2 }}>
-        <MaterialIcon name="close" size={24} color={colors.violet.primary} />
-      </TouchableRipple>
+      {value.length ? (
+        <TouchableRipple onPress={handleClear} borderless style={{ borderRadius: 100, padding: 2 }}>
+          <MaterialIcon name="close" size={24} color={colors.violet.primary} />
+        </TouchableRipple>
+      ) : null}
     </View>
   );
 };
@@ -54,5 +51,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.violet.secondary,
     paddingHorizontal: 10,
     paddingVertical: 5,
+  },
+  input: {
+    ...fonts.paragraphRegular,
+    paddingVertical: 0,
+    color: colors.violet.primary,
   },
 });

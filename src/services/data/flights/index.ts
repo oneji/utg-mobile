@@ -44,6 +44,7 @@ export interface FlightModel {
   ms?: string;
   route?: string;
   sta?: string;
+  startPlan?: string;
 }
 
 export interface GetFlightByTkoIdRequestParams {

@@ -8,22 +8,16 @@ import { format } from 'date-fns';
 
 export interface MaintenanceItemProps {
   title: string;
-
   arrivalAction?: ReactNode;
   departureAction?: ReactNode;
-
   arrivalTime?: string;
   departureTime?: string;
-
   hideArrivalAction?: boolean;
   hideDepartureAction?: boolean;
-
   arrivalActionContainerStyle?: StyleProp<ViewStyle>;
   departureActionContainerStyle?: StyleProp<ViewStyle>;
   infoContainerStyle?: StyleProp<ViewStyle>;
-
   hideBorder?: boolean;
-
   onInfoPress?: () => void;
 }
 

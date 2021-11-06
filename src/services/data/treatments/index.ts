@@ -30,4 +30,6 @@ export interface UpdateDeicingTreatmentRequestBody {
   treatmentType: TreatmentTypesEnum;
   signedPosition: string;
   signedFIO: string;
+  weatherType: string;
+  status: TaskStatusesEnum;
 }

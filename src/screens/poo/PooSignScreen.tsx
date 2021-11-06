@@ -7,10 +7,10 @@ import { FormGroup } from '../../ui-kit/Forms';
 import TextInput from '../../ui-kit/TextInput';
 
 import { useFormik } from 'formik';
-import { showMessage } from 'react-native-flash-message';
 import { useTreatmentsStore } from '../../store/hooks';
 import { observer } from 'mobx-react-lite';
 import * as Yup from 'yup';
+import { PooSignScreenProps } from '../../navigation/props';
 
 interface PooSignFormValues {
   signedPosition: string;
@@ -22,14 +22,15 @@ const PooSignFormValidationSchema: Yup.SchemaOf<PooSignFormValues> = Yup.object(
   signedFIO: Yup.string().required(),
 });
 
-const PooSignScreen: FC = () => {
+const PooSignScreen: FC<PooSignScreenProps> = ({ route }) => {
+  const { id } = route.params;
   const { loading, updateDeicingTreament, deicingTreatmentFormValues } = useTreatmentsStore();
 
   // UTG-TODO: Get proper treatment ID
   const handleFinish = useCallback(({ signedFIO, signedPosition }: PooSignFormValues) => {
     updateDeicingTreament({
       ...deicingTreatmentFormValues,
-      id: 10,
+      id,
       isSigned: true,
       signedPosition,
       signedFIO,

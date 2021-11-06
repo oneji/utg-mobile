@@ -16,7 +16,13 @@ import Icon from '../../ui-kit/Icon';
 import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
 import { PooStackScreens } from '../../navigation/enums';
-import { TaskStepSchema, TreatmentStagesEnum, TreatmentTypesEnum, WeatherEnum } from '../../services/data';
+import {
+  TaskStatusesEnum,
+  TaskStepSchema,
+  TreatmentStagesEnum,
+  TreatmentTypesEnum,
+  WeatherEnum,
+} from '../../services/data';
 import { useTreatmentsStore } from '../../store/hooks';
 import { useFormik } from 'formik';
 import { formatTreatmentTypeForLabel } from '../../utils/treatments';
@@ -66,7 +72,7 @@ const pooButtons = [
 ];
 
 export interface DeicingTreatmentFormValues {
-  weather: WeatherEnum;
+  weatherType: WeatherEnum;
   treatmentType: TreatmentTypesEnum;
   threatmentStage: TreatmentStagesEnum;
   stageConcentration: string;
@@ -74,19 +80,20 @@ export interface DeicingTreatmentFormValues {
   liquidType: string;
   percent: number;
   secondTitle: string;
+  status: TaskStatusesEnum;
 }
 
 /**
  * If threatmentStage === 0 => pooStageType : OneStage
  */
-const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
+const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
+  const { id } = route.params;
   const { loading, deicingTreatment, getDeicingTreamentById, syncDeicingTreatmentFormValues } = useTreatmentsStore();
-
   const [currentStep, setCurrentStep] = useState(stepperSteps[0].key);
 
   const { values, setFieldValue } = useFormik<DeicingTreatmentFormValues>({
     initialValues: {
-      weather: null,
+      weatherType: null,
       treatmentType: null,
       threatmentStage: null,
       stageConcentration: '30:70',
@@ -94,13 +101,14 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
       liquidType: 'IV',
       percent: 100,
       secondTitle: 'PRIMER2',
+      status: TaskStatusesEnum.Pending,
     },
     onSubmit: () => {},
   });
 
   useEffect(() => {
     getDeicingTreamentById({
-      treatmentId: 10,
+      treatmentId: id,
       cityId: 473021,
     });
   }, []);
@@ -123,7 +131,9 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
     if (currentIdx + 1 < stepperSteps.length) {
       setCurrentStep(stepperSteps[currentIdx + 1].key);
     } else {
-      navigation.navigate(PooStackScreens.PooSign);
+      navigation.navigate(PooStackScreens.PooSign, {
+        id,
+      });
     }
   }, [currentStep]);
 
@@ -149,8 +159,8 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
             </View>
 
             <IconRadioButton.Group
-              value={values.weather}
-              onChange={(value: WeatherEnum) => setFieldValue('weather', value)}
+              value={values.weatherType}
+              onChange={(value: WeatherEnum) => setFieldValue('weatherType', value)}
             >
               {weatherButtons.map(item => (
                 <IconRadioButton

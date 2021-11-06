@@ -7,7 +7,7 @@ import { Button } from '../../ui-kit/Buttons';
 import { ContainerWithButton } from '../../ui-kit/Containers';
 import { WeatherLabel } from '../../components/Labels';
 import { TaskStepper } from '../../components/Tasks';
-import { PooAgentScreenProps } from '../../navigation/props';
+import { PooAgentScreenProps, PooTransportEmployeeScreenProps } from '../../navigation/props';
 import Icon from '../../ui-kit/Icon';
 import TextInput from '../../ui-kit/TextInput';
 import Switch from '../../ui-kit/Switch';
@@ -18,6 +18,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { InlineAlert } from '../../ui-kit/Alerts';
 import { showMessage } from 'react-native-flash-message';
+import { useTreatmentsStore } from '../../store/hooks';
 
 const stepperSteps: TaskStepSchema[] = [
   { order: 1, label: 'Текущие условия', key: 'currentConditions' },
@@ -44,8 +45,17 @@ const PooResultsValidationSchema: Yup.SchemaOf<PooResultsFormValues> = Yup.objec
   })
   .defined();
 
-const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
+const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route }) => {
+  const { deicingTreatmentId } = route.params;
+  const { getDeicingTreamentById, deicingTreatment } = useTreatmentsStore();
   const [currentStep, setCurrentStep] = useState(stepperSteps[0].key);
+
+  useEffect(() => {
+    getDeicingTreamentById({
+      treatmentId: deicingTreatmentId,
+      cityId: 473021,
+    });
+  }, []);
 
   useEffect(() => {
     if (currentStep === stepperSteps[1].key) {
@@ -112,7 +122,7 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation }) => {
         {currentStep === stepperSteps[0].key && (
           <View>
             <View style={{ paddingHorizontal: 20 }}>
-              <WeatherLabel degree={-27} extended condition="Туман / иней" />
+              <WeatherLabel degree={deicingTreatment?.temperature} extended condition="Туман / иней" />
 
               <View
                 style={{

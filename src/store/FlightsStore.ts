@@ -31,8 +31,10 @@ export class FlightsStore {
 
   @action
   getFlightsByTkoId = async (id: number) => {
+    const { appStore } = this.rootStore;
+
     try {
-      this.setLoading(true);
+      appStore.setLoading(true);
 
       const data = await flightsService.getByTkoId({
         id,
@@ -44,14 +46,12 @@ export class FlightsStore {
     } catch (error) {
       // Global error handler
     } finally {
-      this.setLoading(false);
+      appStore.setLoading(false);
     }
   };
 
   @action
   getFlightById = async (id: number) => {
-    console.log('getFlightById()', { id });
-
     try {
       this.setLoading(true);
 

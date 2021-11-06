@@ -45,7 +45,7 @@ const AppContainer: FC = () => {
 
   useEffect(() => {
     // UTG-TODO: Update getting user info by token
-    getUserInfoById(1);
+    getUserInfoById(9);
   }, []);
 
   if (loading) return <SpinnerLoading />;

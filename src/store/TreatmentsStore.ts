@@ -3,6 +3,7 @@ import { showMessage } from 'react-native-flash-message';
 import { DeicingTreatmentFormValues } from '../screens/poo/PooAgentScreen';
 import { treatmentsService } from '../services';
 import {
+  FlightModel,
   GetDeicingTreatmentByIdRequestParams,
   TreatmentModel,
   UpdateDeicingTreatmentRequestBody,
@@ -13,11 +14,16 @@ export class TreatmentsStore {
   rootStore: RootStore = null;
 
   @observable
-  loading: boolean = true;
+  loading: boolean = false;
 
   @observable
   deicingTreatment: TreatmentModel = null;
+
+  @observable
   deicingTreatmentFormValues: DeicingTreatmentFormValues = null;
+
+  @observable
+  deicingTreatments: FlightModel[] = [];
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -32,11 +38,30 @@ export class TreatmentsStore {
 
   @action
   syncDeicingTreatmentFormValues = async (values: DeicingTreatmentFormValues) => {
-    console.log('syncDeicingTreatmentFormValues', {
-      values,
-    });
-
     this.deicingTreatmentFormValues = values;
+  };
+
+  @action
+  getDeicingTreaments = async () => {
+    const { appStore } = this.rootStore;
+
+    try {
+      appStore.setLoading(true);
+
+      const data = await treatmentsService.getDeicingTreatments();
+
+      console.log({
+        data: toJS(data),
+      });
+
+      runInAction(() => {
+        this.deicingTreatments = data;
+      });
+    } catch (error) {
+      // Global error handler
+    } finally {
+      appStore.setLoading(false);
+    }
   };
 
   @action

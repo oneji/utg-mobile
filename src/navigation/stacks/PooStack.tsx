@@ -13,10 +13,13 @@ import {
   PooTransportEmployeeScreen,
 } from '../../screens/poo';
 import { PooStackParamList } from '../params';
+import { useFlightsStore } from '../../store/hooks';
 
 const Stack = createStackNavigator<PooStackParamList>();
 
 const PooStack: FC = () => {
+  const { currentFlight } = useFlightsStore();
+
   return (
     <Stack.Navigator
       initialRouteName={PooStackScreens.PooEnterTransportNumber}
@@ -41,11 +44,11 @@ const PooStack: FC = () => {
         name={PooStackScreens.PooAgent}
         component={PooAgentScreen}
         options={({ route }) => ({
-          title: `ПОО ВС рейс ID ${route.params.id}`,
+          title: `ПОО ВС рейс ID ${currentFlight.numberOfFlight}`,
           headerTitleAlign: 'center',
         })}
         initialParams={{
-          id: 232,
+          id: null,
         }}
       />
 
@@ -55,6 +58,9 @@ const PooStack: FC = () => {
         options={{
           title: 'Подпись заказчика',
           headerTitleAlign: 'center',
+        }}
+        initialParams={{
+          id: null,
         }}
       />
 
@@ -71,11 +77,12 @@ const PooStack: FC = () => {
         name={PooStackScreens.PooTransportEmployee}
         component={PooTransportEmployeeScreen}
         options={({ route }) => ({
-          title: `ПОО ВС рейс ID ${route.params.id}`,
+          title: `ПОО ВС рейс ID ${route.params.numberOfFlight}`,
           headerTitleAlign: 'center',
         })}
         initialParams={{
-          id: 232,
+          numberOfFlight: '',
+          deicingTreatmentId: null,
         }}
       />
     </Stack.Navigator>

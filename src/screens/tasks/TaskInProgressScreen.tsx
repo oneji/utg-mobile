@@ -14,7 +14,7 @@ import { MaintanceTypesEnum } from '../../services/data';
 
 const TaskInProgressScreen: FC<TaskDetailsScreenProps> = ({ navigation, route }) => {
   const { id } = route.params;
-  const { currentFlight, getFlightById } = useFlightsStore();
+  const { currentFlight } = useFlightsStore();
   const { services, loading, getServicesByFlightId } = useServicesStore();
 
   useEffect(() => {

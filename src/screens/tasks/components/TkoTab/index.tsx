@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/core';
 import { TaskDetailsScreenNavigationProp } from '../../../../navigation/props';
 import { POO_STACK } from '../../../../navigation/stacks/PooStack';
 import { PooStackScreens } from '../../../../navigation/enums';
+import { getMaintanenceItemPropsByTask } from '../../../../utils/treatments';
 
 interface TkoTabProps {
   items: ServiceModel[];
@@ -31,18 +32,9 @@ const TkoTab: FC<TkoTabProps> = ({ items, onNavigate }) => {
           <MaintenanceItems.Item
             key={item.id}
             hideBorder={idx === items.length - 1}
-            title={item.title}
             arrivalTime={item.startTime}
             departureTime={item.endTime}
-            departureAction={
-              <Button compact onPress={() => navigation.navigate(POO_STACK as any)}>
-                {item.status === TaskStatusesEnum.Pending ? 'Старт' : 'Стоп'}
-              </Button>
-            }
-            // status: Pending -> PooAgentScreen (request to getDeicingTreatmentById)
-
-            //
-            onInfoPress={() => navigation.navigate(POO_STACK as any, { screen: PooStackScreens.PooAgent })}
+            {...getMaintanenceItemPropsByTask(item)}
           />
         ))}
 

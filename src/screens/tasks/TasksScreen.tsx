@@ -6,14 +6,25 @@ import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
 import { TasksScreenProps } from '../../navigation/props';
 import { observer } from 'mobx-react';
-import { useFlightsStore } from '../../store/hooks';
+import { useAppStore, useFlightsStore, useTreatmentsStore, useUserStore } from '../../store/hooks';
 import { TasksCalendar } from '../../components/Tasks';
+import { UserRolesEnum } from '../../services/data';
 
 const TasksScreen: FC<TasksScreenProps> = () => {
-  const { loading, flights, getFlightsByTkoId } = useFlightsStore();
+  const { user } = useUserStore();
+  const { loading } = useAppStore();
+  const { flights, getFlightsByTkoId } = useFlightsStore();
+  const { deicingTreatments, getDeicingTreaments } = useTreatmentsStore();
+
+  // UTG-TODO: If role WorkerInCard request -> clients/Treatment/GetDeicingTreatments
 
   useEffect(() => {
-    getFlightsByTkoId(1);
+    // TKO ID === User ID
+    if (user?.role === UserRolesEnum.WorkerTKO) {
+      getFlightsByTkoId(user?.id);
+    } else if (user?.role === UserRolesEnum.WorkerInCar) {
+      getDeicingTreaments();
+    }
   }, []);
 
   if (loading) return <SpinnerLoading />;
@@ -23,7 +34,8 @@ const TasksScreen: FC<TasksScreenProps> = () => {
       noPadding
       refreshControl={<RefreshControl refreshing={loading} onRefresh={() => getFlightsByTkoId(1)} />}
     >
-      <TasksCalendar items={flights} />
+      {user.role === UserRolesEnum.WorkerTKO && <TasksCalendar items={flights} />}
+      {user.role === UserRolesEnum.WorkerInCar && <TasksCalendar items={deicingTreatments} />}
     </ScrollViewContainer>
   );
 };

@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import AppContainer from './src/containers/AppContainer';
 import { ReactNativeKeycloakProvider } from '@react-keycloak/native';
 import keycloak from './src/keycloak';
+import { ErrorBoundary } from './src/components/Errors';
 
 const App: FC = () => {
   useEffect(() => {
@@ -22,11 +23,13 @@ const App: FC = () => {
       }}
       onEvent={handleOnEvent}
     >
-      <StoreProvider>
-        <PaperProvider>
-          <AppContainer />
-        </PaperProvider>
-      </StoreProvider>
+      <ErrorBoundary>
+        <StoreProvider>
+          <PaperProvider>
+            <AppContainer />
+          </PaperProvider>
+        </StoreProvider>
+      </ErrorBoundary>
     </ReactNativeKeycloakProvider>
   );
 };

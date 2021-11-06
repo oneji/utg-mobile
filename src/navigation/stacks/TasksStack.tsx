@@ -17,16 +17,18 @@ import { BaseScreenProps } from '../props';
 import { TasksStackParamList } from '../params';
 import { getMaintenanceItemNameByType } from '../../utils';
 import { MaintenanceScreen } from '../../screens/maintenance';
-import { IconButton, Searchbar } from 'react-native-paper';
-import { useTasksStore } from '../../store/hooks';
+import { IconButton } from 'react-native-paper';
+import { useTasksStore, useUserStore } from '../../store/hooks';
 import { observer } from 'mobx-react-lite';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { SearchBar } from '../../ui-kit/Forms';
+import { UserRolesEnum } from '../../services/data';
 
 const Stack = createStackNavigator<TasksStackParamList>();
 
 const TasksStack: FC<BaseScreenProps> = () => {
   const { isSearchEnabled, setIsSearchEnabled } = useTasksStore();
+  const { user } = useUserStore();
 
   return (
     <Stack.Navigator
@@ -82,19 +84,17 @@ const TasksStack: FC<BaseScreenProps> = () => {
             );
           },
           headerRight: () => {
-            return (
-              !isSearchEnabled && (
-                <IconButton
-                  icon="magnify"
-                  onPress={() => setIsSearchEnabled(true)}
-                  size={24}
-                  style={{
-                    borderRadius: 100,
-                  }}
-                  color={colors.violet.primary}
-                />
-              )
-            );
+            return !isSearchEnabled && user?.role === UserRolesEnum.WorkerTKO ? (
+              <IconButton
+                icon="magnify"
+                onPress={() => setIsSearchEnabled(true)}
+                size={24}
+                style={{
+                  borderRadius: 100,
+                }}
+                color={colors.violet.primary}
+              />
+            ) : null;
           },
         }}
       />

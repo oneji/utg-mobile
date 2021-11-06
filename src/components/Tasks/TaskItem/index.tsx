@@ -16,7 +16,7 @@ export interface TaskItemProps {
 }
 
 const TaskItem: FC<TaskItemProps> = ({ item, onPress }) => {
-  const parsedTime = new Date(item.flightDate);
+  const parsedTime = new Date(item.flightDate || item.startPlan);
 
   return (
     <TouchableWithoutFeedback onPress={() => onPress(item.id, item.numberOfFlight)}>
@@ -24,7 +24,7 @@ const TaskItem: FC<TaskItemProps> = ({ item, onPress }) => {
         <View style={{ ...layout.rowSpaceBetween, marginBottom: 20 }}>
           <Text style={styles.smallGray}>ID {item.numberOfFlight}</Text>
 
-          {item.status !== TaskStatusesEnum.Pending ? (
+          {item.status && item.status !== TaskStatusesEnum.Pending ? (
             <Badge variant="success">{getFlightStatus(item.status)}</Badge>
           ) : null}
         </View>

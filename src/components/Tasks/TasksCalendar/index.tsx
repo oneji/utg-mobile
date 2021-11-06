@@ -2,14 +2,16 @@ import React, { FC, useEffect, useState, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors, fontFamilyBold } from '../../../theme';
 
-import { TaskItem } from '..';
+import { NoTasks, TaskItem } from '..';
 
-import { FlightModel, TaskStatusesEnum } from '../../../services/data';
+import { FlightModel, TaskStatusesEnum, UserRolesEnum } from '../../../services/data';
 import { getDayTimes, isInTheSameTime } from '../../../utils';
 import { useNavigation } from '@react-navigation/native';
-import { TasksStackScreens } from '../../../navigation/enums';
+import { PooStackScreens, TasksStackScreens } from '../../../navigation/enums';
 import { format } from 'date-fns';
 import { TaskDetailsScreenNavigationProp } from '../../../navigation/props';
+import { useUserStore } from '../../../store/hooks';
+import { POO_STACK } from '../../../navigation/stacks';
 
 export interface TasksCalendarProps {
   items: FlightModel[];
@@ -18,16 +20,21 @@ export interface TasksCalendarProps {
 const TasksCalendar: FC<TasksCalendarProps> = ({ items }) => {
   const navigation = useNavigation<TaskDetailsScreenNavigationProp>();
   const times = getDayTimes();
+  const { user } = useUserStore();
   const [formattedTasks, setFormattedTasks] = useState([]);
 
   useEffect(() => {
     const formattedFlights = [];
 
     times.forEach(time => {
-      formattedFlights.push({
-        time,
-        items: items.filter(item => isInTheSameTime(time, format(new Date(item.flightDate), 'HH:mm'))),
-      });
+      if (items.length) {
+        formattedFlights.push({
+          time,
+          items: items.filter(item =>
+            isInTheSameTime(time, format(new Date(item.flightDate || item.startPlan), 'HH:mm'))
+          ),
+        });
+      }
     });
 
     setFormattedTasks(formattedFlights);
@@ -37,12 +44,24 @@ const TasksCalendar: FC<TasksCalendarProps> = ({ items }) => {
     (id: number, numberOfFlight: string) => {
       const taskItem = items.find(item => item.id === id);
 
-      const screenToNavigate =
-        taskItem.status === TaskStatusesEnum.Pending ? TasksStackScreens.TaskDetails : TasksStackScreens.TaskInProgress;
-      if (taskItem) {
-        navigation.navigate(screenToNavigate, {
-          id,
-          numberOfFlight,
+      if (user.role === UserRolesEnum.WorkerTKO) {
+        const screenToNavigate =
+          taskItem.status === TaskStatusesEnum.Pending
+            ? TasksStackScreens.TaskDetails
+            : TasksStackScreens.TaskInProgress;
+        if (taskItem) {
+          navigation.navigate(screenToNavigate, {
+            id,
+            numberOfFlight,
+          });
+        }
+      } else if (user.role === UserRolesEnum.WorkerInCar) {
+        navigation.navigate(POO_STACK as any, {
+          screen: PooStackScreens.PooTransportEmployee,
+          params: {
+            numberOfFlight: taskItem.numberOfFlight,
+            deicingTreatmentId: taskItem?.id,
+          },
         });
       }
     },
@@ -50,21 +69,25 @@ const TasksCalendar: FC<TasksCalendarProps> = ({ items }) => {
   );
 
   return (
-    <View style={styles.container}>
-      {formattedTasks.map(item =>
-        item.items.length ? (
-          <View style={styles.timeContainer} key={item.time}>
-            <View style={{ flexBasis: '15%' }}>
-              <Text style={styles.timeText}>{item.time}</Text>
-            </View>
+    <View style={{ paddingLeft: items.length ? 20 : 0, flex: 1 }}>
+      {formattedTasks.length ? (
+        formattedTasks.map(item =>
+          item.items.length ? (
+            <View style={styles.timeContainer} key={item.time}>
+              <View style={{ flexBasis: '15%' }}>
+                <Text style={styles.timeText}>{item.time}</Text>
+              </View>
 
-            <View style={styles.tasksContainer}>
-              {item.items.map(item => (
-                <TaskItem key={item.id} item={item} onPress={handleOnTaskItemPress} />
-              ))}
+              <View style={styles.tasksContainer}>
+                {item.items.map((item: FlightModel) => (
+                  <TaskItem key={item.id} item={item} onPress={handleOnTaskItemPress} />
+                ))}
+              </View>
             </View>
-          </View>
-        ) : null
+          ) : null
+        )
+      ) : (
+        <NoTasks />
       )}
     </View>
   );
@@ -73,9 +96,6 @@ const TasksCalendar: FC<TasksCalendarProps> = ({ items }) => {
 export default TasksCalendar;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingLeft: 20,
-  },
   timeText: {
     fontSize: 11,
     fontFamily: fontFamilyBold,

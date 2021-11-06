@@ -7,7 +7,7 @@ import { SimpleList } from '../../ui-kit/Lists';
 import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 import Tab from '../../ui-kit/Tab';
 
-import { useFlightsStore } from '../../store/hooks';
+import { useFlightsStore, useUserStore } from '../../store/hooks';
 import { observer } from 'mobx-react';
 import { TaskDetailsScreenProps } from '../../navigation/props';
 import { DirectionsEnum, TaskStatusesEnum } from '../../services/data';
@@ -15,6 +15,7 @@ import { format } from 'date-fns';
 
 const TaskDetailsScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
   const { id } = route.params;
+  const { user } = useUserStore();
   const { loading, currentFlight, getFlightById, acceptFlight } = useFlightsStore();
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const TaskDetailsScreen: FC<TaskDetailsScreenProps> = ({ route }) => {
   const handleAddRequest = () => {
     acceptFlight({
       flightId: id,
-      userId: 1,
+      userId: user?.id,
     });
   };
 
