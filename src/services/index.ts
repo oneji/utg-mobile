@@ -4,3 +4,4 @@ export { default as flightsService, FlightsService } from './flights/FlightsServ
 export { default as servicesService, ServicesService } from './services/ServicesService';
 export { default as treatmentsService, TreatmentsService } from './treatments/TreatmentsService';
 export { default as usersService, UsersService } from './users/UsersService';
+export { default as storageService, StorageService } from './storage';

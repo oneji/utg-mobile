@@ -3,7 +3,7 @@ import { TasksStackScreens } from '../navigation/enums';
 import { TasksStackParamList } from '../navigation/params';
 import { navigate } from '../navigation/RootNavigation';
 import { flightsService } from '../services';
-import { AcceptFlightRequestParams, FlightModel } from '../services/data';
+import { AcceptFlightRequestParams, FlightModel, GetFlightByTkoIdRequestParams } from '../services/data';
 import RootStore from './RootStore';
 
 export class FlightsStore {
@@ -18,6 +18,9 @@ export class FlightsStore {
   @observable
   currentFlight: FlightModel = null;
 
+  @observable
+  showResults: boolean = true;
+
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
 
@@ -30,7 +33,12 @@ export class FlightsStore {
   };
 
   @action
-  getFlightsByTkoId = async (id: number) => {
+  setShowResults = async (state: boolean) => {
+    this.showResults = state;
+  };
+
+  @action
+  getFlightsByTkoId = async ({ id, search = '' }: GetFlightByTkoIdRequestParams) => {
     const { appStore } = this.rootStore;
 
     try {
@@ -38,10 +46,12 @@ export class FlightsStore {
 
       const data = await flightsService.getByTkoId({
         id,
+        search,
       });
 
       runInAction(() => {
         this.flights = toJS(data);
+        this.showResults = true;
       });
     } catch (error) {
       // Global error handler

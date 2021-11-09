@@ -15,9 +15,10 @@ import { POO_STACK } from '../../../navigation/stacks';
 
 export interface TasksCalendarProps {
   items: FlightModel[];
+  hideTime?: boolean;
 }
 
-const TasksCalendar: FC<TasksCalendarProps> = ({ items }) => {
+const TasksCalendar: FC<TasksCalendarProps> = ({ items, hideTime }) => {
   const navigation = useNavigation<TaskDetailsScreenNavigationProp>();
   const times = getDayTimes();
   const { user } = useUserStore();
@@ -74,9 +75,7 @@ const TasksCalendar: FC<TasksCalendarProps> = ({ items }) => {
         formattedTasks.map(item =>
           item.items.length ? (
             <View style={styles.timeContainer} key={item.time}>
-              <View style={{ flexBasis: '15%' }}>
-                <Text style={styles.timeText}>{item.time}</Text>
-              </View>
+              <View style={{ flexBasis: '15%' }}>{!hideTime && <Text style={styles.timeText}>{item.time}</Text>}</View>
 
               <View style={styles.tasksContainer}>
                 {item.items.map((item: FlightModel) => (

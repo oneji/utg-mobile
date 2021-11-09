@@ -49,6 +49,7 @@ export interface FlightModel {
 
 export interface GetFlightByTkoIdRequestParams {
   id: number;
+  search?: string;
 }
 
 export interface GetServicesByFlightIdRequestParams {

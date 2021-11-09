@@ -10,6 +10,7 @@ import {
 
 export type TasksStackParamList = {
   [TasksStackScreens.Tasks]: undefined;
+  [TasksStackScreens.TasksSearch]: undefined;
   [TasksStackScreens.TaskDetails]: {
     id: number;
     numberOfFlight: string;

@@ -18,7 +18,7 @@ export class FlightsService extends BaseService {
   ): Promise<FlightModel[]> => {
     const { result }: ApiRequestResponse<FlightModel> = await this.send(
       GET,
-      `id=${params.id}`,
+      `id=${params.id}${params.search ? `&search=${params?.search?.toLowerCase()}` : ''}`,
       FlightEndpoints.GetByTkoId,
       options,
       requestOptions

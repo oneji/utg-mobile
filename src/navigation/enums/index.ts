@@ -7,6 +7,7 @@ export enum AppStackScreens {
 
 export enum TasksStackScreens {
   Tasks = 'TasksScreen',
+  TasksSearch = 'TasksSearchScreen',
   TaskDetails = 'TaskDetailsScreen',
   TaskInProgress = 'TaskInProgressScreen',
   TaskReport = 'TaskReportScreen',

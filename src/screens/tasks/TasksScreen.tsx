@@ -21,7 +21,9 @@ const TasksScreen: FC<TasksScreenProps> = () => {
   useEffect(() => {
     // TKO ID === User ID
     if (user?.role === UserRolesEnum.WorkerTKO) {
-      getFlightsByTkoId(user?.id);
+      getFlightsByTkoId({
+        id: user?.id,
+      });
     } else if (user?.role === UserRolesEnum.WorkerInCar) {
       getDeicingTreaments();
     }
@@ -32,7 +34,7 @@ const TasksScreen: FC<TasksScreenProps> = () => {
   return (
     <ScrollViewContainer
       noPadding
-      refreshControl={<RefreshControl refreshing={loading} onRefresh={() => getFlightsByTkoId(1)} />}
+      refreshControl={<RefreshControl refreshing={loading} onRefresh={() => getFlightsByTkoId({ id: user?.id })} />}
     >
       {user.role === UserRolesEnum.WorkerTKO && <TasksCalendar items={flights} />}
       {user.role === UserRolesEnum.WorkerInCar && <TasksCalendar items={deicingTreatments} />}

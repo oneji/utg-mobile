@@ -12,6 +12,7 @@ import {
   TasksScreen,
   TaskReportScreen,
   TaskReportSignScreen,
+  TasksSearchScreen,
 } from '../../screens/tasks';
 import { BaseScreenProps } from '../props';
 import { TasksStackParamList } from '../params';
@@ -26,7 +27,7 @@ import { UserRolesEnum } from '../../services/data';
 
 const Stack = createStackNavigator<TasksStackParamList>();
 
-const TasksStack: FC<BaseScreenProps> = () => {
+const TasksStack: FC<BaseScreenProps> = ({ navigation }) => {
   const { isSearchEnabled, setIsSearchEnabled } = useTasksStore();
   const { user } = useUserStore();
 
@@ -54,40 +55,13 @@ const TasksStack: FC<BaseScreenProps> = () => {
         name={TasksStackScreens.Tasks}
         component={TasksScreen}
         options={{
-          headerTitle: ({ style, tintColor }) => {
-            return isSearchEnabled ? (
-              <SearchBar />
-            ) : (
-              <Text
-                style={{
-                  ...(style as object),
-                  color: tintColor,
-                }}
-              >
-                Задачи
-              </Text>
-            );
-          },
-          headerLeft: () => {
-            return (
-              isSearchEnabled && (
-                <IconButton
-                  icon="arrow-left"
-                  onPress={() => setIsSearchEnabled(false)}
-                  size={24}
-                  style={{
-                    borderRadius: 100,
-                  }}
-                  color={colors.violet.primary}
-                />
-              )
-            );
-          },
+          title: 'Задачи',
+          headerLeft: null,
           headerRight: () => {
             return !isSearchEnabled && user?.role === UserRolesEnum.WorkerTKO ? (
               <IconButton
                 icon="magnify"
-                onPress={() => setIsSearchEnabled(true)}
+                onPress={() => navigation.navigate(TasksStackScreens.TasksSearch as any)}
                 size={24}
                 style={{
                   borderRadius: 100,
@@ -96,6 +70,25 @@ const TasksStack: FC<BaseScreenProps> = () => {
               />
             ) : null;
           },
+        }}
+      />
+
+      <Stack.Screen
+        name={TasksStackScreens.TasksSearch}
+        component={TasksSearchScreen}
+        options={{
+          headerLeft: ({ onPress }) => (
+            <IconButton
+              icon="arrow-left"
+              onPress={onPress}
+              size={24}
+              style={{
+                borderRadius: 100,
+              }}
+              color={colors.violet.primary}
+            />
+          ),
+          headerRight: null,
         }}
       />
 
