@@ -17,7 +17,10 @@ export interface ImagePickerProps extends ViewProps {
   onSelect?: (files: ImageAsset[]) => void;
 }
 
-const options: ImageLibraryOptions = { mediaType: 'photo' };
+const options: ImageLibraryOptions = {
+  mediaType: 'photo',
+  includeBase64: true,
+};
 
 const ImagePicker = ({ label = 'Добавить фото', style, onSelect = () => {}, ...otherProps }: ImagePickerProps) => {
   const [files, setFiles] = useState([]);

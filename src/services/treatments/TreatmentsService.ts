@@ -1,9 +1,10 @@
-import { GET, PUT } from '../../utils';
+import { GET, POST, PUT } from '../../utils';
 import BaseService, { RestServiceRequestOptions } from '../BaseService';
 import {
   ApiRequestResponse,
   FlightModel,
   GetDeicingTreatmentByIdRequestParams,
+  StartDeicingTreatmentRequestBody,
   TreatmentModel,
   UpdateDeicingTreatmentRequestBody,
 } from '../data';
@@ -12,6 +13,8 @@ enum TreatmentsEndpoints {
   GetDeicingTreatments = 'GetDeicingTreatments',
   GetById = 'GetDeIcingTreatmentById',
   UpdateDeicingTreatment = 'UpdateDeicingTreatment',
+  StartDeicingTreatment = 'StartDeicingTreatment',
+  StopDeicingTreatment = 'StopDeicingTreatment',
 }
 
 export class TreatmentsService extends BaseService {
@@ -53,10 +56,6 @@ export class TreatmentsService extends BaseService {
     options: RequestInit = {},
     requestOptions: RestServiceRequestOptions = {}
   ): Promise<void> => {
-    console.log({
-      body,
-    });
-
     const data = await this.send(
       PUT,
       ``,
@@ -66,6 +65,34 @@ export class TreatmentsService extends BaseService {
     );
 
     return data;
+  };
+
+  startDeicingTreatment = async (
+    body: StartDeicingTreatmentRequestBody,
+    options: RequestInit = {},
+    requestOptions: RestServiceRequestOptions = {}
+  ): Promise<void> => {
+    await this.send(
+      POST,
+      ``,
+      TreatmentsEndpoints.StartDeicingTreatment,
+      { ...options, body: JSON.stringify(body) },
+      requestOptions
+    );
+  };
+
+  stopDeicingTreatment = async (
+    body: StartDeicingTreatmentRequestBody,
+    options: RequestInit = {},
+    requestOptions: RestServiceRequestOptions = {}
+  ): Promise<void> => {
+    await this.send(
+      POST,
+      ``,
+      TreatmentsEndpoints.StopDeicingTreatment,
+      { ...options, body: JSON.stringify(body) },
+      requestOptions
+    );
   };
 }
 

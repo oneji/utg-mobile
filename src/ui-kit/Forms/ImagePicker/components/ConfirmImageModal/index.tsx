@@ -28,6 +28,7 @@ const ConfirmImageModal: FC<ConfirmImageModalProps> = ({ uri, onSave, ...otherPr
     }
 
     onSave(comment);
+    setComment('');
   }, [comment]);
 
   return (

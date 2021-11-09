@@ -1,5 +1,6 @@
 import { action, makeObservable, observable, runInAction, toJS } from 'mobx';
 import { showMessage } from 'react-native-flash-message';
+import { navigate } from '../navigation/RootNavigation';
 import { DeicingTreatmentFormValues } from '../screens/poo/PooAgentScreen';
 import { treatmentsService } from '../services';
 import {
@@ -15,6 +16,9 @@ export class TreatmentsStore {
 
   @observable
   loading: boolean = false;
+
+  @observable
+  controlLoading: boolean = false;
 
   @observable
   deicingTreatment: TreatmentModel = null;
@@ -34,6 +38,11 @@ export class TreatmentsStore {
   @action
   setLoading = async (state: boolean) => {
     this.loading = state;
+  };
+
+  @action
+  setControlLoading = async (state: boolean) => {
+    this.controlLoading = state;
   };
 
   @action
@@ -88,7 +97,7 @@ export class TreatmentsStore {
   @action
   updateDeicingTreament = async (body: UpdateDeicingTreatmentRequestBody) => {
     try {
-      this.setLoading(true);
+      this.setControlLoading(true);
 
       await treatmentsService.updateDeicingTreatment(body);
 
@@ -101,7 +110,37 @@ export class TreatmentsStore {
     } catch (error) {
       // Global error handler
     } finally {
-      this.setLoading(false);
+      this.setControlLoading(false);
+    }
+  };
+
+  @action
+  startDeicingTreament = async (id: number) => {
+    try {
+      this.setControlLoading(true);
+
+      await treatmentsService.startDeicingTreatment({
+        treatmentId: id,
+      });
+    } catch (error) {
+      // Global error handler
+    } finally {
+      this.setControlLoading(false);
+    }
+  };
+
+  @action
+  stopDeicingTreament = async (id: number) => {
+    try {
+      this.setControlLoading(true);
+
+      await treatmentsService.stopDeicingTreatment({
+        treatmentId: id,
+      });
+    } catch (error) {
+      // Global error handler
+    } finally {
+      this.setControlLoading(false);
     }
   };
 }

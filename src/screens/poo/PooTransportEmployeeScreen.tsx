@@ -7,18 +7,20 @@ import { Button } from '../../ui-kit/Buttons';
 import { ContainerWithButton } from '../../ui-kit/Containers';
 import { WeatherLabel } from '../../components/Labels';
 import { TaskStepper } from '../../components/Tasks';
-import { PooAgentScreenProps, PooTransportEmployeeScreenProps } from '../../navigation/props';
+import { PooTransportEmployeeScreenProps } from '../../navigation/props';
 import Icon from '../../ui-kit/Icon';
 import TextInput from '../../ui-kit/TextInput';
 import Switch from '../../ui-kit/Switch';
 
-import { PooStackScreens } from '../../navigation/enums';
-import { ImageAsset, TaskStepSchema } from '../../services/data';
+import { ImageAsset, TaskStatusesEnum, TaskStepSchema } from '../../services/data';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { InlineAlert } from '../../ui-kit/Alerts';
 import { showMessage } from 'react-native-flash-message';
 import { useTreatmentsStore } from '../../store/hooks';
+import { TREATMENT_NAMES, WEATHER_NAMES } from '../../utils';
+import { observer } from 'mobx-react';
+import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
 const stepperSteps: TaskStepSchema[] = [
   { order: 1, label: 'Текущие условия', key: 'currentConditions' },
@@ -26,9 +28,9 @@ const stepperSteps: TaskStepSchema[] = [
 ];
 
 interface PooResultsFormValues {
-  water: string;
-  typeI: string;
-  typeIV: string;
+  spentWater: number;
+  spentLiquidOne: number;
+  spentLiquidFour: number;
   receiptPhotos: ImageAsset[];
   isPooProcedureCorrect: boolean;
   isAfterPooCheckDone: boolean;
@@ -36,18 +38,26 @@ interface PooResultsFormValues {
 
 const PooResultsValidationSchema: Yup.SchemaOf<PooResultsFormValues> = Yup.object()
   .shape({
-    water: Yup.string().required(),
-    typeI: Yup.string().required(),
-    typeIV: Yup.string().required(),
+    spentWater: Yup.number().required(),
+    spentLiquidOne: Yup.number().required(),
+    spentLiquidFour: Yup.number().required(),
     receiptPhotos: Yup.array().nullable(),
     isPooProcedureCorrect: Yup.bool().oneOf([true]),
     isAfterPooCheckDone: Yup.bool().oneOf([true]),
   })
   .defined();
 
-const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route }) => {
+const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route }) => {
   const { deicingTreatmentId } = route.params;
-  const { getDeicingTreamentById, deicingTreatment } = useTreatmentsStore();
+  const {
+    controlLoading,
+    loading,
+    deicingTreatment,
+    getDeicingTreamentById,
+    startDeicingTreament,
+    updateDeicingTreament,
+    stopDeicingTreament,
+  } = useTreatmentsStore();
   const [currentStep, setCurrentStep] = useState(stepperSteps[0].key);
 
   useEffect(() => {
@@ -79,6 +89,28 @@ const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route
             values,
           });
 
+          const {
+            spentLiquidFour,
+            spentWater,
+            spentLiquidOne,
+            isAfterPooCheckDone,
+            isPooProcedureCorrect,
+            receiptPhotos,
+          } = values;
+
+          updateDeicingTreament({
+            ...deicingTreatment,
+            treatmentCompleted: isAfterPooCheckDone,
+            treatmentIsChecked: isPooProcedureCorrect,
+            images: receiptPhotos.map(img => ({
+              url: img.base64,
+              comment: img.comment,
+            })),
+            spentWater,
+            spentLiquidOne,
+            spentLiquidFour,
+          });
+
           showMessage({
             type: 'success',
             message: 'Успешно',
@@ -96,15 +128,17 @@ const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route
 
   const { values, errors, handleChange, handleSubmit, setFieldValue, setFieldError } = useFormik<PooResultsFormValues>({
     initialValues: {
-      water: '',
-      typeI: '113 Ltr',
-      typeIV: '0 Ltr',
+      spentWater: null,
+      spentLiquidOne: null,
+      spentLiquidFour: null,
       receiptPhotos: [],
       isAfterPooCheckDone: false,
       isPooProcedureCorrect: false,
     },
     onSubmit: handleMoveNext,
   });
+
+  if (loading) return <SpinnerLoading />;
 
   return (
     <>
@@ -118,11 +152,18 @@ const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route
           },
         }}
         onButtonPress={handleSubmit}
+        buttonProps={{
+          loading: controlLoading,
+        }}
       >
         {currentStep === stepperSteps[0].key && (
           <View>
             <View style={{ paddingHorizontal: 20 }}>
-              <WeatherLabel degree={deicingTreatment?.temperature} extended condition="Туман / иней" />
+              <WeatherLabel
+                degree={deicingTreatment?.temperature}
+                extended
+                condition={WEATHER_NAMES[deicingTreatment?.weather]}
+              />
 
               <View
                 style={{
@@ -131,7 +172,7 @@ const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route
               >
                 <View
                   style={{
-                    ...layout.rowSpaceBetween,
+                    ...layout.rowAlignItemsCenter,
                     paddingVertical: 20,
                     borderTopWidth: 0.5,
                     borderBottomWidth: 0.5,
@@ -140,48 +181,41 @@ const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route
                 >
                   <View style={layout.alignCenter}>
                     <Icon name="airplaneWingTopHighlighted" />
-                    <Text style={{ ...fonts.paragraphRegular, marginTop: 15 }}>Верх крыла</Text>
+                    <Text style={{ ...fonts.paragraphRegular, marginTop: 15 }}>
+                      {TREATMENT_NAMES[deicingTreatment?.treatmentType]}
+                    </Text>
                   </View>
 
-                  <View>
+                  <View style={{ flex: 1, marginLeft: 10 }}>
                     <Text style={{ ...fonts.paragraphSemibold, marginBottom: 20 }}>1-ступенчатая</Text>
 
                     <View style={layout.rowSpaceBetween}>
-                      <Text style={fonts.paragraphRegular}>Type I : Вода</Text>
-                      <Text style={fonts.paragraphSemibold}>30:70</Text>
+                      <Text style={fonts.paragraphRegular}>{`Type ${deicingTreatment?.liquidType}: Вода`}</Text>
+                      <Text style={fonts.paragraphSemibold}>{deicingTreatment?.stageConcentration}</Text>
                     </View>
                   </View>
                 </View>
 
-                <View
-                  style={{
-                    ...layout.rowSpaceBetween,
-                    paddingVertical: 20,
-                    borderTopWidth: 0.5,
-                    borderBottomWidth: 0.5,
-                    borderColor: colors.gray.primary,
-                  }}
-                >
-                  <View style={layout.alignCenter}>
-                    <Icon name="airplaneStabilizerTopHighlighted" />
-                    <Text style={{ ...fonts.paragraphRegular, marginTop: 15 }}>Верх стабилизатора</Text>
-                  </View>
-
-                  <View>
-                    <Text style={{ ...fonts.paragraphSemibold, marginBottom: 20 }}>1-ступенчатая</Text>
-
-                    <View style={layout.rowSpaceBetween}>
-                      <Text style={fonts.paragraphRegular}>Type I : Вода</Text>
-                      <Text style={fonts.paragraphSemibold}>30:70</Text>
-                    </View>
-                  </View>
-                </View>
-
+                {deicingTreatment?.status === TaskStatusesEnum.Pending ||
+                  deicingTreatment?.status === TaskStatusesEnum.InProgress}
                 <View style={{ ...layout.rowSpaceBetween, marginTop: 25 }}>
                   <Text style={{ ...fonts.paragraphRegular, flexGrow: 1 }}>Таймер</Text>
 
                   <View style={{ flexBasis: '30%' }}>
-                    <Button compact>Старт</Button>
+                    <Button
+                      loading={controlLoading}
+                      compact
+                      onPress={() => {
+                        if (deicingTreatment?.status === TaskStatusesEnum.Pending) {
+                          startDeicingTreament(deicingTreatmentId);
+                          handleMoveNext();
+                        } else {
+                          stopDeicingTreament(deicingTreatmentId);
+                        }
+                      }}
+                    >
+                      {deicingTreatment?.status === TaskStatusesEnum.Pending ? 'Старт' : 'Стоп'}
+                    </Button>
                   </View>
                 </View>
               </View>
@@ -203,33 +237,39 @@ const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route
 
             <FormGroup>
               <TextInput
-                label="Water"
-                value={values.water}
-                onChangeText={handleChange('water')}
-                status={errors.water ? 'error' : 'default'}
+                label="Вода (л)"
+                value={values.spentWater?.toString()}
+                onChangeText={handleChange('spentWater')}
+                status={errors.spentWater ? 'error' : 'default'}
+                keyboardType="numeric"
               />
             </FormGroup>
 
             <FormGroup>
               <TextInput
-                label="Type I"
-                value={values.typeI}
-                onChangeText={handleChange('typeI')}
-                status={errors.typeI ? 'error' : 'default'}
+                label="Тип I (л)"
+                value={values.spentLiquidOne?.toString()}
+                onChangeText={handleChange('spentLiquidOne')}
+                status={errors.spentLiquidOne ? 'error' : 'default'}
+                keyboardType="numeric"
               />
             </FormGroup>
 
             <FormGroup>
               <TextInput
-                label="Type IV"
-                value={values.typeIV}
-                onChangeText={handleChange('typeIV')}
-                status={errors.typeIV ? 'error' : 'default'}
+                label="Тип IV (л)"
+                value={values.spentLiquidFour?.toString()}
+                onChangeText={handleChange('spentLiquidFour')}
+                status={errors.spentLiquidFour ? 'error' : 'default'}
+                keyboardType="numeric"
               />
             </FormGroup>
 
             <FormGroup>
-              <ImagePicker label="Фото чека" onSelect={(images: ImageAsset[]) => setFieldValue('photos', images)} />
+              <ImagePicker
+                label="Фото чека"
+                onSelect={(images: ImageAsset[]) => setFieldValue('receiptPhotos', images)}
+              />
             </FormGroup>
 
             <FormGroup style={{ borderTopWidth: 0.5, borderColor: colors.gray.primary, paddingVertical: 15 }}>
@@ -254,7 +294,7 @@ const PooAgentScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route
   );
 };
 
-export default PooAgentScreen;
+export default observer(PooTrasportEmployeeScreen);
 
 const styles = StyleSheet.create({
   labelContainer: {

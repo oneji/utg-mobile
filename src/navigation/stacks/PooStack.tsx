@@ -43,10 +43,10 @@ const PooStack: FC = () => {
       <Stack.Screen
         name={PooStackScreens.PooAgent}
         component={PooAgentScreen}
-        options={({ route }) => ({
-          title: `ПОО ВС рейс ID ${currentFlight.numberOfFlight}`,
+        options={{
+          title: `ПОО ВС рейс ID ${currentFlight?.numberOfFlight}`,
           headerTitleAlign: 'center',
-        })}
+        }}
         initialParams={{
           id: null,
         }}

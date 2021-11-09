@@ -1,16 +1,32 @@
 import { TaskStatusesEnum, TreatmentStagesEnum, TreatmentTypesEnum, WeatherEnum } from '..';
 
 export interface TreatmentModel {
-  temperature: number;
-  weather: WeatherEnum;
-  threatmentStage: number;
-  stageConcentration: string;
-  firstTitle: string;
-  liquidType: string;
-  percent: number;
-  secondTitle: string;
-  status: TaskStatusesEnum;
-  treatmentType: TreatmentTypesEnum;
+  id?: number;
+  temperature?: number;
+  weather?: WeatherEnum;
+  threatmentStage?: TreatmentStagesEnum;
+  stageConcentration?: string;
+  firstTitle?: string;
+  liquidType?: string;
+  percent?: number;
+  secondTitle?: string;
+  status?: TaskStatusesEnum;
+  treatmentType?: TreatmentTypesEnum;
+  isSigned?: boolean;
+  signedPosition?: string;
+  signedFIO?: string;
+  weatherType?: string;
+  treatmentCompleted?: boolean;
+  treatmentIsChecked?: boolean;
+  images?: TreatmentImage[];
+  spentWater?: number;
+  spentLiquidOne?: number;
+  spentLiquidFour?: number;
+}
+
+export interface TreatmentImage {
+  url: string;
+  comment: string;
 }
 
 export interface GetDeicingTreatmentByIdRequestParams {
@@ -19,17 +35,27 @@ export interface GetDeicingTreatmentByIdRequestParams {
 }
 
 export interface UpdateDeicingTreatmentRequestBody {
-  id: number;
-  threatmentStage: TreatmentStagesEnum;
-  stageConcentration: string;
-  firstTitle: string;
-  liquidType: string;
-  percent: number;
-  secondTitle: string;
-  isSigned: boolean;
-  treatmentType: TreatmentTypesEnum;
-  signedPosition: string;
-  signedFIO: string;
-  weatherType: string;
-  status: TaskStatusesEnum;
+  id?: number;
+  threatmentStage?: TreatmentStagesEnum;
+  stageConcentration?: string;
+  firstTitle?: string;
+  liquidType?: string;
+  percent?: number;
+  secondTitle?: string;
+  isSigned?: boolean;
+  treatmentType?: TreatmentTypesEnum;
+  signedPosition?: string;
+  signedFIO?: string;
+  weatherType?: string;
+  status?: TaskStatusesEnum;
+  treatmentCompleted?: boolean;
+  treatmentIsChecked?: boolean;
+  images?: TreatmentImage[];
+  spentWater?: number;
+  spentLiquidOne?: number;
+  spentLiquidFour?: number;
+}
+
+export interface StartDeicingTreatmentRequestBody {
+  treatmentId: number;
 }
