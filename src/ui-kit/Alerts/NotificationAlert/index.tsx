@@ -14,6 +14,7 @@ export interface NotificationAlertProps extends ModalProps {
   message: string;
   autoClose?: boolean;
   autoCloseTimer?: number;
+  onHide?: () => void;
 }
 
 const NotificationAlert: FC<NotificationAlertProps> = ({
@@ -23,6 +24,7 @@ const NotificationAlert: FC<NotificationAlertProps> = ({
   message,
   autoClose = true,
   autoCloseTimer = 3000,
+  onHide = () => {},
   ...otherProps
 }) => {
   const { hideNotificationAlert } = useAppStore();
@@ -36,7 +38,10 @@ const NotificationAlert: FC<NotificationAlertProps> = ({
 
   useEffect(() => {
     if (visible && autoClose) {
-      timeoutRef.current = setTimeout(() => hideNotificationAlert(), autoCloseTimer);
+      timeoutRef.current = setTimeout(() => {
+        hideNotificationAlert();
+        onHide();
+      }, autoCloseTimer);
     }
 
     return () => clearTimeout(timeoutRef.current);

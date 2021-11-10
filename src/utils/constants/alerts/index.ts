@@ -1,7 +1,13 @@
-import { Alert } from 'react-native';
 import { colors } from '../../../theme';
+import { NotificationAlertProps } from '../../../ui-kit/Alerts/NotificationAlert';
 
 export type AlertType = 'success' | 'info' | 'warning' | 'danger';
+export const DefaultNotificationAlertProps: NotificationAlertProps = {
+  visible: false,
+  type: 'success',
+  message: null,
+  loading: false,
+};
 
 export const getAlertColorsByType = (type: AlertType) => {
   const map: { [T in AlertType] } = {

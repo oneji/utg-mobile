@@ -11,7 +11,7 @@ import Icon from '../../ui-kit/Icon';
 import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
 import { TaskStepSchema } from '../../services/data';
-import { useTreatmentsStore } from '../../store/hooks';
+import { useAppStore, useTreatmentsStore } from '../../store/hooks';
 import { TREATMENT_NAMES, WEATHER_NAMES } from '../../utils';
 import { observer } from 'mobx-react';
 import { PooStackScreens } from '../../navigation/enums';
@@ -20,6 +20,7 @@ const stepperSteps: TaskStepSchema[] = [{ order: 1, label: 'Текущие ус�
 
 const PooAgentResultsScreen: FC<PooAgentResultsScreenProps> = ({ navigation, route }) => {
   const { id } = route.params;
+  const { showNotificationAlert } = useAppStore();
   const { controlLoading, loading, deicingTreatment, getDeicingTreamentById } = useTreatmentsStore();
 
   useEffect(() => {
@@ -30,7 +31,15 @@ const PooAgentResultsScreen: FC<PooAgentResultsScreenProps> = ({ navigation, rou
   }, []);
 
   const handleMoveNext = async () => {
-    navigation.navigate(PooStackScreens.PooAgentResultsNext);
+    showNotificationAlert({
+      visible: true,
+      type: 'success',
+      loading: true,
+      message: 'Данные были отправлены в работу. Идет возврат к задачам',
+      onHide: () => {
+        navigation.navigate(PooStackScreens.PooAgentResultsNext);
+      },
+    });
   };
 
   if (loading) return <SpinnerLoading />;

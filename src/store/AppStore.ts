@@ -1,8 +1,7 @@
 import { action, makeObservable, observable } from 'mobx';
 import { NotificationAlertProps } from '../ui-kit/Alerts/NotificationAlert';
+import { DefaultNotificationAlertProps } from '../utils';
 import RootStore from './RootStore';
-
-export type Theme = 'dark' | 'light';
 
 export class AppStore {
   rootStore: RootStore = null;
@@ -11,11 +10,7 @@ export class AppStore {
   loading: boolean = true;
 
   @observable
-  notificationAlert: NotificationAlertProps = {
-    visible: false,
-    type: 'success',
-    message: null,
-  };
+  notificationAlert: NotificationAlertProps = DefaultNotificationAlertProps;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -38,10 +33,7 @@ export class AppStore {
 
   @action
   hideNotificationAlert = () => {
-    this.notificationAlert = {
-      ...this.notificationAlert,
-      visible: false,
-    };
+    this.notificationAlert = DefaultNotificationAlertProps;
   };
 }
 
