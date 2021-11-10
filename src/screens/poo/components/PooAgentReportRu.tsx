@@ -6,7 +6,7 @@ import { useTreatmentsStore } from '../../../store/hooks';
 import { fonts } from '../../../theme';
 import { SimpleList } from '../../../ui-kit/Lists';
 import Paper from '../../../ui-kit/Paper';
-import { WEATHER_NAMES, TREATMENT_NAMES } from '../../../utils';
+import { WEATHER_NAMES, TREATMENT_NAMES, TREATMENT_STAGE_NAMES } from '../../../utils';
 
 const PooAgentReportRu: FC = () => {
   const { deicingTreatment, deicingTreatmentFormValues } = useTreatmentsStore();
@@ -16,13 +16,13 @@ const PooAgentReportRu: FC = () => {
       <Paper title="Погода" titleStyle={fonts.bodySemibold}>
         <SimpleList>
           <SimpleList.Item title="Температура" value={`${deicingTreatment?.temperature} °C`} />
-          <SimpleList.Item title="Осадки" value={WEATHER_NAMES[deicingTreatmentFormValues?.weather]} hideBorder />
+          <SimpleList.Item title="Осадки" value={WEATHER_NAMES[deicingTreatmentFormValues?.weatherType]} hideBorder />
         </SimpleList>
       </Paper>
 
       <Paper title={TREATMENT_NAMES[deicingTreatmentFormValues?.treatmentType]} titleStyle={fonts.bodySemibold}>
         <SimpleList>
-          <SimpleList.Item title="Метод ПОО" value="1-ступенчатая" />
+          <SimpleList.Item title="Метод ПОО" value={TREATMENT_STAGE_NAMES[TreatmentStagesEnum.OneStage]} />
           <SimpleList.Item title="Тип жидкости" value={deicingTreatmentFormValues?.liquidType} />
           <SimpleList.Item
             title="Концентрация раствора (Type I : Вода)"
@@ -35,7 +35,7 @@ const PooAgentReportRu: FC = () => {
       {deicingTreatmentFormValues?.threatmentStage === TreatmentStagesEnum.TwoStages ? (
         <Paper title={TREATMENT_NAMES[deicingTreatmentFormValues?.treatmentType]} titleStyle={fonts.bodySemibold}>
           <SimpleList>
-            <SimpleList.Item title="Метод ПОО" value="2-ступенчатая" />
+            <SimpleList.Item title="Метод ПОО" value={TREATMENT_STAGE_NAMES[TreatmentStagesEnum.TwoStages]} />
             <SimpleList.Item title="Тип жидкости" value={deicingTreatmentFormValues?.liquidType} />
             <SimpleList.Item title="Концентрация" value={deicingTreatmentFormValues?.stageConcentration} />
             <SimpleList.Item title="Наименование" value={deicingTreatmentFormValues?.secondTitle} hideBorder />

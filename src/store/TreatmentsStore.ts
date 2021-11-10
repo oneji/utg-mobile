@@ -24,6 +24,9 @@ export class TreatmentsStore {
   deicingTreatment: TreatmentModel = null;
 
   @observable
+  deicingTreatmentUpdateReason: string = null;
+
+  @observable
   deicingTreatmentFormValues: DeicingTreatmentFormValues = null;
 
   @observable
@@ -38,6 +41,11 @@ export class TreatmentsStore {
   @action
   setLoading = async (state: boolean) => {
     this.loading = state;
+  };
+
+  @action
+  setDeicingTreatmentUpdateReason = async (reason: string) => {
+    this.deicingTreatmentUpdateReason = reason;
   };
 
   @action
@@ -96,16 +104,20 @@ export class TreatmentsStore {
 
   @action
   updateDeicingTreament = async (body: UpdateDeicingTreatmentRequestBody) => {
+    const { appStore } = this.rootStore;
+
     try {
       this.setControlLoading(true);
 
-      await treatmentsService.updateDeicingTreatment(body);
+      await treatmentsService.updateDeicingTreatment({
+        ...body,
+        editReason: this.deicingTreatmentUpdateReason,
+        status: this.deicingTreatment ? this.deicingTreatment?.status : body.status,
+      });
 
-      showMessage({
+      appStore.showNotificationAlert({
         type: 'success',
-        icon: 'auto',
-        message: 'Успешно завершено, подпись есть',
-        position: 'center',
+        message: 'Успешно сохранено',
       });
     } catch (error) {
       // Global error handler

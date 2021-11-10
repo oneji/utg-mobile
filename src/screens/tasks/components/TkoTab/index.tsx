@@ -14,6 +14,7 @@ import { TaskDetailsScreenNavigationProp } from '../../../../navigation/props';
 import { POO_STACK } from '../../../../navigation/stacks/PooStack';
 import { PooStackScreens } from '../../../../navigation/enums';
 import { getMaintanenceItemPropsByTask } from '../../../../utils/treatments';
+import { useUserStore } from '../../../../store/hooks';
 
 interface TkoTabProps {
   items: ServiceModel[];
@@ -24,6 +25,7 @@ interface TkoTabProps {
 const TkoTab: FC<TkoTabProps> = ({ items, onNavigate }) => {
   const navigation = useNavigation<TaskDetailsScreenNavigationProp>();
   const [additionalInfo, setAdditionalInfo] = useState('');
+  const { user } = useUserStore();
 
   return (
     <ScrollViewContainer>
@@ -34,7 +36,7 @@ const TkoTab: FC<TkoTabProps> = ({ items, onNavigate }) => {
             hideBorder={idx === items.length - 1}
             arrivalTime={item.startTime}
             departureTime={item.endTime}
-            {...getMaintanenceItemPropsByTask(item)}
+            {...getMaintanenceItemPropsByTask(item, user?.role)}
           />
         ))}
 

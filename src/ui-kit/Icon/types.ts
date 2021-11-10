@@ -18,4 +18,5 @@ export default interface Icons {
   lock: string;
   eye: string;
   phone: string;
+  poo: string;
 }

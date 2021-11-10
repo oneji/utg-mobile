@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { fonts, layout } from '../../theme';
 
 import { ImageAsset } from '../../services/data';
@@ -7,11 +7,22 @@ import { ImageAsset } from '../../services/data';
 export interface ImagesPreviewProps {
   title?: string;
   items: ImageAsset[];
+  containerStyle?: StyleProp<ViewStyle>;
+  showComments?: boolean;
+  showCommentsLabel?: boolean;
+  isBase64?: boolean;
 }
 
-const ImagesPreview: FC<ImagesPreviewProps> = ({ title, items }) => {
+const ImagesPreview: FC<ImagesPreviewProps> = ({
+  title,
+  items,
+  containerStyle,
+  showComments = true,
+  showCommentsLabel = true,
+  isBase64 = false,
+}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       {title && <Text style={styles.title}>{title}</Text>}
 
       <View style={styles.imagesContainer}>
@@ -19,7 +30,7 @@ const ImagesPreview: FC<ImagesPreviewProps> = ({ title, items }) => {
           <View style={{ marginRight: 20 }} key={file.id}>
             <Image
               source={{
-                uri: file.uri,
+                uri: isBase64 ? `data:image/jpeg;base64,${file.uri}` : file.uri,
               }}
               style={{
                 width: 100,
@@ -30,12 +41,12 @@ const ImagesPreview: FC<ImagesPreviewProps> = ({ title, items }) => {
               resizeMode="cover"
             />
 
-            {file.comment && (
-              <>
-                <Text style={fonts.paragraphRegular}>Комментарий</Text>
+            {file.comment && showComments ? (
+              <View style={{ marginBottom: 10 }}>
+                {showCommentsLabel && <Text style={fonts.paragraphRegular}>Комментарий</Text>}
                 <Text style={fonts.paragraphSemibold}>{file.comment}</Text>
-              </>
-            )}
+              </View>
+            ) : null}
           </View>
         ))}
       </View>

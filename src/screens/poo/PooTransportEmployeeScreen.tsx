@@ -11,16 +11,16 @@ import { PooTransportEmployeeScreenProps } from '../../navigation/props';
 import Icon from '../../ui-kit/Icon';
 import TextInput from '../../ui-kit/TextInput';
 import Switch from '../../ui-kit/Switch';
+import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
 import { ImageAsset, TaskStatusesEnum, TaskStepSchema } from '../../services/data';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { InlineAlert } from '../../ui-kit/Alerts';
 import { showMessage } from 'react-native-flash-message';
-import { useTreatmentsStore } from '../../store/hooks';
+import { useTreatmentsStore, useUserStore } from '../../store/hooks';
 import { TREATMENT_NAMES, WEATHER_NAMES } from '../../utils';
 import { observer } from 'mobx-react';
-import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
 const stepperSteps: TaskStepSchema[] = [
   { order: 1, label: 'Текущие условия', key: 'currentConditions' },
@@ -197,27 +197,28 @@ const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ naviga
                 </View>
 
                 {deicingTreatment?.status === TaskStatusesEnum.Pending ||
-                  deicingTreatment?.status === TaskStatusesEnum.InProgress}
-                <View style={{ ...layout.rowSpaceBetween, marginTop: 25 }}>
-                  <Text style={{ ...fonts.paragraphRegular, flexGrow: 1 }}>Таймер</Text>
+                deicingTreatment?.status === TaskStatusesEnum.InProgress ? (
+                  <View style={{ ...layout.rowSpaceBetween, marginTop: 25 }}>
+                    <Text style={{ ...fonts.paragraphRegular, flexGrow: 1 }}>Таймер</Text>
 
-                  <View style={{ flexBasis: '30%' }}>
-                    <Button
-                      loading={controlLoading}
-                      compact
-                      onPress={() => {
-                        if (deicingTreatment?.status === TaskStatusesEnum.Pending) {
-                          startDeicingTreament(deicingTreatmentId);
-                          handleMoveNext();
-                        } else {
-                          stopDeicingTreament(deicingTreatmentId);
-                        }
-                      }}
-                    >
-                      {deicingTreatment?.status === TaskStatusesEnum.Pending ? 'Старт' : 'Стоп'}
-                    </Button>
+                    <View style={{ flexBasis: '30%' }}>
+                      <Button
+                        loading={controlLoading}
+                        compact
+                        onPress={() => {
+                          if (deicingTreatment?.status === TaskStatusesEnum.Pending) {
+                            startDeicingTreament(deicingTreatmentId);
+                            handleMoveNext();
+                          } else {
+                            stopDeicingTreament(deicingTreatmentId);
+                          }
+                        }}
+                      >
+                        {deicingTreatment?.status === TaskStatusesEnum.Pending ? 'Старт' : 'Стоп'}
+                      </Button>
+                    </View>
                   </View>
-                </View>
+                ) : null}
               </View>
             </View>
           </View>

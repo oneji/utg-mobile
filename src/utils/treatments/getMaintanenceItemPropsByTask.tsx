@@ -3,16 +3,16 @@ import { useNavigation } from '@react-navigation/core';
 import { getNavigationScreenByTaskType } from '.';
 import { MaintenanceItemProps } from '../../components/Maintenance/MaintenanceItems/components/MaintenanceItem';
 import { TaskDetailsScreenNavigationProp } from '../../navigation/props';
-import { ServiceModel, TaskStatusesEnum, TaskTypesEnum } from '../../services/data';
+import { ServiceModel, TaskStatusesEnum, TaskTypesEnum, UserRolesEnum } from '../../services/data';
 import { Button } from '../../ui-kit/Buttons';
 
 interface TypesMap {
   [key: string]: MaintenanceItemProps;
 }
 
-export default (item: ServiceModel) => {
+export default (item: ServiceModel, userRole: UserRolesEnum) => {
   const navigation = useNavigation<TaskDetailsScreenNavigationProp>();
-  const { screen, params } = getNavigationScreenByTaskType(item);
+  const { screen, params } = getNavigationScreenByTaskType(item, userRole);
 
   const typesMap: TypesMap = {
     [TaskTypesEnum.DeicingTreatment]: {

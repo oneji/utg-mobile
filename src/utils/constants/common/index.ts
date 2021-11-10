@@ -22,6 +22,12 @@ export const WEATHER_NAMES = {
   [WeatherEnum.Snowy]: 'Снег / снежные гранулы крупа',
 };
 
+export const WEATHER_NAMES_EN = {
+  [WeatherEnum.Foggy]: 'Fog / frost',
+  [WeatherEnum.Rainy]: 'Rain / drizzle',
+  [WeatherEnum.Snowy]: 'Snow / snow pellets groats',
+};
+
 export const TREATMENT_NAMES = {
   [TreatmentTypesEnum.Fuselage]: 'Фюзеляж',
   [TreatmentTypesEnum.WingTop]: 'Верх крыла',
@@ -29,4 +35,23 @@ export const TREATMENT_NAMES = {
   [TreatmentTypesEnum.Keel]: 'Киль',
   [TreatmentTypesEnum.WingBottom]: 'Низ крыла',
   [TreatmentTypesEnum.StabilizerBottom]: 'Низ стабилизатора',
+};
+
+export const TREATMENT_NAMES_EN = {
+  [TreatmentTypesEnum.Fuselage]: 'Fuselage',
+  [TreatmentTypesEnum.WingTop]: 'Wing top',
+  [TreatmentTypesEnum.StabilizerTop]: 'Stabilizer Top',
+  [TreatmentTypesEnum.Keel]: 'Keel',
+  [TreatmentTypesEnum.WingBottom]: 'Wing bottom',
+  [TreatmentTypesEnum.StabilizerBottom]: 'Stabilizer bottom',
+};
+
+export const TREATMENT_STAGE_NAMES = {
+  [TreatmentStagesEnum.OneStage]: '1-ступенчатая',
+  [TreatmentStagesEnum.TwoStages]: '2-ступенчатая',
+};
+
+export const TREATMENT_STAGE_NAMES_EN = {
+  [TreatmentStagesEnum.OneStage]: '1-stage',
+  [TreatmentStagesEnum.TwoStages]: '2-stage',
 };

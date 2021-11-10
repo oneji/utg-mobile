@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ViewProps, ViewStyle } from 'react-native';
 import { colors, fonts, layout } from '../../../theme';
 
 import MaterialDesignIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getAlertColorsByType, getAlertIconOptionsByType } from '../../../utils';
 
 export interface InlineAlertProps extends ViewProps {
   children: string;
@@ -10,48 +11,17 @@ export interface InlineAlertProps extends ViewProps {
 }
 
 const InlineAlert: FC<InlineAlertProps> = ({ children, type, style, ...otherProps }) => {
-  const getContainerStyle = useCallback(() => {
-    const bgColorsMap = {
-      success: colors.green.light,
-      danger: colors.red.light,
-      info: colors.blue.light,
-      warning: colors.orange.light,
-    };
-    const containerStyle: ViewStyle = {
-      backgroundColor: bgColorsMap[type],
-      ...styles.container,
-      ...(style as object),
-    };
-
-    return containerStyle;
-  }, [type]);
-
-  const renderIcon = useCallback(() => {
-    const iconOptions = {
-      success: {
-        name: 'checkbox-marked-circle-outline',
-        color: colors.green.primary,
-      },
-      danger: {
-        name: 'alert-circle',
-        color: colors.red.primary,
-      },
-      info: {
-        name: 'information-outline',
-        color: colors.blue.primary,
-      },
-      warning: {
-        name: 'alert',
-        color: colors.orange.primary,
-      },
-    };
-
-    return <MaterialDesignIcon {...iconOptions[type]} size={24} />;
-  }, [type]);
+  const iconOptions = getAlertIconOptionsByType(type);
+  const bgColors = getAlertColorsByType(type);
+  const containerStyle: ViewStyle = {
+    backgroundColor: bgColors,
+    ...styles.container,
+    ...(style as object),
+  };
 
   return (
-    <View style={getContainerStyle()} {...otherProps}>
-      {renderIcon()}
+    <View style={containerStyle} {...otherProps}>
+      <MaterialDesignIcon {...iconOptions} size={24} />
 
       <Text style={styles.text}>{children}</Text>
     </View>

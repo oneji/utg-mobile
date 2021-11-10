@@ -30,9 +30,12 @@ export enum PhotofixationStackScreens {
 
 export enum PooStackScreens {
   PooAgent = 'PooAgent',
+  PooAgentResults = 'PooAgentResultsScreen',
   PooSign = 'PooSignScreen',
   PooEnterTransportNumber = 'PooEnterTransportNumberScreen',
   PooTransportEmployee = 'PooTransportEmployeeScreen',
+  PooUpdateReason = 'PooUpdateReasonScreen',
+  PooAgentResultsNext = 'PooAgentResultsNextScreen',
 }
 
 export enum AuthStackScreens {

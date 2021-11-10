@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import {
   StyleSheet,
   View,
@@ -23,7 +23,8 @@ export interface ModalProps extends RNModalProps {
   showConfirm?: boolean;
   confirmButtonText?: string;
   bodyContainerStyle?: StyleProp<ViewStyle>;
-
+  boxContainerStyle?: StyleProp<ViewStyle>;
+  position?: 'top' | 'center' | 'bottom';
   onCancelButtonPress?: () => void;
   onConfirmButtonPress?: () => void;
   onShowCallback?: () => void;
@@ -38,9 +39,10 @@ const Modal: FC<ModalProps> = ({
   showCancel = false,
   showConfirm = true,
   bodyContainerStyle,
+  boxContainerStyle,
   cancelButtonText = 'Отмена',
   confirmButtonText = 'Продолжить',
-
+  position = 'center',
   onCancelButtonPress = () => null,
   onConfirmButtonPress = () => null,
   onShowCallback = () => null,
@@ -48,50 +50,67 @@ const Modal: FC<ModalProps> = ({
   onBackdropPress = () => null,
   ...otherProps
 }) => {
-  if (visible) {
-    return (
-      <RNModal
-        transparent
-        animationType="fade"
-        visible={visible}
-        onShow={onShowCallback}
-        onDismiss={onDissmissCallback}
-        {...otherProps}
-      >
-        <TouchableWithoutFeedback onPress={onBackdropPress}>
-          <View style={styles.wrapper}>
-            <BlurView style={styles.blurView} blurType="dark" blurAmount={3} overlayColor={colors.blurColor} />
+  const getBoxPosition = (): ViewStyle => {
+    const style: ViewStyle = {};
 
-            <View style={styles.body}>
-              <View style={styles.box}>
-                {title && <Text style={styles.title}>{title}</Text>}
+    if (position === 'center') {
+      style.justifyContent = 'center';
+    } else if (position === 'top') {
+      style.justifyContent = 'flex-start';
+      style.top = 60;
+    } else if (position === 'bottom') {
+      style.justifyContent = 'flex-end';
+      style.bottom = 60;
+    }
 
-                <View style={bodyContainerStyle}>{children}</View>
+    return style;
+  };
 
-                {showCancel || showConfirm ? (
-                  <View style={styles.buttonsBlock}>
-                    {showCancel && (
-                      <Button onPress={onCancelButtonPress} compact>
-                        {cancelButtonText}
-                      </Button>
-                    )}
+  return (
+    <RNModal
+      transparent
+      animationType="fade"
+      visible={visible}
+      onShow={onShowCallback}
+      onDismiss={onDissmissCallback}
+      {...otherProps}
+    >
+      <TouchableWithoutFeedback onPress={onBackdropPress}>
+        <View style={styles.wrapper}>
+          <BlurView style={styles.blurView} blurType="dark" blurAmount={3} overlayColor={colors.blurColor} />
 
-                    {showConfirm && (
-                      <Button onPress={onConfirmButtonPress} compact>
-                        {confirmButtonText}
-                      </Button>
-                    )}
-                  </View>
-                ) : null}
-              </View>
+          <View
+            style={{
+              ...styles.body,
+              ...getBoxPosition(),
+            }}
+          >
+            <View style={[styles.box, boxContainerStyle]}>
+              {title && <Text style={styles.title}>{title}</Text>}
+
+              <View style={bodyContainerStyle}>{children}</View>
+
+              {showCancel || showConfirm ? (
+                <View style={styles.buttonsBlock}>
+                  {showCancel && (
+                    <Button onPress={onCancelButtonPress} compact>
+                      {cancelButtonText}
+                    </Button>
+                  )}
+
+                  {showConfirm && (
+                    <Button onPress={onConfirmButtonPress} compact>
+                      {confirmButtonText}
+                    </Button>
+                  )}
+                </View>
+              ) : null}
             </View>
           </View>
-        </TouchableWithoutFeedback>
-      </RNModal>
-    );
-  }
-
-  return <View />;
+        </View>
+      </TouchableWithoutFeedback>
+    </RNModal>
+  );
 };
 
 export default Modal;
@@ -112,10 +131,9 @@ const styles = StyleSheet.create({
     zIndex: 99999,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   box: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     borderRadius: 8,
     width: '85%',
     paddingVertical: 10,

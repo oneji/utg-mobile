@@ -1,4 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
+import { NotificationAlertProps } from '../ui-kit/Alerts/NotificationAlert';
 import RootStore from './RootStore';
 
 export type Theme = 'dark' | 'light';
@@ -10,7 +11,11 @@ export class AppStore {
   loading: boolean = true;
 
   @observable
-  theme: Theme = 'light';
+  notificationAlert: NotificationAlertProps = {
+    visible: false,
+    type: 'success',
+    message: null,
+  };
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -19,13 +24,24 @@ export class AppStore {
   }
 
   @action
-  setTheme = async (theme: Theme) => {
-    this.theme = theme;
+  setLoading = (state: boolean) => {
+    this.loading = state;
   };
 
   @action
-  setLoading = async (state: boolean) => {
-    this.loading = state;
+  showNotificationAlert = ({ visible = true, ...otherParams }: NotificationAlertProps) => {
+    this.notificationAlert = {
+      ...otherParams,
+      visible: true,
+    };
+  };
+
+  @action
+  hideNotificationAlert = () => {
+    this.notificationAlert = {
+      ...this.notificationAlert,
+      visible: false,
+    };
   };
 }
 

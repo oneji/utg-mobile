@@ -7,10 +7,13 @@ import { BackButton } from '../../ui-kit/Buttons';
 
 import { PooStackScreens } from '../enums';
 import {
+  PooAgentResultsNextScreen,
+  PooAgentResultsScreen,
   PooAgentScreen,
   PooEnterTransportNumberScreen,
   PooSignScreen,
   PooTransportEmployeeScreen,
+  PooUpdateReasonScreen,
 } from '../../screens/poo';
 import { PooStackParamList } from '../params';
 import { useFlightsStore } from '../../store/hooks';
@@ -74,6 +77,18 @@ const PooStack: FC = () => {
       />
 
       <Stack.Screen
+        name={PooStackScreens.PooUpdateReason}
+        component={PooUpdateReasonScreen}
+        options={{
+          title: 'ПОО номер машины',
+          headerTitleAlign: 'center',
+        }}
+        initialParams={{
+          id: null,
+        }}
+      />
+
+      <Stack.Screen
         name={PooStackScreens.PooTransportEmployee}
         component={PooTransportEmployeeScreen}
         options={({ route }) => ({
@@ -83,6 +98,28 @@ const PooStack: FC = () => {
         initialParams={{
           numberOfFlight: '',
           deicingTreatmentId: null,
+        }}
+      />
+
+      <Stack.Screen
+        name={PooStackScreens.PooAgentResults}
+        component={PooAgentResultsScreen}
+        options={({ route }) => ({
+          title: `ПОО ВС рейс ID ${route.params.numberOfFlight}`,
+          headerTitleAlign: 'center',
+        })}
+        initialParams={{
+          numberOfFlight: '',
+          id: null,
+        }}
+      />
+
+      <Stack.Screen
+        name={PooStackScreens.PooAgentResultsNext}
+        component={PooAgentResultsNextScreen}
+        options={{
+          title: 'ПОО Итоги',
+          headerTitleAlign: 'center',
         }}
       />
     </Stack.Navigator>

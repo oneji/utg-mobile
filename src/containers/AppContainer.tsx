@@ -18,14 +18,16 @@ import {
 import FlashMessage from 'react-native-flash-message';
 import { AuthStackScreens } from '../navigation/enums';
 import { isReadyRef, navigationRef } from '../navigation/RootNavigation';
-import { useUserStore } from '../store/hooks';
+import { useAppStore, useUserStore } from '../store/hooks';
 import SpinnerLoading from '../ui-kit/SpinnerLoading';
 import { observer } from 'mobx-react';
+import { NotificationAlert } from '../ui-kit/Alerts';
 
 enableScreens();
 const Stack = createStackNavigator();
 
 const AppContainer: FC = () => {
+  const { notificationAlert } = useAppStore();
   const { loading, getUserInfoById } = useUserStore();
 
   const linking: LinkingOptions = {
@@ -74,7 +76,8 @@ const AppContainer: FC = () => {
       </Stack.Navigator>
 
       {/* Notification */}
-      <FlashMessage position="top" floating textStyle={fonts.paragraphRegular} titleStyle={fonts.paragraphRegular} />
+      <NotificationAlert {...notificationAlert} position="top" />
+      {/* <FlashMessage position="top" floating textStyle={fonts.paragraphRegular} titleStyle={fonts.paragraphRegular} /> */}
     </NavigationContainer>
   );
 };

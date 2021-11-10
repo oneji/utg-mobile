@@ -8,7 +8,7 @@ import { TaskStepper } from '../../components/Tasks';
 import { TouchableLabel } from '../../ui-kit/Labels';
 import { SimpleList } from '../../ui-kit/Lists';
 import { PooAgentScreenProps } from '../../navigation/props';
-import { PooAgentReportRu } from './components';
+import { PooAgentReportEn, PooAgentReportRu } from './components';
 import Paper from '../../ui-kit/Paper';
 import Tab from '../../ui-kit/Tab';
 import IconRadioButton from '../../ui-kit/IconRadionButton';
@@ -28,7 +28,7 @@ import { useFormik } from 'formik';
 import { formatTreatmentTypeForLabel } from '../../utils/treatments';
 import Icons from '../../ui-kit/Icon/types';
 import { observer } from 'mobx-react-lite';
-import { TREATMENT_NAMES, WEATHER_NAMES } from '../../utils';
+import { TREATMENT_NAMES, TREATMENT_STAGE_NAMES, WEATHER_NAMES } from '../../utils';
 
 const stepperSteps: TaskStepSchema[] = [
   { order: 1, label: 'Текущие условия', key: 'currentConditions' },
@@ -204,8 +204,14 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
               value={values.threatmentStage}
               onChange={(value: TreatmentStagesEnum) => setFieldValue('threatmentStage', value)}
             >
-              <IconRadioButton label="1-ступенчатая" value={TreatmentStagesEnum.OneStage} />
-              <IconRadioButton label="2-ступенчатая" value={TreatmentStagesEnum.TwoStages} />
+              <IconRadioButton
+                label={TREATMENT_STAGE_NAMES[TreatmentStagesEnum.OneStage]}
+                value={TreatmentStagesEnum.OneStage}
+              />
+              <IconRadioButton
+                label={TREATMENT_STAGE_NAMES[TreatmentStagesEnum.TwoStages]}
+                value={TreatmentStagesEnum.TwoStages}
+              />
             </IconRadioButton.Group>
 
             {values.threatmentStage && (
@@ -248,7 +254,7 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
           <View>
             <Tab sceneContainerStyle={{ backgroundColor: colors.transparent }}>
               <Tab.Item name="Ru" component={PooAgentReportRu} />
-              <Tab.Item name="En" component={PooAgentReportRu} />
+              <Tab.Item name="En" component={PooAgentReportEn} />
             </Tab>
           </View>
         )}

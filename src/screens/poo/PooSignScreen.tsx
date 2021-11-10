@@ -11,6 +11,8 @@ import { useTreatmentsStore } from '../../store/hooks';
 import { observer } from 'mobx-react-lite';
 import * as Yup from 'yup';
 import { PooSignScreenProps } from '../../navigation/props';
+import Modal from '../../ui-kit/Modal';
+import { NotificationAlert } from '../../ui-kit/Alerts';
 
 interface PooSignFormValues {
   signedPosition: string;
@@ -24,9 +26,8 @@ const PooSignFormValidationSchema: Yup.SchemaOf<PooSignFormValues> = Yup.object(
 
 const PooSignScreen: FC<PooSignScreenProps> = ({ route }) => {
   const { id } = route.params;
-  const { loading, updateDeicingTreament, deicingTreatmentFormValues } = useTreatmentsStore();
+  const { controlLoading, loading, updateDeicingTreament, deicingTreatmentFormValues } = useTreatmentsStore();
 
-  // UTG-TODO: Get proper treatment ID
   const handleFinish = useCallback(({ signedFIO, signedPosition }: PooSignFormValues) => {
     updateDeicingTreament({
       ...deicingTreatmentFormValues,
@@ -51,7 +52,7 @@ const PooSignScreen: FC<PooSignScreenProps> = ({ route }) => {
       buttonLabel="Сохранить"
       onButtonPress={handleSubmit}
       buttonProps={{
-        loading: loading,
+        loading: controlLoading,
       }}
     >
       <Text style={styles.hintText}>

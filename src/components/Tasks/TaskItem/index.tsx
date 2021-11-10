@@ -24,7 +24,7 @@ const TaskItem: FC<TaskItemProps> = ({ item, onPress }) => {
         <View style={{ ...layout.rowSpaceBetween, marginBottom: 20 }}>
           <Text style={styles.smallGray}>ID {item.numberOfFlight}</Text>
 
-          {item.status && item.status !== TaskStatusesEnum.Pending ? (
+          {item.status && item.status === TaskStatusesEnum.InProgress ? (
             <Badge variant="success">{getFlightStatus(item.status)}</Badge>
           ) : null}
         </View>

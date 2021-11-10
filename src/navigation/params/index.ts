@@ -57,6 +57,14 @@ export type PooStackParamList = {
     numberOfFlight: string;
     deicingTreatmentId: number;
   };
+  [PooStackScreens.PooAgentResults]: {
+    numberOfFlight: string;
+    id: number;
+  };
+  [PooStackScreens.PooUpdateReason]: {
+    id: number;
+  };
+  [PooStackScreens.PooAgentResultsNext]: undefined;
 };
 
 export type AuthStackParamList = {

@@ -8,6 +8,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export interface CustomIconProps extends SvgProps {
   name: keyof Icons;
+  highlightedColor?: string;
 }
 
 export default ({ name, ...otherProps }: CustomIconProps) => {

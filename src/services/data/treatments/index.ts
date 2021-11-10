@@ -22,9 +22,11 @@ export interface TreatmentModel {
   spentWater?: number;
   spentLiquidOne?: number;
   spentLiquidFour?: number;
+  treatmentCar?: string;
 }
 
 export interface TreatmentImage {
+  id?: number;
   url: string;
   comment: string;
 }
@@ -54,6 +56,7 @@ export interface UpdateDeicingTreatmentRequestBody {
   spentWater?: number;
   spentLiquidOne?: number;
   spentLiquidFour?: number;
+  editReason?: string;
 }
 
 export interface StartDeicingTreatmentRequestBody {

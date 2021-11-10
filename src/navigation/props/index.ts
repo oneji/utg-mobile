@@ -72,6 +72,16 @@ export type PooTransportEmployeeScreenProps = {
   navigation: PooTransportEmployeeScreenNavigationProp;
 };
 
+export type PooAgentResultsScreenRouteProp = RouteProp<PooStackParamList, PooStackScreens.PooAgentResults>;
+export type PooAgentResultsScreenNavigationProp = StackNavigationProp<
+  PooStackParamList,
+  PooStackScreens.PooAgentResults
+>;
+export type PooAgentResultsScreenProps = {
+  route: PooAgentResultsScreenRouteProp;
+  navigation: PooAgentResultsScreenNavigationProp;
+};
+
 export type PooSignScreenRouteProp = RouteProp<PooStackParamList, PooStackScreens.PooSign>;
 export type PooSignScreenNavigationProp = StackNavigationProp<PooStackParamList, PooStackScreens.PooSign>;
 export type PooSignScreenProps = {
@@ -90,6 +100,16 @@ export type PooEnterTransportNumberScreenNavigationProp = StackNavigationProp<
 export type PooEnterTransportNumberScreenProps = {
   route: PooEnterTransportNumberScreenRouteProp;
   navigation: PooEnterTransportNumberScreenNavigationProp;
+};
+
+export type PooUpdateReasonScreenRouteProp = RouteProp<PooStackParamList, PooStackScreens.PooUpdateReason>;
+export type PooUpdateReasonScreenNavigationProp = StackNavigationProp<
+  PooStackParamList,
+  PooStackScreens.PooUpdateReason
+>;
+export type PooUpdateReasonScreenProps = {
+  route: PooUpdateReasonScreenRouteProp;
+  navigation: PooUpdateReasonScreenNavigationProp;
 };
 
 // Auth
