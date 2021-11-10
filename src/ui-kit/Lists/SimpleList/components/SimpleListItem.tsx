@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '../../../../theme';
 
 export interface SimpleListItemProps {
   title: string;
-  value?: string;
+  value?: string | ReactElement;
   titleStyle?: StyleProp<TextStyle>;
   valueStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
@@ -20,6 +20,16 @@ const SimpleListItem: FC<SimpleListItemProps> = ({
   containerStyle,
   hideBorder,
 }) => {
+  const renderValue = () => {
+    if (!value) return null;
+
+    if (typeof value === 'string') {
+      return <Text style={[styles.value, valueStyle]}>{value}</Text>;
+    } else {
+      return value;
+    }
+  };
+
   return (
     <View
       style={{
@@ -29,7 +39,8 @@ const SimpleListItem: FC<SimpleListItemProps> = ({
       }}
     >
       <Text style={[fonts.paragraphRegular, titleStyle, { flexShrink: 1, flex: 1 }]}>{title}</Text>
-      {value && <Text style={[styles.value, valueStyle]}>{value}</Text>}
+
+      {renderValue()}
     </View>
   );
 };

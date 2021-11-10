@@ -23,7 +23,7 @@ const ConfirmImageModal: FC<ConfirmImageModalProps> = ({
       <View style={styles.imageContainer}>
         <Image
           source={{
-            uri: isBase64 ? `data:image/jpeg;base64,${image.uri}` : image.uri,
+            uri: isBase64 ? `data:image/jpeg;base64,${image?.uri}` : image?.uri,
           }}
           style={{
             height: 300,

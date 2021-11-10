@@ -36,6 +36,7 @@ export enum PooStackScreens {
   PooTransportEmployee = 'PooTransportEmployeeScreen',
   PooUpdateReason = 'PooUpdateReasonScreen',
   PooAgentResultsNext = 'PooAgentResultsNextScreen',
+  PooCode = 'PooCodeScreen',
 }
 
 export enum AuthStackScreens {

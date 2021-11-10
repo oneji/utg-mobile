@@ -64,6 +64,10 @@ export class TreatmentsService extends BaseService {
       requestOptions
     );
 
+    console.log({
+      data,
+    });
+
     return data;
   };
 

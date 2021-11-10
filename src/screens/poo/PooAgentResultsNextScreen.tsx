@@ -10,12 +10,13 @@ import Icon from '../../ui-kit/Icon';
 import { SimpleList } from '../../ui-kit/Lists';
 import { useTreatmentsStore } from '../../store/hooks';
 import ImagesPreview from '../../components/ImagesPreview';
+import { PooStackScreens } from '../../navigation/enums';
 
 const PooAgentResultsNextScreen: FC<PooAgentResultsScreenProps> = ({ navigation, route }) => {
   const { deicingTreatment } = useTreatmentsStore();
 
   return (
-    <ContainerWithButton buttonLabel="Далее">
+    <ContainerWithButton buttonLabel="Далее" onButtonPress={() => navigation.navigate(PooStackScreens.PooCode)}>
       <View style={styles.itemContainer}>
         <View style={{ ...layout.alignCenter, flex: 3 }}>
           <Icon name="poo" style={{ marginBottom: 20 }} />
@@ -31,13 +32,15 @@ const PooAgentResultsNextScreen: FC<PooAgentResultsScreenProps> = ({ navigation,
         </View>
       </View>
 
-      <ImagesPreview
-        items={deicingTreatment?.images.map(img => ({ id: img.id, comment: img.comment, uri: img.url }))}
-        title="Фото чеков"
-        containerStyle={{ marginTop: 32 }}
-        isBase64
-        showCommentsLabel={false}
-      />
+      {deicingTreatment?.images.length ? (
+        <ImagesPreview
+          items={deicingTreatment?.images.map(img => ({ id: img.id, comment: img.comment, uri: img.url }))}
+          title="Фото чеков"
+          containerStyle={{ marginTop: 32 }}
+          isBase64
+          showCommentsLabel={false}
+        />
+      ) : null}
     </ContainerWithButton>
   );
 };

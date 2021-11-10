@@ -3,19 +3,9 @@ import { StatusBar, StyleSheet } from 'react-native';
 import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
-import { colors, fonts } from '../theme';
+import { colors } from '../theme';
 
-import {
-  AppStack,
-  TasksStack,
-  APP_STACK,
-  TASKS_STACK,
-  POO_STACK,
-  PooStack,
-  AUTH_STACK,
-  AuthStack,
-} from '../navigation/stacks';
-import FlashMessage from 'react-native-flash-message';
+import { AppStack, TasksStack, APP_STACK, TASKS_STACK, POO_STACK, PooStack, AUTH_STACK } from '../navigation/stacks';
 import { AuthStackScreens } from '../navigation/enums';
 import { isReadyRef, navigationRef } from '../navigation/RootNavigation';
 import { useAppStore, useUserStore } from '../store/hooks';
@@ -77,7 +67,6 @@ const AppContainer: FC = () => {
 
       {/* Notification */}
       <NotificationAlert {...notificationAlert} position="top" />
-      {/* <FlashMessage position="top" floating textStyle={fonts.paragraphRegular} titleStyle={fonts.paragraphRegular} /> */}
     </NavigationContainer>
   );
 };

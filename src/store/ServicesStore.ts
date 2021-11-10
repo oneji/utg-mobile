@@ -1,6 +1,6 @@
 import { action, makeObservable, observable, runInAction, toJS } from 'mobx';
 import { servicesService } from '../services';
-import { ServiceModel } from '../services/data';
+import { PhotofixationImage, ServiceModel } from '../services/data';
 import RootStore from './RootStore';
 
 export class ServicesStore {
@@ -14,6 +14,9 @@ export class ServicesStore {
 
   @observable
   currentService: ServiceModel = null;
+
+  @observable
+  photofixationImages: PhotofixationImage[] = [];
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -49,6 +52,32 @@ export class ServicesStore {
       // Global error handler
     } finally {
       this.setLoading(false);
+    }
+  };
+
+  @action
+  getPhotofixationImages = async () => {
+    const { appStore } = this.rootStore;
+
+    try {
+      appStore.setLoading(true);
+
+      const data = await servicesService.getImages({
+        take: 10,
+        skip: 0,
+      });
+
+      console.log({
+        data: toJS(data),
+      });
+
+      runInAction(() => {
+        this.photofixationImages = toJS(data);
+      });
+    } catch (error) {
+      // Global error handler
+    } finally {
+      appStore.setLoading(false);
     }
   };
 }

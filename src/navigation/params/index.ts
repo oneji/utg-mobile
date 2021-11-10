@@ -65,6 +65,7 @@ export type PooStackParamList = {
     id: number;
   };
   [PooStackScreens.PooAgentResultsNext]: undefined;
+  [PooStackScreens.PooCode]: undefined;
 };
 
 export type AuthStackParamList = {

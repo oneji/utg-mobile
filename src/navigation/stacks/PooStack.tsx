@@ -10,6 +10,7 @@ import {
   PooAgentResultsNextScreen,
   PooAgentResultsScreen,
   PooAgentScreen,
+  PooCodeScreen,
   PooEnterTransportNumberScreen,
   PooSignScreen,
   PooTransportEmployeeScreen,
@@ -119,6 +120,15 @@ const PooStack: FC = () => {
         component={PooAgentResultsNextScreen}
         options={{
           title: 'ПОО Итоги',
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name={PooStackScreens.PooCode}
+        component={PooCodeScreen}
+        options={{
+          title: 'Код антиоблиденительной обработки',
           headerTitleAlign: 'center',
         }}
       />

@@ -17,7 +17,7 @@ export interface ImagesPreviewProps {
 
 const ImagesPreview: FC<ImagesPreviewProps> = ({
   title,
-  items,
+  items = [],
   containerStyle,
   showComments = true,
   showCommentsLabel = true,
@@ -45,7 +45,7 @@ const ImagesPreview: FC<ImagesPreviewProps> = ({
             >
               <Image
                 source={{
-                  uri: isBase64 ? `data:image/jpeg;base64,${image.uri}` : image.uri,
+                  uri: isBase64 ? `data:image/jpeg;base64,${image?.uri}` : image?.uri,
                 }}
                 style={{
                   width: 100,

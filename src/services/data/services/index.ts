@@ -1,4 +1,4 @@
-import { DirectionsEnum, TaskStatusesEnum, TaskTypesEnum } from '..';
+import { DirectionsEnum, TaskStatusesEnum, TaskTypesEnum, TreatmentImage } from '..';
 
 export interface ServiceModel {
   id?: number;
@@ -13,4 +13,14 @@ export interface ServiceModel {
   isCompleted?: boolean;
   direction?: DirectionsEnum;
   taskType: TaskTypesEnum;
+}
+
+export interface GetImagesRequestParams {
+  skip?: number;
+  take?: number;
+}
+
+export interface PhotofixationImage {
+  images?: TreatmentImage[];
+  dateTime?: string;
 }

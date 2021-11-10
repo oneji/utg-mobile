@@ -1,19 +1,42 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { ContainerWithButton } from '../../ui-kit/Containers';
-import { ImagePicker, FormGroup } from '../../ui-kit/Forms';
+import { ScrollViewContainer } from '../../ui-kit/Containers';
+import { FormGroup } from '../../ui-kit/Forms';
+import SpinnerLoading from '../../ui-kit/SpinnerLoading';
+import ImagesPreview from '../../components/ImagesPreview';
 
-const FeedbackScreen: FC = () => {
+import { useAppStore, useServicesStore } from '../../store/hooks';
+import { observer } from 'mobx-react-lite';
+import { format } from 'date-fns';
+
+const PhotofixationScreen: FC = () => {
+  const { loading } = useAppStore();
+  const { photofixationImages, getPhotofixationImages } = useServicesStore();
+
+  useEffect(() => {
+    getPhotofixationImages();
+  }, []);
+
+  if (loading) return <SpinnerLoading />;
+
   return (
-    <ContainerWithButton>
+    <ScrollViewContainer>
       <FormGroup>
-        <ImagePicker />
+        {photofixationImages.map((image, idx) => (
+          <ImagesPreview
+            key={idx}
+            items={image.images.map(img => ({ id: img.id, comment: img.comment, uri: img.url }))}
+            title={format(new Date(image.dateTime), 'd.MM.y')}
+            isBase64
+            showComments={false}
+          />
+        ))}
       </FormGroup>
-    </ContainerWithButton>
+    </ScrollViewContainer>
   );
 };
 
-export default FeedbackScreen;
+export default observer(PhotofixationScreen);
 
 const styles = StyleSheet.create({});

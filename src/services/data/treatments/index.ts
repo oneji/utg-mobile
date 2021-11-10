@@ -23,6 +23,8 @@ export interface TreatmentModel {
   spentLiquidOne?: number;
   spentLiquidFour?: number;
   treatmentCar?: string;
+  checkedDate?: string;
+  codePassed?: boolean;
 }
 
 export interface TreatmentImage {
@@ -57,6 +59,8 @@ export interface UpdateDeicingTreatmentRequestBody {
   spentLiquidOne?: number;
   spentLiquidFour?: number;
   editReason?: string;
+  checkedDate?: string;
+  codePassed?: boolean;
 }
 
 export interface StartDeicingTreatmentRequestBody {
