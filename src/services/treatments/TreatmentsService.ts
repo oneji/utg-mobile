@@ -55,7 +55,7 @@ export class TreatmentsService extends BaseService {
     body: UpdateDeicingTreatmentRequestBody,
     options: RequestInit = {},
     requestOptions: RestServiceRequestOptions = {}
-  ): Promise<void> => {
+  ): Promise<TreatmentModel> => {
     const data = await this.send(
       PUT,
       ``,

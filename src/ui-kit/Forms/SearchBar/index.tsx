@@ -22,7 +22,7 @@ const SearchBar: FC<SearchBarProps> = ({ style, value, onChangeText, onClear, ..
         <TextInput
           value={value}
           onChangeText={onChangeText}
-          placeholder="Бортовой номер/Номер рейса"
+          placeholder="Бортовой номер/№ рейса"
           placeholderTextColor={colors.violet.primary}
           style={[styles.input, style]}
           numberOfLines={1}

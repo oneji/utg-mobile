@@ -45,9 +45,10 @@ export enum TaskStatusesEnum {
 }
 
 export type TaskStepSchema = {
-  order?: number;
-  label?: string;
-  key?: string;
+  order: number;
+  label: string;
+  key: string;
+  disabled: boolean;
 };
 
 export type TaskRouteSchema = {

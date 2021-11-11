@@ -16,7 +16,9 @@ import { TREATMENT_NAMES, WEATHER_NAMES } from '../../utils';
 import { observer } from 'mobx-react';
 import { PooStackScreens } from '../../navigation/enums';
 
-const stepperSteps: TaskStepSchema[] = [{ order: 1, label: 'Текущие условия', key: 'currentConditions' }];
+const stepperSteps: TaskStepSchema[] = [
+  { order: 1, label: 'Текущие условия', key: 'currentConditions', disabled: false },
+];
 
 const PooAgentResultsScreen: FC<PooAgentResultsScreenProps> = ({ navigation, route }) => {
   const { id } = route.params;
@@ -54,7 +56,7 @@ const PooAgentResultsScreen: FC<PooAgentResultsScreenProps> = ({ navigation, rou
             <WeatherLabel
               degree={deicingTreatment?.temperature}
               extended
-              condition={WEATHER_NAMES[deicingTreatment?.weather]}
+              condition={WEATHER_NAMES[deicingTreatment?.weatherType]}
             />
 
             <View

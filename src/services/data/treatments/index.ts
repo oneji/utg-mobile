@@ -3,7 +3,6 @@ import { TaskStatusesEnum, TreatmentStagesEnum, TreatmentTypesEnum, WeatherEnum 
 export interface TreatmentModel {
   id?: number;
   temperature?: number;
-  weather?: WeatherEnum;
   threatmentStage?: TreatmentStagesEnum;
   stageConcentration?: string;
   firstTitle?: string;
@@ -15,7 +14,7 @@ export interface TreatmentModel {
   isSigned?: boolean;
   signedPosition?: string;
   signedFIO?: string;
-  weatherType?: string;
+  weatherType?: WeatherEnum;
   treatmentCompleted?: boolean;
   treatmentIsChecked?: boolean;
   images?: TreatmentImage[];
@@ -50,7 +49,7 @@ export interface UpdateDeicingTreatmentRequestBody {
   treatmentType?: TreatmentTypesEnum;
   signedPosition?: string;
   signedFIO?: string;
-  weatherType?: string;
+  weatherType?: WeatherEnum;
   status?: TaskStatusesEnum;
   treatmentCompleted?: boolean;
   treatmentIsChecked?: boolean;

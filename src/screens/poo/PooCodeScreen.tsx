@@ -31,8 +31,6 @@ const PooCodeScreen: FC = () => {
   const { deicingTreatment, controlLoading, updateDeicingTreament } = useTreatmentsStore();
 
   const handleSave = ({ time, date, codeTransfered, pooSecureChecked }: FormValues) => {
-    console.log({ time, date, codeTransfered, pooSecureChecked });
-
     updateDeicingTreament({
       ...deicingTreatment,
       codePassed: codeTransfered,
@@ -54,12 +52,16 @@ const PooCodeScreen: FC = () => {
 
   return (
     <ContainerWithButton onButtonPress={handleSubmit} buttonProps={{ loading: controlLoading }}>
-      {!errors.pooSecureChecked && !errors.codeTransfered ? (
+      {!values.pooSecureChecked && !values.codeTransfered ? (
         <InlineAlert type="danger">Выполните проверку качества ПОЗ и передайте код ПОО</InlineAlert>
       ) : null}
 
-      {errors.pooSecureChecked && <InlineAlert type="danger">Выполните проверку качества ПОЗ</InlineAlert>}
-      {errors.codeTransfered && <InlineAlert type="danger">Передайте код ПОО</InlineAlert>}
+      {errors.pooSecureChecked && !errors.codeTransfered ? (
+        <InlineAlert type="danger">Выполните проверку качества ПОЗ</InlineAlert>
+      ) : null}
+      {errors.codeTransfered && !errors.pooSecureChecked ? (
+        <InlineAlert type="danger">Передайте код ПОО</InlineAlert>
+      ) : null}
 
       <SimpleList title="Работа по ПОЗ выполнены" style={{ marginTop: 20 }}>
         <SimpleList.Item title="Type IV" value={deicingTreatment?.spentLiquidFour?.toString()} />

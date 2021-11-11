@@ -6,6 +6,8 @@ import { TaskDetailsScreenNavigationProp } from '../../navigation/props';
 import { ServiceModel, TaskStatusesEnum, TaskTypesEnum, UserRolesEnum } from '../../services/data';
 import { Button } from '../../ui-kit/Buttons';
 
+import treatmentsStore from '../../store/TreatmentsStore';
+
 interface TypesMap {
   [key: string]: MaintenanceItemProps;
 }
@@ -17,12 +19,11 @@ export default (item: ServiceModel, userRole: UserRolesEnum) => {
   const typesMap: TypesMap = {
     [TaskTypesEnum.DeicingTreatment]: {
       title: item.title,
-      departureAction: (
+      departureAction: [TaskStatusesEnum.Pending, TaskStatusesEnum.InProgress].includes(item.status) ? (
         <Button compact onPress={() => {}}>
           {item.status === TaskStatusesEnum.Pending ? 'Старт' : 'Стоп'}
         </Button>
-      ),
-      // status: Pending -> PooAgentScreen (request to getDeicingTreatmentById)
+      ) : null,
       onInfoPress: () => navigation.navigate(screen as any, params),
     },
   };

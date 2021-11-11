@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { colors } from '../../theme';
+import { colors, fonts } from '../../theme';
 import { fontFamilyRegular } from '../../theme/fonts';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { BackButton } from '../../ui-kit/Buttons';
 
-import { TasksStackScreens } from '../enums';
+import { PooStackScreens, TasksStackScreens } from '../enums';
 import {
   TaskDetailsScreen,
   TaskInProgressScreen,
@@ -20,20 +20,21 @@ import { getMaintenanceItemNameByType } from '../../utils';
 import { MaintenanceScreen } from '../../screens/maintenance';
 import { IconButton } from 'react-native-paper';
 import { useTasksStore, useUserStore } from '../../store/hooks';
-import { observer } from 'mobx-react-lite';
-import { Text } from 'react-native';
-import { SearchBar } from '../../ui-kit/Forms';
+import { observer } from 'mobx-react';
 import { UserRolesEnum } from '../../services/data';
+import { PooEnterTransportNumberScreen } from '../../screens/poo';
 
 const Stack = createStackNavigator<TasksStackParamList>();
 
 const TasksStack: FC<BaseScreenProps> = ({ navigation }) => {
-  const { isSearchEnabled, setIsSearchEnabled } = useTasksStore();
+  const { isSearchEnabled } = useTasksStore();
   const { user } = useUserStore();
 
   return (
     <Stack.Navigator
-      initialRouteName={TasksStackScreens.Tasks}
+      initialRouteName={
+        user?.role === UserRolesEnum.WorkerInCar ? TasksStackScreens.PooEnterTransportNumber : TasksStackScreens.Tasks
+      }
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.background,
@@ -41,16 +42,26 @@ const TasksStack: FC<BaseScreenProps> = ({ navigation }) => {
           shadowOpacity: 0,
         },
         headerTintColor: colors.white,
-        headerTitleStyle: {
-          fontSize: 16,
-          fontFamily: fontFamilyRegular,
-        },
+        headerTitleStyle: fonts.bodyRegular,
         headerLeft: ({ onPress }) => <BackButton onPress={onPress} />,
         cardStyle: {
           backgroundColor: colors.white,
         },
       }}
     >
+      {/* 
+        Enter transport number screen
+        If user role is WorkerInCar first we get the work type
+      */}
+      <Stack.Screen
+        name={TasksStackScreens.PooEnterTransportNumber}
+        component={PooEnterTransportNumberScreen}
+        options={{
+          title: 'ПОО номер машины',
+          headerTitleAlign: 'center',
+        }}
+      />
+
       <Stack.Screen
         name={TasksStackScreens.Tasks}
         component={TasksScreen}
@@ -112,9 +123,8 @@ const TasksStack: FC<BaseScreenProps> = ({ navigation }) => {
           title: `Рейс ID ${route.params.numberOfFlight}`,
           headerTitleAlign: 'center',
           headerTitleStyle: {
+            ...fonts.bodyRegular,
             width: '100%',
-            fontSize: 16,
-            fontFamily: fontFamilyRegular,
           },
         })}
         initialParams={{
@@ -130,9 +140,8 @@ const TasksStack: FC<BaseScreenProps> = ({ navigation }) => {
           title: `${getMaintenanceItemNameByType(route.params.type)}`,
           headerTitleAlign: 'center',
           headerTitleStyle: {
+            ...fonts.bodyRegular,
             width: '100%',
-            fontSize: 16,
-            fontFamily: fontFamilyRegular,
           },
         })}
         initialParams={{
@@ -147,9 +156,8 @@ const TasksStack: FC<BaseScreenProps> = ({ navigation }) => {
           title: `Отчет по рейсу ID ${route.params.id}`,
           headerTitleAlign: 'center',
           headerTitleStyle: {
+            ...fonts.bodyRegular,
             width: '100%',
-            fontSize: 16,
-            fontFamily: fontFamilyRegular,
           },
         })}
         initialParams={{
@@ -164,9 +172,8 @@ const TasksStack: FC<BaseScreenProps> = ({ navigation }) => {
           title: `Отчет по рейсу ID ${route.params.id}`,
           headerTitleAlign: 'center',
           headerTitleStyle: {
+            ...fonts.bodyRegular,
             width: '100%',
-            fontSize: 16,
-            fontFamily: fontFamilyRegular,
           },
         })}
         initialParams={{

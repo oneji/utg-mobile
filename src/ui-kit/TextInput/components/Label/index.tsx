@@ -20,7 +20,7 @@ export interface LabelProps extends TextProps {
 const Label: FC<LabelProps> = ({
   children,
   labelActiveColor,
-  labelActiveScale = 0.75,
+  labelActiveScale = 0.8,
   labelActiveTop = -10,
   labelColor = colors.gray.primary,
   labelDuration = 100,

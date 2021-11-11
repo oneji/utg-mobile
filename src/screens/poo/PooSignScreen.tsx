@@ -11,8 +11,7 @@ import { useTreatmentsStore } from '../../store/hooks';
 import { observer } from 'mobx-react-lite';
 import * as Yup from 'yup';
 import { PooSignScreenProps } from '../../navigation/props';
-import Modal from '../../ui-kit/Modal';
-import { NotificationAlert } from '../../ui-kit/Alerts';
+import { TaskStatusesEnum } from '../../services/data';
 
 interface PooSignFormValues {
   signedPosition: string;
@@ -24,18 +23,20 @@ const PooSignFormValidationSchema: Yup.SchemaOf<PooSignFormValues> = Yup.object(
   signedFIO: Yup.string().required(),
 });
 
-const PooSignScreen: FC<PooSignScreenProps> = ({ route }) => {
+const PooSignScreen: FC<PooSignScreenProps> = ({ navigation, route }) => {
   const { id } = route.params;
   const { controlLoading, loading, updateDeicingTreament, deicingTreatmentFormValues } = useTreatmentsStore();
 
-  const handleFinish = useCallback(({ signedFIO, signedPosition }: PooSignFormValues) => {
-    updateDeicingTreament({
+  const handleFinish = useCallback(async ({ signedFIO, signedPosition }: PooSignFormValues) => {
+    await updateDeicingTreament({
       ...deicingTreatmentFormValues,
       id,
       isSigned: true,
       signedPosition,
       signedFIO,
     });
+
+    navigation.goBack();
   }, []);
 
   const { values, errors, touched, handleChange, handleSubmit } = useFormik<PooSignFormValues>({

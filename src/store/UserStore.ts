@@ -1,7 +1,13 @@
-import { action, makeObservable, observable, runInAction, toJS } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { usersService } from '../services';
 import { UserModel } from '../services/data';
 import RootStore from './RootStore';
+
+export enum WorkTypesEnum {
+  Treatment = 'treatment',
+  Report = 'report',
+  Both = 'both',
+}
 
 export class UserStore {
   rootStore: RootStore = null;
@@ -12,6 +18,9 @@ export class UserStore {
   @observable
   user: UserModel = null;
 
+  @observable
+  workType: WorkTypesEnum = WorkTypesEnum.Both;
+
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
 
@@ -19,8 +28,13 @@ export class UserStore {
   }
 
   @action
-  setLoading = async (state: boolean) => {
+  setLoading = (state: boolean) => {
     this.loading = state;
+  };
+
+  @action
+  setWorkType = (workType: WorkTypesEnum) => {
+    this.workType = workType;
   };
 
   @action

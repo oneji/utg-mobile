@@ -23,6 +23,7 @@ const PooUpdateReasonNumberScreen: FC<PooUpdateReasonScreenProps> = ({ navigatio
 
     navigation.navigate(PooStackScreens.PooAgent, {
       id,
+      updateAfterDone: true,
     });
   };
 

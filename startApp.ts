@@ -6,11 +6,14 @@ import App from './App';
 import BaseService from './src/services/BaseService';
 
 import config from './src/config';
+import { disableFontScaling } from './src/utils';
 
 const startApp = async () => {
   turnOnApiGlobalErrorHandling();
 
   BaseService.apiPath = config.apiUrl;
+
+  disableFontScaling();
 
   AppRegistry.registerComponent(appName, () => App);
 };

@@ -34,12 +34,16 @@ const NotificationDetailsCard: FC<NotificationDetailsCardProps> = ({
 
       <View style={styles.buttonsContainer}>
         {!hideCancelButton && (
-          <Button style={{ marginRight: 7 }} variant="secondary" onPress={onCancelButtonPress}>
+          <Button style={{ width: 150 }} variant="secondary" onPress={onCancelButtonPress}>
             {cancelButtonText}
           </Button>
         )}
 
-        {!hideConfirmButton && <Button onPress={onConfirmButtonPress}>{confirmButtonText}</Button>}
+        {!hideConfirmButton && (
+          <Button style={{ width: 150 }} onPress={onConfirmButtonPress}>
+            {confirmButtonText}
+          </Button>
+        )}
       </View>
     </View>
   );

@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors, fontFamilyBold } from '../../../theme';
 
-import { NoTasks, TaskItem } from '..';
+import { TaskItem } from '..';
 
 import { FlightModel, TaskStatusesEnum, UserRolesEnum } from '../../../services/data';
 import { getDayTimes, isInTheSameTime } from '../../../utils';
@@ -12,6 +12,7 @@ import { format } from 'date-fns';
 import { TaskDetailsScreenNavigationProp } from '../../../navigation/props';
 import { useUserStore } from '../../../store/hooks';
 import { POO_STACK } from '../../../navigation/stacks';
+import NoDataFound from '../../NoDataFound';
 
 export interface TasksCalendarProps {
   items: FlightModel[];
@@ -86,7 +87,7 @@ const TasksCalendar: FC<TasksCalendarProps> = ({ items, hideTime }) => {
           ) : null
         )
       ) : (
-        <NoTasks />
+        <NoDataFound />
       )}
     </View>
   );

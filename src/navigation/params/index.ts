@@ -9,6 +9,7 @@ import {
 } from '../enums';
 
 export type TasksStackParamList = {
+  [TasksStackScreens.PooEnterTransportNumber]: undefined;
   [TasksStackScreens.Tasks]: undefined;
   [TasksStackScreens.TasksSearch]: undefined;
   [TasksStackScreens.TaskDetails]: {
@@ -48,6 +49,7 @@ export type PhotofixationStackParamList = {
 export type PooStackParamList = {
   [PooStackScreens.PooAgent]: {
     id: number;
+    updateAfterDone?: boolean;
   };
   [PooStackScreens.PooSign]: {
     id: number;

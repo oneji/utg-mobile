@@ -75,7 +75,6 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     ...layout.rowAlignCenter,
-    flexShrink: 1,
     width: '100%',
     borderRadius: 50,
   },

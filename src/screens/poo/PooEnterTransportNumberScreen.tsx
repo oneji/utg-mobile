@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { ContainerWithButton } from '../../ui-kit/Containers';
@@ -7,21 +7,38 @@ import TextInput from '../../ui-kit/TextInput';
 
 import { useFormik } from 'formik';
 import { PooEnterTransportNumberScreenProps } from '../../navigation/props';
-import { PooStackScreens } from '../../navigation/enums';
+import { PooStackScreens, TasksStackScreens } from '../../navigation/enums';
+import { Select } from '../../ui-kit/Selects';
+import { SelectItem } from '../../ui-kit/Selects/Select';
+import { WorkTypesEnum } from '../../store/UserStore';
+import { useUserStore } from '../../store/hooks';
+import { observer } from 'mobx-react';
+import { TASKS_STACK } from '../../navigation/stacks';
 
 interface TransportNumberFormValues {
   transportNumber: number;
-  workType: string;
+  workType: WorkTypesEnum;
 }
 
+const workTypes: SelectItem[] = [
+  { title: 'Обработка + отчёт', value: WorkTypesEnum.Both },
+  { title: 'Обработка', value: WorkTypesEnum.Treatment },
+  { title: 'Отчёт', value: WorkTypesEnum.Report },
+];
+
 const PooEnterTransportNumberScreen: FC<PooEnterTransportNumberScreenProps> = ({ navigation }) => {
-  const { values, handleChange, handleSubmit } = useFormik<TransportNumberFormValues>({
+  const { workType, setWorkType } = useUserStore();
+  const { values, handleChange, handleSubmit, setFieldValue } = useFormik<TransportNumberFormValues>({
     initialValues: {
       transportNumber: 427,
-      workType: 'Обработка',
+      workType: workType,
     },
-    onSubmit: () => navigation.navigate(PooStackScreens.PooTransportEmployee),
+    onSubmit: () => navigation.navigate(TasksStackScreens.Tasks),
   });
+
+  useEffect(() => {
+    setWorkType(values.workType);
+  }, [values]);
 
   return (
     <ContainerWithButton onButtonPress={handleSubmit}>
@@ -35,12 +52,17 @@ const PooEnterTransportNumberScreen: FC<PooEnterTransportNumberScreenProps> = ({
       </FormGroup>
 
       <FormGroup>
-        <TextInput label="Вид работ" value={values.workType} onChangeText={handleChange('workType')} />
+        <Select
+          label="Вид работ"
+          items={workTypes}
+          onSelect={(value: WorkTypesEnum) => setFieldValue('workType', value)}
+          value={values.workType}
+        />
       </FormGroup>
     </ContainerWithButton>
   );
 };
 
-export default PooEnterTransportNumberScreen;
+export default observer(PooEnterTransportNumberScreen);
 
 const styles = StyleSheet.create({});

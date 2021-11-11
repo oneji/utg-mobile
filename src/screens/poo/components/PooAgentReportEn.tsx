@@ -30,19 +30,22 @@ const PooAgentReportRu: FC = () => {
         </SimpleList>
       </Paper>
 
-      <Paper title={TREATMENT_NAMES_EN[deicingTreatmentFormValues?.treatmentType]} titleStyle={fonts.bodySemibold}>
-        <SimpleList>
-          <SimpleList.Item title="Метод ПОО" value={TREATMENT_STAGE_NAMES_EN[TreatmentStagesEnum.OneStage]} />
-          <SimpleList.Item title="Liquid type" value={deicingTreatmentFormValues?.liquidType} />
-          <SimpleList.Item
-            title="Solution concentration (Type I : Water)"
-            value={deicingTreatmentFormValues?.stageConcentration}
-          />
-          <SimpleList.Item title="Name" value={deicingTreatmentFormValues?.firstTitle} hideBorder />
-        </SimpleList>
-      </Paper>
+      {deicingTreatmentFormValues?.treatmentType && (
+        <Paper title={TREATMENT_NAMES_EN[deicingTreatmentFormValues?.treatmentType]} titleStyle={fonts.bodySemibold}>
+          <SimpleList>
+            <SimpleList.Item title="Метод ПОО" value={TREATMENT_STAGE_NAMES_EN[TreatmentStagesEnum.OneStage]} />
+            <SimpleList.Item title="Liquid type" value={deicingTreatmentFormValues?.liquidType} />
+            <SimpleList.Item
+              title="Solution concentration (Type I : Water)"
+              value={deicingTreatmentFormValues?.stageConcentration}
+            />
+            <SimpleList.Item title="Name" value={deicingTreatmentFormValues?.firstTitle} hideBorder />
+          </SimpleList>
+        </Paper>
+      )}
 
-      {deicingTreatmentFormValues?.threatmentStage === TreatmentStagesEnum.TwoStages ? (
+      {deicingTreatmentFormValues?.threatmentStage === TreatmentStagesEnum.TwoStages &&
+      deicingTreatmentFormValues?.treatmentType ? (
         <Paper title={TREATMENT_NAMES_EN[deicingTreatmentFormValues?.treatmentType]} titleStyle={fonts.bodySemibold}>
           <SimpleList>
             <SimpleList.Item title="Метод ПОО" value={TREATMENT_STAGE_NAMES_EN[TreatmentStagesEnum.TwoStages]} />

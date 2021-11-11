@@ -90,12 +90,12 @@ export type PooSignScreenProps = {
 };
 
 export type PooEnterTransportNumberScreenRouteProp = RouteProp<
-  PooStackParamList,
-  PooStackScreens.PooEnterTransportNumber
+  TasksStackParamList,
+  TasksStackScreens.PooEnterTransportNumber
 >;
 export type PooEnterTransportNumberScreenNavigationProp = StackNavigationProp<
-  PooStackParamList,
-  PooStackScreens.PooEnterTransportNumber
+  TasksStackParamList,
+  TasksStackScreens.PooEnterTransportNumber
 >;
 export type PooEnterTransportNumberScreenProps = {
   route: PooEnterTransportNumberScreenRouteProp;

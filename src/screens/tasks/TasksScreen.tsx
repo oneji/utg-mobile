@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
 
 import { ScrollViewContainer } from '../../ui-kit/Containers';
@@ -9,6 +9,7 @@ import { observer } from 'mobx-react';
 import { useAppStore, useFlightsStore, useTreatmentsStore, useUserStore } from '../../store/hooks';
 import { TasksCalendar } from '../../components/Tasks';
 import { UserRolesEnum } from '../../services/data';
+import { useFocusEffect } from '@react-navigation/core';
 
 const TasksScreen: FC<TasksScreenProps> = () => {
   const { user } = useUserStore();
@@ -18,16 +19,18 @@ const TasksScreen: FC<TasksScreenProps> = () => {
 
   // UTG-TODO: If role WorkerInCard request -> clients/Treatment/GetDeicingTreatments
 
-  useEffect(() => {
-    // TKO ID === User ID
-    if (user?.role === UserRolesEnum.WorkerTKO) {
-      getFlightsByTkoId({
-        id: user?.id,
-      });
-    } else if (user?.role === UserRolesEnum.WorkerInCar) {
-      getDeicingTreaments();
-    }
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      // TKO ID === User ID
+      if (user?.role === UserRolesEnum.WorkerTKO) {
+        getFlightsByTkoId({
+          id: user?.id,
+        });
+      } else if (user?.role === UserRolesEnum.WorkerInCar) {
+        getDeicingTreaments();
+      }
+    }, [])
+  );
 
   if (loading) return <SpinnerLoading />;
 

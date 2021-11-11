@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, layout } from '../../theme';
 
@@ -7,25 +7,23 @@ import { Button } from '../../ui-kit/Buttons';
 import { ContainerWithButton } from '../../ui-kit/Containers';
 import { WeatherLabel } from '../../components/Labels';
 import { TaskStepper } from '../../components/Tasks';
-import { PooTransportEmployeeScreenProps } from '../../navigation/props';
+import { InlineAlert } from '../../ui-kit/Alerts';
 import Icon from '../../ui-kit/Icon';
 import TextInput from '../../ui-kit/TextInput';
 import Switch from '../../ui-kit/Switch';
 import SpinnerLoading from '../../ui-kit/SpinnerLoading';
 
-import { ImageAsset, TaskStatusesEnum, TaskStepSchema } from '../../services/data';
+import { PooTransportEmployeeScreenProps } from '../../navigation/props';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { InlineAlert } from '../../ui-kit/Alerts';
-import { showMessage } from 'react-native-flash-message';
 import { useTreatmentsStore, useUserStore } from '../../store/hooks';
-import { TREATMENT_NAMES, WEATHER_NAMES } from '../../utils';
+import { PooWorkerInCarStepperKeys, TREATMENT_NAMES, WEATHER_NAMES } from '../../utils';
 import { observer } from 'mobx-react';
-
-const stepperSteps: TaskStepSchema[] = [
-  { order: 1, label: 'Текущие условия', key: 'currentConditions' },
-  { order: 2, label: 'Результат', key: 'result' },
-];
+import { WorkTypesEnum } from '../../store/UserStore';
+import { ImageAsset, TaskStatusesEnum, TaskStepSchema } from '../../services/data';
+import * as Yup from 'yup';
+import { TASKS_STACK } from '../../navigation/stacks';
+import { TasksStackScreens } from '../../navigation/enums';
+import { useStepper } from '../../hooks';
 
 interface PooResultsFormValues {
   spentWater: number;
@@ -49,6 +47,7 @@ const PooResultsValidationSchema: Yup.SchemaOf<PooResultsFormValues> = Yup.objec
 
 const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ navigation, route }) => {
   const { deicingTreatmentId } = route.params;
+  const { workType } = useUserStore();
   const {
     controlLoading,
     loading,
@@ -58,9 +57,32 @@ const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ naviga
     updateDeicingTreament,
     stopDeicingTreament,
   } = useTreatmentsStore();
-  const [currentStep, setCurrentStep] = useState(stepperSteps[0].key);
+  const stepperSteps: TaskStepSchema[] = [
+    {
+      order: 1,
+      label: 'Текущие условия',
+      key: PooWorkerInCarStepperKeys.CurrentConditions,
+      disabled: workType === WorkTypesEnum.Report,
+    },
+    {
+      order: 2,
+      label: 'Результат',
+      key: PooWorkerInCarStepperKeys.Result,
+      disabled: workType === WorkTypesEnum.Treatment,
+    },
+  ];
+  const { activeStep, isLastStep, setActiveStep, moveStep } = useStepper({
+    steps: stepperSteps,
+    onFinishCb: () => handleFinish(),
+  });
 
   useEffect(() => {
+    if (workType === WorkTypesEnum.Report) {
+      setActiveStep(PooWorkerInCarStepperKeys.Result);
+    } else {
+      setActiveStep(PooWorkerInCarStepperKeys.CurrentConditions);
+    }
+
     getDeicingTreamentById({
       treatmentId: deicingTreatmentId,
       cityId: 473021,
@@ -68,61 +90,47 @@ const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ naviga
   }, []);
 
   useEffect(() => {
-    if (currentStep === stepperSteps[1].key) {
+    if (activeStep === PooWorkerInCarStepperKeys.Result) {
       navigation.setOptions({
         title: 'ПОО итоги',
       });
     }
-  }, [currentStep]);
+  }, [activeStep]);
 
-  const handleMoveNext = async () => {
-    const currentIdx = stepperSteps.findIndex(step => step.key === currentStep);
+  const runUpdateDeicingTreatment = async (values: PooResultsFormValues) => {
+    await updateDeicingTreament({
+      ...deicingTreatment,
+      treatmentCompleted: values.isAfterPooCheckDone,
+      treatmentIsChecked: values.isPooProcedureCorrect,
+      images: values.receiptPhotos.map(img => ({
+        url: img.base64,
+        comment: img.comment,
+      })),
+      spentWater: values.spentWater,
+      spentLiquidOne: values.spentLiquidOne,
+      spentLiquidFour: values.spentLiquidFour,
+    });
 
-    if (currentIdx + 1 < stepperSteps.length) {
-      setCurrentStep(stepperSteps[currentIdx + 1].key);
-    } else {
+    navigation.navigate(TASKS_STACK as any, {
+      screen: TasksStackScreens.Tasks,
+    });
+  };
+
+  const handleFinish = async () => {
+    if (!stepperSteps[1].disabled) {
       await PooResultsValidationSchema.validate(values, {
         abortEarly: false,
       })
-        .then(values => {
-          console.log({
-            values,
-          });
-
-          const {
-            spentLiquidFour,
-            spentWater,
-            spentLiquidOne,
-            isAfterPooCheckDone,
-            isPooProcedureCorrect,
-            receiptPhotos,
-          } = values;
-
-          updateDeicingTreament({
-            ...deicingTreatment,
-            treatmentCompleted: isAfterPooCheckDone,
-            treatmentIsChecked: isPooProcedureCorrect,
-            images: receiptPhotos.map(img => ({
-              url: img.base64,
-              comment: img.comment,
-            })),
-            spentWater,
-            spentLiquidOne,
-            spentLiquidFour,
-          });
-
-          showMessage({
-            type: 'success',
-            message: 'Успешно',
-            icon: 'auto',
-            position: 'center',
-          });
+        .then(async values => {
+          runUpdateDeicingTreatment(values);
         })
         .catch((error: Yup.ValidationError) => {
           error.inner.forEach(innerError => {
             setFieldError(innerError.path, innerError.message);
           });
         });
+    } else {
+      runUpdateDeicingTreatment(values);
     }
   };
 
@@ -135,17 +143,17 @@ const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ naviga
       isAfterPooCheckDone: false,
       isPooProcedureCorrect: false,
     },
-    onSubmit: handleMoveNext,
+    onSubmit: moveStep,
   });
 
   if (loading) return <SpinnerLoading />;
 
   return (
     <>
-      <TaskStepper steps={stepperSteps} currentKey={currentStep} />
+      <TaskStepper steps={stepperSteps} currentKey={activeStep} />
 
       <ContainerWithButton
-        buttonLabel={currentStep === stepperSteps[1].key ? 'Сохранить' : 'Далее'}
+        buttonLabel={isLastStep ? 'Сохранить' : 'Далее'}
         scrollViewProps={{
           contentContainerStyle: {
             padding: 0,
@@ -156,13 +164,13 @@ const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ naviga
           loading: controlLoading,
         }}
       >
-        {currentStep === stepperSteps[0].key && (
+        {activeStep === PooWorkerInCarStepperKeys.CurrentConditions && (
           <View>
             <View style={{ paddingHorizontal: 20 }}>
               <WeatherLabel
                 degree={deicingTreatment?.temperature}
                 extended
-                condition={WEATHER_NAMES[deicingTreatment?.weather]}
+                condition={WEATHER_NAMES[deicingTreatment?.weatherType]}
               />
 
               <View
@@ -208,7 +216,6 @@ const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ naviga
                         onPress={() => {
                           if (deicingTreatment?.status === TaskStatusesEnum.Pending) {
                             startDeicingTreament(deicingTreatmentId);
-                            handleMoveNext();
                           } else {
                             stopDeicingTreament(deicingTreatmentId);
                           }
@@ -224,7 +231,7 @@ const PooTrasportEmployeeScreen: FC<PooTransportEmployeeScreenProps> = ({ naviga
           </View>
         )}
 
-        {currentStep === stepperSteps[1].key && (
+        {activeStep === PooWorkerInCarStepperKeys.Result && (
           <View style={{ padding: 20, backgroundColor: colors.white }}>
             {errors.isAfterPooCheckDone ? (
               <InlineAlert type="danger">

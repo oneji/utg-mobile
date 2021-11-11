@@ -3,6 +3,7 @@ export enum AppStackScreens {
   PhotofixationStack = 'PhotofixationStack',
   NotificationsStack = 'NotificationsStack',
   FeedbackStack = 'FeedbackStack',
+  PooStack = 'PooStack',
 }
 
 export enum TasksStackScreens {
@@ -13,6 +14,7 @@ export enum TasksStackScreens {
   TaskReport = 'TaskReportScreen',
   TaskReportSign = 'TaskReportSignScreen',
   Maintenance = 'MaintenanceScreen',
+  PooEnterTransportNumber = 'PooEnterTransportNumberScreen',
 }
 
 export enum NotificationsStackScreens {
@@ -29,7 +31,7 @@ export enum PhotofixationStackScreens {
 }
 
 export enum PooStackScreens {
-  PooAgent = 'PooAgent',
+  PooAgent = 'PooAgentScreen',
   PooAgentResults = 'PooAgentResultsScreen',
   PooSign = 'PooSignScreen',
   PooEnterTransportNumber = 'PooEnterTransportNumberScreen',

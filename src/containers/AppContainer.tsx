@@ -61,8 +61,8 @@ const AppContainer: FC = () => {
       >
         {/* <Stack.Screen name={AUTH_STACK} component={AuthStack} /> */}
         <Stack.Screen name={APP_STACK} component={AppStack} />
-        <Stack.Screen name={TASKS_STACK} component={TasksStack} />
         <Stack.Screen name={POO_STACK} component={PooStack} />
+        <Stack.Screen name={TASKS_STACK} component={TasksStack} />
       </Stack.Navigator>
 
       {/* Notification */}

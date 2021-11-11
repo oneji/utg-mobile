@@ -6,6 +6,7 @@ import { treatmentsService } from '../services';
 import {
   FlightModel,
   GetDeicingTreatmentByIdRequestParams,
+  TaskStatusesEnum,
   TreatmentModel,
   UpdateDeicingTreatmentRequestBody,
 } from '../services/data';
@@ -109,15 +110,18 @@ export class TreatmentsStore {
     try {
       this.setControlLoading(true);
 
-      await treatmentsService.updateDeicingTreatment({
+      const data = await treatmentsService.updateDeicingTreatment({
         ...body,
         editReason: this.deicingTreatmentUpdateReason,
-        status: this.deicingTreatment ? this.deicingTreatment?.status : body.status,
       });
 
-      appStore.showNotificationAlert({
+      await appStore.showNotificationAlert({
         type: 'success',
         message: 'Успешно сохранено',
+      });
+
+      runInAction(() => {
+        this.deicingTreatment = data;
       });
     } catch (error) {
       // Global error handler
@@ -134,6 +138,13 @@ export class TreatmentsStore {
       await treatmentsService.startDeicingTreatment({
         treatmentId: id,
       });
+
+      runInAction(() => {
+        this.deicingTreatment = {
+          ...this.deicingTreatment,
+          status: TaskStatusesEnum.InProgress,
+        };
+      });
     } catch (error) {
       // Global error handler
     } finally {
@@ -148,6 +159,13 @@ export class TreatmentsStore {
 
       await treatmentsService.stopDeicingTreatment({
         treatmentId: id,
+      });
+
+      runInAction(() => {
+        this.deicingTreatment = {
+          ...this.deicingTreatment,
+          status: TaskStatusesEnum.Done,
+        };
       });
     } catch (error) {
       // Global error handler

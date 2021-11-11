@@ -13,7 +13,6 @@ import { observer } from 'mobx-react';
 import { TextLink } from '../../ui-kit/Links';
 import { LoginScreenProps } from '../../navigation/props';
 import { AuthStackScreens } from '../../navigation/enums';
-import { useKeycloak } from '@react-keycloak/native';
 
 interface LoginFormValues {
   login: string;
@@ -26,54 +25,13 @@ const LoginFormValidationSchema: Yup.SchemaOf<LoginFormValues> = Yup.object().sh
 });
 
 const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
-  const { keycloak, initialized } = useKeycloak();
-
-  const fetchToken = () => {
-    try {
-      keycloak
-        .init({
-          onLoad: 'login-required',
-        })
-        .then((auth: boolean) => {
-          console.log({
-            auth,
-          });
-
-          if (auth) console.log('AUTH');
-          else {
-            try {
-              keycloak.login();
-            } catch (error) {
-              console.log('keycloak.login()', {
-                error,
-              });
-            }
-          }
-        })
-        .catch(err => console.log({ err }));
-    } catch (error) {
-      console.log({
-        error,
-      });
-    }
-  };
-
-  useEffect(() => {
-    // fetchToken();
-  }, []);
-
-  console.log({
-    keycloak,
-    initialized,
-  });
-
   const { values, errors, touched, handleSubmit, handleChange } = useFormik<LoginFormValues>({
     initialValues: {
       login: 'fcking',
       password: 'keycloak',
     },
     validationSchema: LoginFormValidationSchema,
-    onSubmit: () => keycloak?.login(),
+    onSubmit: () => {},
   });
 
   return (
@@ -82,10 +40,6 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
         <View style={styles.logoContainer}>
           <Icon name="logo" color="#343D4F" width={300} height={66} />
         </View>
-
-        <FormGroup>
-          <Text>{`Welcome ${keycloak?.authenticated} - ${keycloak?.token}!`}</Text>
-        </FormGroup>
 
         <View style={styles.formContainer}>
           <FormGroup>

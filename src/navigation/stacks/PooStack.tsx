@@ -53,6 +53,7 @@ const PooStack: FC = () => {
         }}
         initialParams={{
           id: null,
+          updateAfterDone: false,
         }}
       />
 

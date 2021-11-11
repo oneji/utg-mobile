@@ -11,6 +11,9 @@ import TasksStack from './TasksStack';
 import NotificationsStack from './NotificationsStack';
 import FeedbackStack from './FeedbackStack';
 import PhotofixationStack from './PhotofixationStack';
+import { useUserStore } from '../../store/hooks';
+import { UserRolesEnum } from '../../services/data';
+import { PooStack } from '.';
 
 const Tab = createBottomTabNavigator();
 
@@ -94,6 +97,8 @@ const renderTabBar = ({ state, descriptors, navigation }) => {
 };
 
 const AppStack: FC = () => {
+  const { user } = useUserStore();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

@@ -28,12 +28,13 @@ import { useFormik } from 'formik';
 import { formatTreatmentTypeForLabel } from '../../utils/treatments';
 import Icons from '../../ui-kit/Icon/types';
 import { observer } from 'mobx-react-lite';
-import { TREATMENT_NAMES, TREATMENT_STAGE_NAMES, WEATHER_NAMES } from '../../utils';
+import { PooAgentStepperKeys, TREATMENT_NAMES, TREATMENT_STAGE_NAMES, WEATHER_NAMES } from '../../utils';
+import { useFocusEffect } from '@react-navigation/core';
 
 const stepperSteps: TaskStepSchema[] = [
-  { order: 1, label: 'Текущие условия', key: 'currentConditions' },
-  { order: 2, label: 'Тип ПОО', key: 'pooType' },
-  { order: 3, label: 'Отчет', key: 'report' },
+  { order: 1, label: 'Текущие условия', key: PooAgentStepperKeys.CurrentConditions, disabled: false },
+  { order: 2, label: 'Тип ПОО', key: PooAgentStepperKeys.TreatmentType, disabled: false },
+  { order: 3, label: 'Результат', key: PooAgentStepperKeys.Result, disabled: false },
 ];
 
 const weatherButtons = [
@@ -83,13 +84,10 @@ export interface DeicingTreatmentFormValues {
   status: TaskStatusesEnum;
 }
 
-/**
- * If threatmentStage === 0 => pooStageType : OneStage
- */
 const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
-  const { id } = route.params;
+  const { id, updateAfterDone } = route.params;
   const { loading, deicingTreatment, getDeicingTreamentById, syncDeicingTreatmentFormValues } = useTreatmentsStore();
-  const [currentStep, setCurrentStep] = useState(stepperSteps[0].key);
+  const [currentStep, setCurrentStep] = useState<PooAgentStepperKeys>(PooAgentStepperKeys.CurrentConditions);
 
   const { values, setFieldValue } = useFormik<DeicingTreatmentFormValues>({
     initialValues: {
@@ -101,12 +99,23 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
       liquidType: 'IV',
       percent: 100,
       secondTitle: 'PRIMER2',
-      status: TaskStatusesEnum.Pending,
+      status: updateAfterDone ? deicingTreatment?.status : TaskStatusesEnum.Pending,
     },
     onSubmit: () => {},
   });
 
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentStep(PooAgentStepperKeys.CurrentConditions);
+    }, [])
+  );
+
   useEffect(() => {
+    setFieldValue('status', updateAfterDone ? deicingTreatment?.status : TaskStatusesEnum.Pending);
+    setFieldValue('weatherType', deicingTreatment?.weatherType);
+    setFieldValue('treatmentType', deicingTreatment?.treatmentType);
+    setFieldValue('threatmentStage', deicingTreatment?.threatmentStage);
+
     getDeicingTreamentById({
       treatmentId: id,
       cityId: 473021,
@@ -125,17 +134,23 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
     });
   }, [values.threatmentStage]);
 
-  const handleMoveNext = useCallback(() => {
+  const handleMoveNext = () => {
+    if (!values.weatherType) return;
+
     const currentIdx = stepperSteps.findIndex(step => step.key === currentStep);
 
     if (currentIdx + 1 < stepperSteps.length) {
-      setCurrentStep(stepperSteps[currentIdx + 1].key);
+      if (currentStep === PooAgentStepperKeys.CurrentConditions && !values.treatmentType) {
+        setCurrentStep(PooAgentStepperKeys.Result);
+      } else {
+        setCurrentStep(stepperSteps[currentIdx + 1].key as PooAgentStepperKeys);
+      }
     } else {
       navigation.navigate(PooStackScreens.PooSign, {
         id,
       });
     }
-  }, [currentStep]);
+  };
 
   if (loading) return <SpinnerLoading />;
 
@@ -144,7 +159,7 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
       <TaskStepper steps={stepperSteps} currentKey={currentStep} />
 
       <ContainerWithButton
-        buttonLabel={currentStep === stepperSteps[2].key ? 'Получить подпись заказчика' : 'Далее'}
+        buttonLabel={currentStep === PooAgentStepperKeys.Result ? 'Получить подпись заказчика' : 'Далее'}
         scrollViewProps={{
           contentContainerStyle: {
             padding: 0,
@@ -152,7 +167,7 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
         }}
         onButtonPress={handleMoveNext}
       >
-        {currentStep === stepperSteps[0].key && (
+        {currentStep === PooAgentStepperKeys.CurrentConditions && (
           <View>
             <View style={{ paddingHorizontal: 20 }}>
               <WeatherLabel degree={deicingTreatment?.temperature} />
@@ -193,7 +208,7 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
           </View>
         )}
 
-        {currentStep === stepperSteps[1].key && (
+        {currentStep === PooAgentStepperKeys.TreatmentType && (
           <View>
             <View style={{ padding: 20, backgroundColor: colors.white }}>
               <Text style={fonts.subtitleSemibold}>ПОО {formatTreatmentTypeForLabel(values.treatmentType)}</Text>
@@ -250,7 +265,7 @@ const PooAgentScreen: FC<PooAgentScreenProps> = ({ navigation, route }) => {
           </View>
         )}
 
-        {currentStep === stepperSteps[2].key && (
+        {currentStep === PooAgentStepperKeys.Result && (
           <View>
             <Tab sceneContainerStyle={{ backgroundColor: colors.transparent }}>
               <Tab.Item name="Ru" component={PooAgentReportRu} />
