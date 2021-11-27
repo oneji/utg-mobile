@@ -1,7 +1,7 @@
 import { RNKeycloak } from './keycloak';
 
 const keycloak = new RNKeycloak({
-  url: 'http://sso.dev.utg.group/auth',
+  url: 'https://sso.dev.utg.group/auth',
   realm: 'utg-group',
   clientId: 'clients-mobile',
 });
