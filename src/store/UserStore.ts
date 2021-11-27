@@ -33,6 +33,11 @@ export class UserStore {
   };
 
   @action
+  setUser = (user: UserModel) => {
+    this.user = user;
+  };
+
+  @action
   setWorkType = (workType: WorkTypesEnum) => {
     this.workType = workType;
   };
