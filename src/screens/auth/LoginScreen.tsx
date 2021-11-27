@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Linking, StyleSheet, Text, View } from 'react-native';
 import { layout } from '../../theme';
 
 import { Button } from '../../ui-kit/Buttons';
@@ -13,6 +13,7 @@ import { observer } from 'mobx-react';
 import { TextLink } from '../../ui-kit/Links';
 import { LoginScreenProps } from '../../navigation/props';
 import { AuthStackScreens } from '../../navigation/enums';
+import { useKeycloak } from '../../keycloak';
 
 interface LoginFormValues {
   login: string;
@@ -24,14 +25,50 @@ const LoginFormValidationSchema: Yup.SchemaOf<LoginFormValues> = Yup.object().sh
   password: Yup.string().required(),
 });
 
-const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
+const LoginScreen: FC<LoginScreenProps> = ({ navigation, route }) => {
+  const { token } = route.params;
+  const { keycloak, initialized } = useKeycloak();
+
+  const initAuth = async () => {
+    console.log({
+      keycloak,
+      initialized,
+      token,
+    });
+
+    keycloak
+      .init({
+        onLoad: 'login-required',
+      })
+      .then((auth: boolean) => {
+        console.log({
+          auth,
+        });
+
+        if (!auth) {
+          keycloak
+            ?.login()
+            .then((response: any) => {
+              console.log('LOGGED INNNN', {
+                response,
+              });
+            })
+            .catch(err => console.log(err));
+        }
+      });
+  };
+
+  useEffect(() => {
+    initAuth();
+  }, []);
+
   const { values, errors, touched, handleSubmit, handleChange } = useFormik<LoginFormValues>({
     initialValues: {
       login: 'fcking',
       password: 'keycloak',
     },
     validationSchema: LoginFormValidationSchema,
-    onSubmit: () => {},
+    onSubmit: () => initAuth(),
   });
 
   return (
@@ -42,6 +79,10 @@ const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
         </View>
 
         <View style={styles.formContainer}>
+          <FormGroup>
+            <Text>{`Welcome ${keycloak?.authenticated} - ${keycloak?.token}!`}</Text>
+          </FormGroup>
+
           <FormGroup>
             <TextInput
               label="Логин"

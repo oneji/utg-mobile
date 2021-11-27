@@ -38,6 +38,9 @@ const AuthStack: FC = () => {
         options={{
           headerShown: false,
         }}
+        initialParams={{
+          token: null,
+        }}
       />
 
       <Stack.Screen

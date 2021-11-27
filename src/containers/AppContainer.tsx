@@ -5,7 +5,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
 import { colors } from '../theme';
 
-import { AppStack, TasksStack, APP_STACK, TASKS_STACK, POO_STACK, PooStack, AUTH_STACK } from '../navigation/stacks';
+import {
+  AppStack,
+  TasksStack,
+  APP_STACK,
+  TASKS_STACK,
+  POO_STACK,
+  PooStack,
+  AUTH_STACK,
+  AuthStack,
+} from '../navigation/stacks';
 import { AuthStackScreens } from '../navigation/enums';
 import { isReadyRef, navigationRef } from '../navigation/RootNavigation';
 import { useAppStore, useUserStore } from '../store/hooks';
@@ -21,13 +30,16 @@ const AppContainer: FC = () => {
   const { loading, getUserInfoById } = useUserStore();
 
   const linking: LinkingOptions = {
-    prefixes: ['clients://'],
+    prefixes: ['myapp://'],
     config: {
       screens: {
         [AUTH_STACK]: {
           screens: {
-            [AuthStackScreens.PasswordReset]: {
-              path: 'home',
+            [AuthStackScreens.Login]: {
+              path: 'homepage',
+              parse: {
+                token: String,
+              },
             },
           },
         },
@@ -59,7 +71,7 @@ const AppContainer: FC = () => {
           headerShown: false,
         }}
       >
-        {/* <Stack.Screen name={AUTH_STACK} component={AuthStack} /> */}
+        <Stack.Screen name={AUTH_STACK} component={AuthStack} />
         <Stack.Screen name={APP_STACK} component={AppStack} />
         <Stack.Screen name={POO_STACK} component={PooStack} />
         <Stack.Screen name={TASKS_STACK} component={TasksStack} />

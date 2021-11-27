@@ -12,7 +12,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
 
-        <data android:scheme="clients" android:host="home" />
+        <data android:scheme="myapp" android:host="homepage" />
       </intent-filter>
     </activity>
   </application>
