@@ -1,5 +1,5 @@
-import React, { FC, useRef } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { FC, useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import { SketchCanvas } from '@terrylinla/react-native-sketch-canvas';
 import { colors } from '../../theme';
@@ -13,27 +13,21 @@ const DrawingPanel: FC<DrawingPanelProps> = ({ onDrawEnd }) => {
 
   const handleEnd = () => {
     ref.current.getBase64('png', false, false, false, false, (error: any, base64Img: string) => {
-      onDrawEnd(!error ? base64Img : '')
-    })
-  }
+      onDrawEnd(!error ? base64Img : '');
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <SketchCanvas
-        style={{ flex: 1 }}
-        strokeColor={colors.black}
-        strokeWidth={2}
-        onStrokeEnd={handleEnd}
-        ref={ref}
-      />
+      <SketchCanvas style={{ flex: 1 }} strokeColor={colors.black} strokeWidth={2} onStrokeEnd={handleEnd} ref={ref} />
     </View>
-  )
-}
+  );
+};
 
-export default DrawingPanel
+export default DrawingPanel;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  }
-})
+    flex: 1,
+  },
+});

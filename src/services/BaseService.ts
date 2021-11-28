@@ -88,7 +88,6 @@ export default class BaseService {
 
     console.log({
       url,
-      userToken: BaseService.userToken,
     });
 
     let response: Response;
@@ -101,10 +100,6 @@ export default class BaseService {
         },
       });
     } catch (error) {
-      console.log({
-        error,
-      });
-
       if (!requestOptions.withoutErrorHandlers) {
         errorHandlers.forEach(handler => handler(error.message));
       }
@@ -122,16 +117,10 @@ export default class BaseService {
         errorData = await response.json();
         if (errorData.message) {
           message = errorData.message;
-        } else if (errorData.error && typeof errorData.error === 'string') {
-          // В некоторых старых запросах заполняется поле "error"
-          message = errorData.error;
         }
       } catch (e) {
-        console.log({
-          e,
-        });
-
         // Все таки не прислал
+        console.log({ e });
       }
 
       if (!requestOptions.withoutErrorHandlers) {
@@ -139,33 +128,6 @@ export default class BaseService {
       }
 
       throw new HTTPRequestError(message, response.status, null, errorData);
-    }
-  };
-
-  /**
-   * Make fake http request and return mock data
-   *
-   * TODO: Get rid of this method when real API is available
-   */
-  sendFake = async (
-    mockDataObject: string = null,
-    // This params are the same as above to make migration easy
-    method: HTTPMethod = GET,
-    params: string = '',
-    subPath: string = '',
-    options: RequestInit = {},
-    requestOptions: RestServiceRequestOptions = {}
-  ) => {
-    const errorHandlers = BaseService.commonErrorHandlers;
-
-    try {
-      return combinedMocks[mockDataObject];
-    } catch (error) {
-      if (!requestOptions.withoutErrorHandlers) {
-        errorHandlers.forEach(handler => handler(error.message));
-      }
-
-      throw new HTTPRequestError(error.message, null, error);
     }
   };
 }

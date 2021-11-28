@@ -22,34 +22,29 @@ interface PooSignFormValues {
 const PooSignFormValidationSchema: Yup.SchemaOf<PooSignFormValues> = Yup.object().shape({
   signedPosition: Yup.string().required(),
   signedFIO: Yup.string().required(),
-  signature: Yup.string().required()
+  signature: Yup.string().optional(),
 });
 
 const PooSignScreen: FC<PooSignScreenProps> = ({ navigation, route }) => {
   const { id } = route.params;
-  const { controlLoading, loading, updateDeicingTreament, deicingTreatmentFormValues } = useTreatmentsStore();
+  const { controlLoading, updateDeicingTreament, deicingTreatmentFormValues } = useTreatmentsStore();
 
   const handleFinish = useCallback(async ({ signedFIO, signedPosition, signature }: PooSignFormValues) => {
-    // await updateDeicingTreament({
-    //   ...deicingTreatmentFormValues,
-    //   id,
-    //   isSigned: true,
-    //   signedPosition,
-    //   signedFIO,
-    // });
-
-    console.log({
-      signature
-    })
-
-    // navigation.goBack();
+    updateDeicingTreament({
+      ...deicingTreatmentFormValues,
+      id,
+      isSigned: true,
+      signedPosition,
+      signedFIO,
+      signImage: signature,
+    });
   }, []);
 
   const { values, errors, touched, handleChange, handleSubmit, setFieldValue } = useFormik<PooSignFormValues>({
     initialValues: {
       signedPosition: '',
       signedFIO: '',
-      signature: ''
+      signature: '',
     },
     validationSchema: PooSignFormValidationSchema,
     onSubmit: handleFinish,
@@ -61,13 +56,13 @@ const PooSignScreen: FC<PooSignScreenProps> = ({ navigation, route }) => {
         alignItems: 'center',
         justifyContent: 'space-between',
         flex: 1,
-        padding: 20
+        padding: 20,
       }}
     >
       <View>
         <Text style={styles.hintText}>
-          Оставляя свою подпись вы соглашаетесь с отчетом по рейсу как заказчик и подтверждаете, что Технологическая карта
-          обслуживания ВС заполнена верно, и услуги были оказаны в полном объеме, и что вы не имеете претензий к
+          Оставляя свою подпись вы соглашаетесь с отчетом по рейсу как заказчик и подтверждаете, что Технологическая
+          карта обслуживания ВС заполнена верно, и услуги были оказаны в полном объеме, и что вы не имеете претензий к
           исполнителю
         </Text>
 
@@ -102,7 +97,9 @@ const PooSignScreen: FC<PooSignScreenProps> = ({ navigation, route }) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button onPress={handleSubmit} loading={controlLoading}>Сохранить</Button>
+        <Button onPress={handleSubmit} loading={controlLoading}>
+          Сохранить
+        </Button>
       </View>
     </View>
   );
@@ -116,9 +113,9 @@ const styles = StyleSheet.create({
     color: colors.gray.primary,
     marginBottom: 15,
   },
-  buttonContainer: {    
+  buttonContainer: {
     paddingVertical: 8,
     backgroundColor: colors.white,
-    width: '100%'
+    width: '100%',
   },
 });
