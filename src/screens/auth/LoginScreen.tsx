@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { layout } from '../../theme';
 
@@ -27,8 +27,8 @@ const LoginFormValidationSchema: Yup.SchemaOf<LoginFormValues> = Yup.object().sh
 const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   const { values, errors, touched, handleSubmit, handleChange } = useFormik<LoginFormValues>({
     initialValues: {
-      login: 'fcking',
-      password: 'keycloak',
+      login: '',
+      password: '',
     },
     validationSchema: LoginFormValidationSchema,
     onSubmit: () => {},

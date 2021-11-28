@@ -1,8 +1,8 @@
 import { action, makeObservable, observable } from 'mobx';
+import { storageService, BaseService } from '../services';
+import { objectKeysToCamelCase } from '../utils/formatting';
 import RootStore from './RootStore';
-
-const TEST_USERNAME = 'admin';
-const TEST_PASSWORD = 'admin';
+import keycloak from '../keycloak-auth';
 
 export class LoginStore {
   rootStore: RootStore = null;
@@ -22,10 +22,35 @@ export class LoginStore {
   };
 
   @action
-  login = async credentials => {
-    console.log({
-      credentials,
+  initAuth = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { userStore } = this.rootStore;
+
+        if (!keycloak.authenticated) {
+          await this.login();
+
+          resolve(null);
+        } else {
+          userStore.setUser(objectKeysToCamelCase(keycloak.userInfo));
+        }
+      } catch (error) {
+        reject(error);
+      }
     });
+  };
+
+  @action
+  login = async () => {
+    await keycloak?.login();
+
+    await storageService.setItem('@UTG_token', keycloak?.token);
+    BaseService.userToken = keycloak?.token;
+  };
+
+  @action
+  logout = () => {
+    keycloak?.logout();
   };
 }
 

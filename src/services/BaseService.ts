@@ -1,3 +1,4 @@
+import keycloak from '../keycloak-auth';
 import { GET, HTTPMethod } from '../utils';
 import combinedMocks from './data/mocks/combinedMocks';
 
@@ -30,6 +31,7 @@ export interface RestServiceRequestOptions {
 export default class BaseService {
   // Global url for all services that inherit this class
   static apiPath = '/';
+  static userToken = null;
 
   static commonOptionsMiddlewares: Array<(options: RequestInit) => RequestInit> = [
     options => ({
@@ -90,12 +92,14 @@ export default class BaseService {
 
     let response: Response;
     try {
-      response = await fetch(url, computedOptions);
-    } catch (error) {
-      console.log({
-        error,
+      response = await fetch(url, {
+        ...computedOptions,
+        headers: {
+          ...computedOptions.headers,
+          Authorization: `Bearer ${keycloak.token}`,
+        },
       });
-
+    } catch (error) {
       if (!requestOptions.withoutErrorHandlers) {
         errorHandlers.forEach(handler => handler(error.message));
       }
@@ -113,16 +117,10 @@ export default class BaseService {
         errorData = await response.json();
         if (errorData.message) {
           message = errorData.message;
-        } else if (errorData.error && typeof errorData.error === 'string') {
-          // В некоторых старых запросах заполняется поле "error"
-          message = errorData.error;
         }
       } catch (e) {
-        console.log({
-          e,
-        });
-
         // Все таки не прислал
+        console.log({ e });
       }
 
       if (!requestOptions.withoutErrorHandlers) {
@@ -130,33 +128,6 @@ export default class BaseService {
       }
 
       throw new HTTPRequestError(message, response.status, null, errorData);
-    }
-  };
-
-  /**
-   * Make fake http request and return mock data
-   *
-   * TODO: Get rid of this method when real API is available
-   */
-  sendFake = async (
-    mockDataObject: string = null,
-    // This params are the same as above to make migration easy
-    method: HTTPMethod = GET,
-    params: string = '',
-    subPath: string = '',
-    options: RequestInit = {},
-    requestOptions: RestServiceRequestOptions = {}
-  ) => {
-    const errorHandlers = BaseService.commonErrorHandlers;
-
-    try {
-      return combinedMocks[mockDataObject];
-    } catch (error) {
-      if (!requestOptions.withoutErrorHandlers) {
-        errorHandlers.forEach(handler => handler(error.message));
-      }
-
-      throw new HTTPRequestError(error.message, null, error);
     }
   };
 }

@@ -1,6 +1,7 @@
 import { action, makeObservable, observable, runInAction, toJS } from 'mobx';
 import { showMessage } from 'react-native-flash-message';
 import { navigate } from '../navigation/RootNavigation';
+import { TASKS_STACK } from '../navigation/stacks';
 import { DeicingTreatmentFormValues } from '../screens/poo/PooAgentScreen';
 import { treatmentsService } from '../services';
 import {
@@ -115,14 +116,25 @@ export class TreatmentsStore {
         editReason: this.deicingTreatmentUpdateReason,
       });
 
+      if (body.signImage) {
+        await treatmentsService.saveSign({
+          treatmentId: body.id,
+          signedFullName: body.signedFIO,
+          signedPositionName: body.signedPosition,
+          url: body.signImage,
+        });
+      }
+
       await appStore.showNotificationAlert({
-        type: 'success',
-        message: 'Успешно сохранено',
+        type: body.signImage ? 'success' : 'warning',
+        message: `Успешно сохранено. ${body.signImage ? 'Подпись есть.' : 'Подписи нет.'}`,
       });
 
       runInAction(() => {
         this.deicingTreatment = data;
       });
+
+      navigate(TASKS_STACK);
     } catch (error) {
       // Global error handler
     } finally {

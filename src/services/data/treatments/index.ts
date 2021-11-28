@@ -60,8 +60,16 @@ export interface UpdateDeicingTreatmentRequestBody {
   editReason?: string;
   checkedDate?: string;
   codePassed?: boolean;
+  signImage?: string;
 }
 
 export interface StartDeicingTreatmentRequestBody {
   treatmentId: number;
+}
+
+export interface SaveDeicingTreatmentSignRequestBody {
+  treatmentId: number;
+  signedPositionName: string;
+  signedFullName: string;
+  url: string;
 }

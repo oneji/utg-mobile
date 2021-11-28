@@ -6,19 +6,37 @@ import SplashScreen from 'react-native-splash-screen';
 import AppContainer from './src/containers/AppContainer';
 import { ErrorBoundary } from './src/components/Errors';
 
+import { ReactNativeKeycloakProvider } from './src/keycloak';
+import keycloak from './src/keycloak-auth';
+import config from './src/config';
+
 const App: FC = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
 
   return (
-    <ErrorBoundary>
-      <StoreProvider>
-        <PaperProvider>
-          <AppContainer />
-        </PaperProvider>
-      </StoreProvider>
-    </ErrorBoundary>
+    <ReactNativeKeycloakProvider
+      authClient={keycloak}
+      initOptions={{
+        redirectUri: config.keycloakRedirectUri,
+        inAppBrowserOptions: {},
+      }}
+      onEvent={(event, error) => {
+        console.log('onKeycloakEvent', {
+          event,
+          error,
+        });
+      }}
+    >
+      <ErrorBoundary>
+        <StoreProvider>
+          <PaperProvider>
+            <AppContainer />
+          </PaperProvider>
+        </StoreProvider>
+      </ErrorBoundary>
+    </ReactNativeKeycloakProvider>
   );
 };
 

@@ -15,4 +15,9 @@ export interface UserModel {
   role?: UserRolesEnum;
   dismissalDate?: string;
   isDeleted?: boolean;
+  emailVerified?: false;
+  familyName?: string;
+  givenName?: string;
+  preferredUsername: string;
+  sub: string;
 }

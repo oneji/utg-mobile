@@ -17,8 +17,6 @@ const TasksScreen: FC<TasksScreenProps> = () => {
   const { flights, getFlightsByTkoId } = useFlightsStore();
   const { deicingTreatments, getDeicingTreaments } = useTreatmentsStore();
 
-  // UTG-TODO: If role WorkerInCard request -> clients/Treatment/GetDeicingTreatments
-
   useFocusEffect(
     useCallback(() => {
       // TKO ID === User ID

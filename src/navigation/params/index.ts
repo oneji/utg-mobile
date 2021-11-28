@@ -71,7 +71,9 @@ export type PooStackParamList = {
 };
 
 export type AuthStackParamList = {
-  [AuthStackScreens.Login]: undefined;
+  [AuthStackScreens.Login]: {
+    token?: string;
+  };
   [AuthStackScreens.Phone]: undefined;
   [AuthStackScreens.PinCode]: {
     navigateTo: string;
