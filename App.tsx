@@ -8,6 +8,7 @@ import { ErrorBoundary } from './src/components/Errors';
 
 import { ReactNativeKeycloakProvider } from './src/keycloak';
 import keycloak from './src/keycloak-auth';
+import config from './src/config';
 
 const App: FC = () => {
   useEffect(() => {
@@ -18,11 +19,14 @@ const App: FC = () => {
     <ReactNativeKeycloakProvider
       authClient={keycloak}
       initOptions={{
-        redirectUri: 'myapp://homepage',
+        redirectUri: config.keycloakRedirectUri,
         inAppBrowserOptions: {},
       }}
       onEvent={(event, error) => {
-        console.log('onKeycloakEvent', event, error);
+        console.log('onKeycloakEvent', {
+          event,
+          error,
+        });
       }}
     >
       <ErrorBoundary>

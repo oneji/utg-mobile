@@ -1,3 +1,4 @@
+import keycloak from '../keycloak-auth';
 import { GET, HTTPMethod } from '../utils';
 import combinedMocks from './data/mocks/combinedMocks';
 
@@ -30,6 +31,7 @@ export interface RestServiceRequestOptions {
 export default class BaseService {
   // Global url for all services that inherit this class
   static apiPath = '/';
+  static userToken = null;
 
   static commonOptionsMiddlewares: Array<(options: RequestInit) => RequestInit> = [
     options => ({
@@ -86,11 +88,18 @@ export default class BaseService {
 
     console.log({
       url,
+      userToken: BaseService.userToken,
     });
 
     let response: Response;
     try {
-      response = await fetch(url, computedOptions);
+      response = await fetch(url, {
+        ...computedOptions,
+        headers: {
+          ...computedOptions.headers,
+          Authorization: `Bearer ${keycloak.token}`,
+        },
+      });
     } catch (error) {
       console.log({
         error,

@@ -24,11 +24,11 @@ const LoginFormValidationSchema: Yup.SchemaOf<LoginFormValues> = Yup.object().sh
   password: Yup.string().required(),
 });
 
-const LoginScreen: FC<LoginScreenProps> = ({ navigation, route }) => {
+const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
   const { values, errors, touched, handleSubmit, handleChange } = useFormik<LoginFormValues>({
     initialValues: {
-      login: 'fcking',
-      password: 'keycloak',
+      login: '',
+      password: '',
     },
     validationSchema: LoginFormValidationSchema,
     onSubmit: () => {},

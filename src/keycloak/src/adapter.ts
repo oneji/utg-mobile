@@ -48,12 +48,8 @@ class RNAdapter implements KeycloakAdapter {
       // See for more details https://github.com/proyecto26/react-native-inappbrowser#authentication-flow-using-deep-linking
       const res = await InAppBrowser.openAuth(loginUrl, this.client.redirectUri!, this.initOptions.inAppBrowserOptions);
 
-      console.log('adapter.ts', { res });
-
       if (res.type === 'success' && res.url) {
         const oauth = this.client.parseCallback(res.url);
-
-        console.log('adapter.ts', { oauth });
 
         return this.client.processCallback(oauth);
       }
@@ -61,8 +57,6 @@ class RNAdapter implements KeycloakAdapter {
       throw new Error('Authentication flow failed');
     } else {
       throw new Error('InAppBrowser not available');
-      // TODO: maybe!
-      // Linking.openURL(loginURL);
     }
   }
 

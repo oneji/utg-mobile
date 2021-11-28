@@ -19,6 +19,9 @@ export class UserStore {
   user: UserModel = null;
 
   @observable
+  userRoles: string[] = [];
+
+  @observable
   workType: WorkTypesEnum = WorkTypesEnum.Both;
 
   constructor(rootStore: RootStore) {
@@ -35,6 +38,11 @@ export class UserStore {
   @action
   setUser = (user: UserModel) => {
     this.user = user;
+  };
+
+  @action
+  setUserRoles = (userRoles: string[]) => {
+    this.userRoles = userRoles;
   };
 
   @action
